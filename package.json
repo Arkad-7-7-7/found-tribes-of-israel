@@ -1,0 +1,11 @@
+{
+  "name": "found-tribes-of-israel",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo Build OK"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^7.0.0",
+    "jsonwebtoken": "^9.0.0"
+  }
+}
