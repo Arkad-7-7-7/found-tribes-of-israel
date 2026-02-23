@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Found Tribes of Israel</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+        body{background:linear-gradient(135deg,#1a1a2e,#16213e);min-height:100vh;padding:20px;}
+        .container{max-width:1200px;margin:0 auto;background:white;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+        .header{background:linear-gradient(135deg,#2c3e50,#3d5a80);color:white;padding:60px 30px;text-align:center;}
+        .header h1{font-size:2.5em;margin-bottom:16px;}
+        .header p{font-size:1.2em;color:#c49b48;max-width:800px;margin:0 auto;}
+        .content{padding:40px;}
+        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:40px 0;}
+        .stat-card{text-align:center;padding:20px;background:#f8f9fa;border-radius:12px;}
+        .stat-number{font-size:2.5em;font-weight:bold;color:#c49b48;}
+        .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:20px;}
+        .article-card{border:2px solid #dee2e6;border-radius:12px;padding:20px;transition:all 0.3s;cursor:pointer;}
+        .footer{text-align:center;padding:20px;color:#6c757d;border-top:1px solid #dee2e6;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🔍 FOUND TRIBES OF ISRAEL</h1>
+        <p>Лінгвістичні докази проходження 10 втрачених племен Ізраїлю</p>
+    </div>
+    <div class="content">
+        <div class="stats">
+            <div class="stat-card"><div class="stat-number">350+</div><div>кореневих відповідностей</div></div>
+            <div class="stat-card"><div class="stat-number">13</div><div>фонетичних законів</div></div>
+            <div class="stat-card"><div class="stat-number">10</div><div>втрачених племен</div></div>
+        </div>
+        <h2 style="margin:40px 0 20px;">📚 Статті</h2>
+        <div id="articlesList" class="articles-grid">
+            <div style="text-align:center;padding:40px;color:#6c757d;grid-column:1/-1;">Завантаження...</div>
+        </div>
+    </div>
+    <div class="footer">© 2026 foundtribesofisrael.com</div>
+</div>
+<script>
+async function loadArticles() {
+    try {
+        const r = await fetch("/.netlify/functions/articles");
+        const data = await r.json();
+        const articles = data.articles || [];
+        const c = document.getElementById("articlesList");
+        if(!articles.length){ c.innerHTML="<div style='text-align:center;padding:40px;color:#6c757d;grid-column:1/-1;'>Статті з'являться незабаром</div>"; return; }
+        c.innerHTML = articles.map(a => "<div class='article-card'><h3>"+(a.title||a.hebWord)+"</h3><p>"+a.hebWord+" → "+a.ukrWord+"</p></div>").join("");
+    } catch(e){ document.getElementById("articlesList").innerHTML="<div style='text-align:center;padding:40px;color:#6c757d;grid-column:1/-1;'>Статті з'являться незабаром</div>"; }
+}
+loadArticles();
+</script>
+</body>
+</html>
