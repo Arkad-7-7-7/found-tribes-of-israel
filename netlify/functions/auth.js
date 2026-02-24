@@ -17,7 +17,7 @@ exports.handler = async (event) => {
 
     try {
         const { password } = JSON.parse(event.body);
-        const ADMIN_PASSWORD = "Freedom";
+        const ADMIN_PASSWORD = const ADMIN_PASSWORD = const ADMIN_PASSWORD = process.env.Admin_Password;
         
         if (password === ADMIN_PASSWORD) {
             const token = jwt.sign(
