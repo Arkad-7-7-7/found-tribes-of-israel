@@ -1,49 +1,16 @@
-const jwt = require("jsonwebtoken");
-
 exports.handler = async (event) => {
-    const headers = {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Content-Type": "application/json"
-    };
-
-    if (event.httpMethod === "OPTIONS") {
-        return { statusCode: 200, headers, body: "" };
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json"
+  };
+  if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers, body: "" };
+  try {
+    const { password } = JSON.parse(event.body);
+    if (password === "Israel") {
+      return { statusCode: 200, headers, body: JSON.stringify({ success: true, token: "admin123" }) };
     }
-
-    if (event.httpMethod !== "POST") {
-        return { statusCode: 405, headers, body: "Method Not Allowed" };
-    }
-
-    try {
-        const { password } = JSON.parse(event.body);
-        const ADMIN_PASSWORD = const ADMIN_PASSWORD = const ADMIN_PASSWORD = process.env.Admin_Password;
-        
-        if (password === ADMIN_PASSWORD) {
-            const token = jwt.sign(
-                { role: "admin" },
-                process.env.JWT_SECRET || "your-secret-key",
-                { expiresIn: "24h" }
-            );
-            
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ success: true, token })
-            };
-        }
-        
-        return {
-            statusCode: 401,
-            headers,
-            body: JSON.stringify({ error: "Невірний пароль" })
-        };
-        
-    } catch (error) {
-        return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({ error: "Помилка сервера" })
-        };
-    }
+    return { statusCode: 401, headers, body: JSON.stringify({ error: "Невірний пароль" }) };
+  } catch (e) {
+    return { statusCode: 500, headers, body: JSON.stringify({ error: "Помилка" }) };
+  }
 };
