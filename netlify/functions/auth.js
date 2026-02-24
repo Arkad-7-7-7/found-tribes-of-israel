@@ -8,7 +8,7 @@ exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers, body: "" };
   try {
     const { password } = JSON.parse(event.body);
-    if (password === process.env.ADMIN_PASSWORD) {
+    if (password === process.env.Admin_Password) {
       const token = jwt.sign(
         { role: "admin" },
         process.env.JWT_SECRET || "secret",
