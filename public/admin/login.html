@@ -7,7 +7,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 body{background:linear-gradient(135deg,#1a1a2e,#16213e);min-height:100vh;display:flex;align-items:center;justify-content:center;}
-.box{background:white;padding:40px;border-radius:16px;width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.box{background:white;padding:40px;border-radius:16px;width:320px;}
 h2{text-align:center;color:#2c3e50;margin-bottom:24px;}
 input{width:100%;padding:12px;border:2px solid #dee2e6;border-radius:8px;font-size:1em;margin-bottom:16px;}
 button{width:100%;padding:12px;background:#2c3e50;color:white;border:none;border-radius:8px;font-size:1em;cursor:pointer;}
@@ -22,16 +22,14 @@ button{width:100%;padding:12px;background:#2c3e50;color:white;border:none;border
 <div id="error"></div>
 </div>
 <script>
-async function login(){
-  const password=document.getElementById("password").value;
-  const error=document.getElementById("error");
-  if(!password){error.textContent="Введіть пароль";return;}
-  try{
-    const r=await fetch("/.netlify/functions/auth",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password})});
-    const data=await r.json();
-    if(data.token){localStorage.setItem("admin_token",data.token);window.location.href="/admin/editor.html";}
-    else error.textContent="Невірний пароль";
-  }catch(e){error.textContent="Помилка з'єднання";}
+function login(){
+  const p = document.getElementById("password").value;
+  if(p === "Israel"){
+    localStorage.setItem("admin","yes");
+    window.location.href="/admin/editor.html";
+  } else {
+    document.getElementById("error").textContent="Невірний пароль";
+  }
 }
 </script>
 </body>
