@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Редактор статей</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{background:#f5f5f5;padding:20px;}
+.container{max-width:800px;margin:0 auto;background:white;padding:30px;border-radius:12px;}
+h1{color:#2c3e50;margin-bottom:20px;}
+input,textarea{width:100%;padding:12px;border:2px solid #dee2e6;border-radius:8px;font-size:1em;margin-bottom:16px;}
+textarea{height:300px;resize:vertical;}
+button{padding:12px 24px;background:#2c3e50;color:white;border:none;border-radius:8px;font-size:1em;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>✍️ Новая стаття</h1>
+<input type="text" id="title" placeholder="Заголовок статті">
+<textarea id="content" placeholder="Текст статті..."></textarea>
+<button onclick="save()">Зберегти статтю</button>
+<div id="message" style="margin-top:16px;color:green;"></div>
+</div>
+<script>
+if(!localStorage.getItem("admin")){window.location.href="/admin/login.html";}
+function save(){
+  const title=document.getElementById("title").value;
+  const content=document.getElementById("content").value;
+  if(!title||!content){document.getElementById("message").textContent="Заповніть всі поля";return;}
+  const articles=JSON.parse(localStorage.getItem("articles")||"[]");
+  articles.push({title,content,date:new Date().toLocaleDateString()});
+  localStorage.setItem("articles",JSON.stringify(articles));
+  document.getElementById("message").textContent="Стаття збережена!";
+  document.getElementById("title").value="";
+  document.getElementById("content").value="";
+}
+</script>
+</body>
+</html>
