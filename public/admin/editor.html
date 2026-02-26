@@ -12,28 +12,46 @@ h1{color:#2c3e50;margin-bottom:20px;}
 input,textarea{width:100%;padding:12px;border:2px solid #dee2e6;border-radius:8px;font-size:1em;margin-bottom:16px;}
 textarea{height:300px;resize:vertical;}
 button{padding:12px 24px;background:#2c3e50;color:white;border:none;border-radius:8px;font-size:1em;cursor:pointer;}
+#message{margin-top:16px;color:green;}
 </style>
 </head>
 <body>
 <div class="container">
-<h1>✍️ Новая стаття</h1>
+<h1>✍️ Нова стаття</h1>
 <input type="text" id="title" placeholder="Заголовок статті">
 <textarea id="content" placeholder="Текст статті..."></textarea>
 <button onclick="save()">Зберегти статтю</button>
-<div id="message" style="margin-top:16px;color:green;"></div>
+<div id="message"></div>
 </div>
 <script>
 if(!localStorage.getItem("admin")){window.location.href="/admin/login.html";}
-function save(){
-  const title=document.getElementById("title").value;
-  const content=document.getElementById("content").value;
+
+const SUPABASE_URL = "https://jztxnznkjevzngvrlp.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE";
+
+async function save(){
+  const title = document.getElementById("title").value;
+  const content = document.getElementById("content").value;
   if(!title||!content){document.getElementById("message").textContent="Заповніть всі поля";return;}
-  const articles=JSON.parse(localStorage.getItem("articles")||"[]");
-  articles.push({title,content,date:new Date().toLocaleDateString()});
-  localStorage.setItem("articles",JSON.stringify(articles));
-  document.getElementById("message").textContent="Стаття збережена!";
-  document.getElementById("title").value="";
-  document.getElementById("content").value="";
+  
+  const res = await fetch(SUPABASE_URL+"/rest/v1/articles", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_KEY,
+      "Authorization": "Bearer "+SUPABASE_KEY
+    },
+    body: JSON.stringify({title, content})
+  });
+  
+  if(res.ok){
+    document.getElementById("message").textContent="Стаття збережена!";
+    document.getElementById("title").value="";
+    document.getElementById("content").value="";
+  } else {
+    document.getElementById("message").style.color="red";
+    document.getElementById("message").textContent="Помилка збереження";
+  }
 }
 </script>
 </body>
