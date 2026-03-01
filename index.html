@@ -48,23 +48,25 @@
     </div>
     <div class="footer">© 2026 foundtribesofisrael.com</div>
 </div>
-<script>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const SUPABASE_URL = 'https://jztxznkjevzngvrlpzh.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
+
 async function loadArticles() {
-    try {
-        const r = await fetch("/.netlify/functions/articles");
-        const data = await r.json();
-        const articles = data.articles || [];
-        const c = document.getElementById("articlesList");
-        if(!articles.length){ c.innerHTML="<div style='text-align:center;padding:40px;color:#6c757d;grid-column:1/-1;'>Статті з'являться незабаром</div>"; return; }
-        c.innerHTML = articles.map(a => {
-            const slug = a.hebWord.replace(/[^a-zA-Z\u05D0-\u05EA]/g,"_")+"_"+a.ukrWord.replace(/[^a-zA-Z\u0430-\u044F\u0410-\u042F]/g,"_");
-            return "<div class='article-card' onclick='window.location.href=\"/uk/"+slug+"/\"'>"+
-                "<h3>"+(a.langs&&a.langs.uk&&a.langs.uk.title||a.hebWord)+"</h3>"+
-                "<p style='color:#7f8c8d;margin-bottom:12px;'>"+a.hebWord+" → "+a.ukrWord+"</p>"+
-                "<span class='lang-badge'>"+Object.keys(a.langs||{}).length+" мов</span></div>";
-        }).join("");
-    } catch(e){ console.error(e); }
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { data, error } = await supabase.from('articles').select('*').order('id', { ascending: false });
+    const c = document.getElementById('articlesList');
+    if (error || !data || !data.length) {
+        c.innerHTML = "<div style='text-align:center;padding:40px;color:#6c757d;grid-column:1/-1;'>Статті з'являться незабаром</div>";
+        return;
+    }
+    c.innerHTML = data.map(a =>
+        "<div class='article-card'><h3>" + a.title + "</h3><p style='color:#7f8c8d;margin-top:8px;'>" + (a.content||'').substring(0,100) + "...</p></div>"
+    ).join('');
 }
+
 loadArticles();
 </script>
 </body>
