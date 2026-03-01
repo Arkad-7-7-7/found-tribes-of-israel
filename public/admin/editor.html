@@ -20,7 +20,7 @@ button{padding:12px 24px;background:#2c3e50;color:white;border:none;border-radiu
 <h1>✍️ Нова стаття</h1>
 <input type="text" id="title" placeholder="Заголовок статті">
 <textarea id="content" placeholder="Текст статті..."></textarea>
-<button onclick="save()">Зберегти статтю</button>
+<button id="saveBtn">Зберегти статтю</button>
 <div id="message"></div>
 </div>
 
@@ -29,7 +29,7 @@ const SUPABASE_URL = "https://jztxnznkjevzngvrlp.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE";
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
+document.getElementById("saveBtn").addEventListener("click", save);
 // Перевірка адміна
 if(!localStorage.getItem("admin")){
   window.location.href="/admin/login.html";
