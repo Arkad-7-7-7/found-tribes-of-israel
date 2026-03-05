@@ -40,15 +40,28 @@
     <div class="footer">© 2026 foundtribesofisrael.com</div>
 </div>
 <script>
+const SUPABASE_URL = "https://jztxnznkjevzngvrlp.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE";
+
 async function loadArticles() {
-    try {
-        const r = await fetch("/.netlify/functions/articles");
-        const data = await r.json();
-        const articles = data.articles || [];
-        const c = document.getElementById("articlesList");
-        if(!articles.length){ c.innerHTML="<div style='text-align:center;padding:40px;color:#6c757d;grid-column:1/-1;'>Статті з'являться незабаром</div>"; return; }
-        c.innerHTML = articles.map(a => "<div class='article-card'><h3>"+(a.title||a.hebWord)+"</h3><p>"+a.hebWord+" → "+a.ukrWord+"</p></div>").join("");
-    } catch(e){ document.getElementById("articlesList").innerHTML="<div style='text-align:center;padding:40px;color:#6c757d;grid-column:1/-1;'>Статті з'являться незабаром</div>"; }
+  const c = document.getElementById("articlesList");
+  try {
+    const r = await fetch(SUPABASE_URL + "/rest/v1/articles?select=*&order=created_at.desc", {
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY
+      }
+    });
+    const articles = await r.json();
+    if(!articles.length){ c.innerHTML = "<p>Статей поки немає</p>"; return; }
+    c.innerHTML = articles.map(a => `
+      <div class="article-card">
+        <h3>${a.title}</h3>
+        <p>${a.content}</p>
+        <small>${new Date(a.created_at).toLocaleDateString('uk-UA')}</small>
+      </div>
+    `).join('');
+  } catch(e){ c.innerHTML = "<p>Помилка завантаження</p>"; }
 }
 loadArticles();
 </script>
