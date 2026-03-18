@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Found Tribes of Israel</title>
+    <title>Found Tribes of Israel | Авторський Реєстр</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+Hebrew&display=swap" rel="stylesheet">
     <style>
@@ -12,270 +12,278 @@
             --gold-light: #e8c97a;
             --gold-dark: #8a6b2a;
             --ink: #1a1208;
-            --parchment: #f5edd6;
+            --parchment: #fdf5e6;
             --deep: #0d0a05;
+            --petrykivka: #cc3333;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { background: var(--ink); color: var(--parchment); font-family: 'EB Garamond', Georgia, serif; overflow-x: hidden; }
-        .translate-bar { background: var(--deep); border-bottom: 1px solid rgba(201,168,76,0.2); padding: 7px 24px; display: flex; align-items: center; justify-content: flex-end; gap: 12px; position: sticky; top: 0; z-index: 500; }
-        .translate-label { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.15em; color: var(--gold-dark); text-transform: uppercase; }
-        .translate-select-wrap { position: relative; }
-        .translate-select-wrap::after { content: '▾'; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--gold); pointer-events: none; }
-        #language-select { appearance: none; background: rgba(201,168,76,0.08); border: 1px solid var(--gold-dark); color: var(--parchment); font-family: 'EB Garamond', serif; font-size: 0.88rem; padding: 5px 32px 5px 12px; border-radius: 2px; cursor: pointer; min-width: 180px; transition: border-color 0.3s; }
-        #language-select:hover { border-color: var(--gold); }
-        #language-select option { background: #1a1208; }
-        nav.main-nav { position: sticky; top: 41px; z-index: 400; background: linear-gradient(90deg, var(--deep), #130f06, var(--deep)); border-bottom: 2px solid var(--gold-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 62px; }
-        .nav-logo { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 800; color: var(--gold); letter-spacing: 0.06em; text-decoration: none; }
-        .nav-links { display: flex; gap: 0; list-style: none; align-items: center; }
-        .nav-links a { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; color: rgba(245,237,214,0.7); text-decoration: none; padding: 20px 16px; display: block; border-bottom: 2px solid transparent; transition: color 0.3s, border-color 0.3s; text-transform: uppercase; }
-        .nav-links a:hover, .nav-links a.active { color: var(--gold-light); border-bottom-color: var(--gold); }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); }
-        .hero { min-height: 88vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 60px 20px; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%); }
-        .hero-hebrew { font-family: 'Noto Sans Hebrew', serif; font-size: clamp(1.8rem,4vw,3rem); color: var(--gold); letter-spacing: 0.08em; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(201,168,76,0.4)); animation: fadeInDown 1.2s ease both; }
-        .hero-divider { width: 180px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); margin: 0 auto 28px; }
-        .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(1.6rem,4vw,3rem); font-weight: 800; color: var(--parchment); line-height: 1.2; margin-bottom: 14px; animation: fadeInUp 1s ease 0.3s both; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
-        .hero h1 span { color: var(--gold); }
-        .hero-subtitle { font-size: clamp(1rem,2vw,1.2rem); color: rgba(245,237,214,0.65); font-style: italic; max-width: 580px; line-height: 1.7; margin-bottom: 36px; animation: fadeInUp 1s ease 0.5s both; }
-        .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeInUp 1s ease 0.7s both; }
-        .btn-primary { background: linear-gradient(135deg,var(--gold-dark),var(--gold)); color: var(--ink); font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.15em; padding: 13px 30px; border: none; text-decoration: none; display: inline-block; cursor: pointer; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: opacity 0.3s, transform 0.3s; text-transform: uppercase; }
-        .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
-        .btn-ghost { border: 1px solid var(--gold-dark); color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.15em; padding: 12px 30px; text-decoration: none; display: inline-block; transition: background 0.3s; text-transform: uppercase; }
-        .btn-ghost:hover { background: rgba(201,168,76,0.1); }
-        section { position: relative; z-index: 1; }
-        .section-pad { padding: 80px 20px; }
-        .section-header { text-align: center; margin-bottom: 52px; }
-        .section-eyebrow { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; display: block; }
-        .section-header h2 { font-family: 'Cinzel', serif; font-size: clamp(1.4rem,3vw,2.2rem); font-weight: 600; color: var(--parchment); margin-bottom: 12px; }
-        .section-header p { font-size: 1.05rem; color: rgba(245,237,214,0.6); font-style: italic; max-width: 540px; margin: 0 auto; line-height: 1.7; }
-        .gold-rule { width: 80px; height: 2px; background: linear-gradient(90deg,transparent,var(--gold),transparent); margin: 18px auto 0; }
-        .about-text { max-width: 760px; margin: 0 auto; font-size: 1.1rem; line-height: 1.9; color: rgba(245,237,214,0.75); text-align: center; font-style: italic; }
-        .stats-row { display: flex; justify-content: center; gap: 56px; flex-wrap: wrap; max-width: 700px; margin: 0 auto; }
-        .stat-item { text-align: center; }
-        .stat-number { font-family: 'Cinzel', serif; font-size: 2.6rem; font-weight: 800; color: var(--gold); display: block; line-height: 1; filter: drop-shadow(0 0 10px rgba(201,168,76,0.3)); }
-        .stat-label { font-size: 0.85rem; color: rgba(245,237,214,0.5); display: block; margin-top: 6px; font-style: italic; }
-        .articles-section { background: linear-gradient(180deg,transparent,rgba(26,60,92,0.06),transparent); }
-        .articles-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill,minmax(320px,1fr)); gap: 22px; }
-        .article-card { background: linear-gradient(135deg,rgba(201,168,76,0.05),rgba(201,168,76,0.02)); border: 1px solid rgba(201,168,76,0.18); padding: 30px 28px; position: relative; overflow: hidden; transition: border-color 0.3s, transform 0.3s; cursor: pointer; }
-        .article-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: linear-gradient(180deg,var(--gold-dark),transparent); }
-        .article-card:hover { border-color: rgba(201,168,76,0.5); transform: translateY(-4px); }
-        .article-card h3 { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600; color: var(--gold-light); margin-bottom: 10px; letter-spacing: 0.04em; line-height: 1.4; }
-        .article-card p { font-size: 0.93rem; line-height: 1.7; color: rgba(245,237,214,0.6); }
-        .article-empty { text-align: center; padding: 60px 20px; color: rgba(245,237,214,0.35); font-style: italic; font-size: 1.05rem; grid-column: 1/-1; }
-        .article-loading { text-align: center; padding: 60px 20px; color: var(--gold-dark); font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.2em; grid-column: 1/-1; animation: pulse 1.5s ease infinite; }
-        @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
-        .quote-section { border-top: 1px solid rgba(201,168,76,0.12); border-bottom: 1px solid rgba(201,168,76,0.12); background: linear-gradient(135deg,rgba(122,28,28,0.05),rgba(26,60,92,0.05)); }
-        .quote-block { max-width: 720px; margin: 0 auto; text-align: center; }
-        .quote-mark { font-family: 'Cinzel', serif; font-size: 4rem; color: var(--gold); opacity: 0.2; line-height: 0.7; display: block; margin-bottom: 14px; }
-        blockquote { font-size: clamp(1rem,2vw,1.3rem); font-style: italic; line-height: 1.85; color: rgba(245,237,214,0.8); margin-bottom: 18px; }
-        .quote-source { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--gold-dark); text-transform: uppercase; }
-        footer { background: var(--deep); border-top: 1px solid rgba(201,168,76,0.15); padding: 44px 24px 24px; text-align: center; }
-        .footer-logo { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 14px; }
-        .footer-nav { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; margin-bottom: 24px; }
-        .footer-nav a { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.14em; color: rgba(245,237,214,0.35); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .footer-nav a:hover { color: var(--gold); }
-        .footer-copy { font-size: 0.82rem; color: rgba(245,237,214,0.2); font-style: italic; }
-        @keyframes fadeInDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-        .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
-        .reveal.visible { opacity: 1; transform: none; }
-        @media (max-width: 768px) {
-            .nav-links { display: none; position: absolute; top: 62px; left: 0; right: 0; background: var(--deep); flex-direction: column; padding: 12px 0; border-bottom: 1px solid rgba(201,168,76,0.2); }
-            .nav-links.open { display: flex; }
-            .nav-links a { padding: 12px 24px; border-bottom: none; }
-            .hamburger { display: flex; }
-            nav.main-nav { padding: 0 16px; }
-            .stats-row { gap: 28px; }
+
+        /* ПАНЕЛЬ ПЕРЕКЛАДУ (70+ МОВ) */
+        .translate-bar { 
+            background: var(--deep); 
+            border-bottom: 1px solid rgba(201,168,76,0.2); 
+            padding: 10px 24px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-end; 
+            gap: 12px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 500; 
         }
+        
+        #language-select { 
+            background: rgba(201,168,76,0.1); 
+            border: 1px solid var(--gold-dark); 
+            color: var(--parchment); 
+            padding: 6px 12px; 
+            border-radius: 4px; 
+            font-family: 'EB Garamond', serif;
+            cursor: pointer; 
+            outline: none;
+        }
+
+        /* НАВІГАЦІЯ */
+        nav.main-nav { 
+            position: sticky; 
+            top: 45px; 
+            z-index: 400; 
+            background: rgba(13, 10, 5, 0.95); 
+            border-bottom: 2px solid var(--gold-dark); 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 32px; 
+            height: 65px; 
+            backdrop-filter: blur(5px);
+        }
+        .nav-logo { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 800; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links a { font-family: 'Cinzel', serif; font-size: 0.75rem; color: rgba(245,237,214,0.7); text-decoration: none; padding: 20px 16px; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold-light); }
+
+        /* ГЕРОЙ-СЕКЦІЯ */
+        .hero { min-height: 60vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 60px 20px; }
+        .hero-hebrew { font-family: 'Noto Sans Hebrew', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); margin-bottom: 15px; letter-spacing: 5px; }
+        .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; }
+        .hero h1 span { color: var(--gold); }
+        .gold-rule { width: 120px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 20px auto; }
+
+        /* ЄДИНИЙ ХУДОЖНІЙ СУВІЙ */
+        .scroll-container {
+            background: var(--parchment);
+            color: var(--ink);
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 900px;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.9);
+            border-left: 18px solid #b89564;
+            border-right: 18px solid #b89564;
+            border-radius: 4px;
+        }
+
+        .celtic-border {
+            border: 4px double var(--gold-dark);
+            padding: 35px;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .menorah-bg {
+            position: absolute;
+            bottom: 25px;
+            right: 30px;
+            font-size: 7rem;
+            opacity: 0.04;
+            pointer-events: none;
+            color: var(--gold-dark);
+        }
+
+        /* Список статтей (Манускрипт) */
+        .article-row {
+            padding: 25px 0;
+            border-bottom: 1px dashed rgba(138, 107, 42, 0.4);
+            text-align: left;
+            transition: 0.4s ease;
+        }
+        .article-row:hover { transform: translateX(8px); }
+        .flower-icon { color: var(--petrykivka); font-size: 1.4rem; margin-right: 12px; }
+
+        /* Анімація появи */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        footer { padding: 60px; text-align: center; border-top: 1px solid rgba(201,168,76,0.2); background: var(--deep); }
+
+        /* Приховати панель Google */
         .goog-te-banner-frame { display: none !important; }
         body { top: 0 !important; }
         .skiptranslate { display: none !important; }
     </style>
-    <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({ pageLanguage: 'uk', autoDisplay: false }, 'google_translate_element');
-        }
-    </script>
-    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
 
-<div id="google_translate_element" style="display:none"></div>
-
 <div class="translate-bar">
-    <span class="translate-label">🌐 Мова</span>
-    <div class="translate-select-wrap">
-        <select id="language-select" onchange="translateTo(this.value)">
-            <option value="">🇺🇦 Українська</option>
-            <option value="en">🇬🇧 English</option>
-            <option value="iw">🇮🇱 עברית</option>
-            <option value="ga">🇮🇪 Gaeilge</option>
-            <option value="de">🇩🇪 Deutsch</option>
-            <option value="fr">🇫🇷 Français</option>
-            <option value="pl">🇵🇱 Polski</option>
-            <option value="ru">🇷🇺 Русский</option>
-            <option value="es">🇪🇸 Español</option>
-            <option value="ar">🇸🇦 العربية</option>
-            <option value="it">🇮🇹 Italiano</option>
-            <option value="pt">🇵🇹 Português</option>
-            <option value="nl">🇳🇱 Nederlands</option>
-            <option value="sv">🇸🇪 Svenska</option>
-            <option value="no">🇳🇴 Norsk</option>
-            <option value="da">🇩🇰 Dansk</option>
-            <option value="fi">🇫🇮 Suomi</option>
-            <option value="is">🇮🇸 Íslenska</option>
-            <option value="cs">🇨🇿 Čeština</option>
-            <option value="sk">🇸🇰 Slovenčina</option>
-            <option value="bg">🇧🇬 Български</option>
-            <option value="sr">🇷🇸 Српски</option>
-            <option value="hr">🇭🇷 Hrvatski</option>
-            <option value="ro">🇷🇴 Română</option>
-            <option value="hu">🇭🇺 Magyar</option>
-            <option value="el">🇬🇷 Ελληνικά</option>
-            <option value="tr">🇹🇷 Türkçe</option>
-            <option value="az">🇦🇿 Azərbaycanca</option>
-            <option value="ka">🇬🇪 ქართული</option>
-            <option value="hy">🇦🇲 Հայերեն</option>
-            <option value="kk">🇰🇿 Қазақша</option>
-            <option value="uz">🇺🇿 O'zbek</option>
-            <option value="fa">🇮🇷 فارسی</option>
-            <option value="hi">🇮🇳 हिन्दी</option>
-            <option value="bn">🇧🇩 বাংলা</option>
-            <option value="ur">🇵🇰 اردو</option>
-            <option value="th">🇹🇭 ภาษาไทย</option>
-            <option value="vi">🇻🇳 Tiếng Việt</option>
-            <option value="id">🇮🇩 Bahasa Indonesia</option>
-            <option value="ms">🇲🇾 Bahasa Melayu</option>
-            <option value="tl">🇵🇭 Filipino</option>
-            <option value="zh-CN">🇨🇳 中文(简体)</option>
-            <option value="zh-TW">🇹🇼 中文(繁體)</option>
-            <option value="ja">🇯🇵 日本語</option>
-            <option value="ko">🇰🇷 한국어</option>
-            <option value="sw">🇰🇪 Kiswahili</option>
-            <option value="am">🇪🇹 አማርኛ</option>
-            <option value="af">🇿🇦 Afrikaans</option>
-            <option value="zu">🇿🇦 Zulu</option>
+    <span style="font-size: 0.75rem; color: var(--gold-dark); font-family: 'Cinzel'; letter-spacing: 2px;">🌐 SELECT LANGUAGE:</span>
+    <select id="language-select" onchange="translateTo(this.value)">
+        <option value="">🇺🇦 Українська</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="iw">🇮🇱 עברית</option>
+        <option value="ga">🇮🇪 Gaeilge</option>
+        <option value="pl">🇵🇱 Polski</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="cs">🇨🇿 Čeština</option>
+        <option value="lt">🇱🇹 Lietuvių</option>
+        <option value="lv">🇱🇻 Latviešu</option>
+        <option value="et">🇪🇪 Eesti</option>
+        <option value="fi">🇫🇮 Suomi</option>
+        <option value="sv">🇸🇪 Svenska</option>
+        <option value="no">🇳🇴 Norsk</option>
+        <option value="da">🇩🇰 Dansk</option>
+        <option value="is">🇮🇸 Íslenska</option>
+        <option value="pt">🇵🇹 Português</option>
+        <option value="nl">🇳🇱 Nederlands</option>
+        <option value="hu">🇭🇺 Magyar</option>
+        <option value="sk">🇸🇰 Slovenčina</option>
+        <option value="bg">🇧🇬 Български</option>
+        <option value="ro">🇷🇴 Română</option>
+        <option value="el">🇬🇷 Ελληνικά</option>
+        <option value="tr">🇹🇷 Türkçe</option>
+        <option value="az">🇦🇿 Azərbaycanca</option>
+        <option value="ka">🇬🇪 ქართული</option>
+        <option value="hy">🇦🇲 Հայерեն</option>
+        <option value="uz">🇺🇿 O'zbek</option>
+        <option value="kk">🇰🇿 Қазақша</option>
+        <option value="sr">🇷🇸 Српски</option>
+        <option value="hr">🇭🇷 Hrvatski</option>
+        <option value="sl">🇸🇮 Slovenščina</option>
+        <option value="sq">🇦🇱 Shqip</option>
+        <option value="mk">🇲🇰 Македонски</option>
+        <option value="hi">🇮🇳 हिन्दी</option>
+        <option value="bn">🇧🇩 বাংলা</option>
+        <option value="zh-CN">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="ko">🇰🇷 한국어</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="fa">🇮🇷 فارسی</option>
+        <option value="ur">🇵🇰 اردو</option>
+        <option value="vi">🇻🇳 Tiếng Việt</option>
+        <option value="th">🇹🇭 ภาษาไทย</option>
+        <option value="id">🇮🇩 Bahasa Indonesia</option>
+        <option value="ms">🇲🇾 Bahasa Melayu</option>
         </select>
-    </div>
 </div>
 
-<nav class="main-nav" id="navbar">
-    <a href="#" class="nav-logo">🕎 Found Tribes of Israel</a>
-    <ul class="nav-links" id="nav-links">
-        <li><a href="#about">Про дослідження</a></li>
-        <li><a href="#articles">Статті</a></li>
+<nav class="main-nav">
+    <a href="#" class="nav-logo">🕎 FOUND TRIBES</a>
+    <ul class="nav-links">
+        <li><a href="#about">Дослідження</a></li>
+        <li><a href="#articles">Реєстр</a></li>
         <li><a href="#stats">Статистика</a></li>
     </ul>
-    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-    </div>
 </nav>
 
 <section class="hero">
     <div class="hero-hebrew">מָצָאנוּ אֶת־הַשְּׁבָטִים</div>
-    <div class="hero-divider"></div>
+    <div class="gold-rule"></div>
     <h1>🔍 FOUND TRIBES<br><span>OF ISRAEL</span></h1>
-    <p class="hero-subtitle">Лінгвістичні докази походження 10 втрачених племен Ізраїлю — систематичні зв'язки між давньоєврейською та українською мовами</p>
-    <div class="hero-cta">
-        <a href="#articles" class="btn-primary">Читати статті</a>
-        <a href="#about" class="btn-ghost">Про дослідження</a>
-    </div>
 </section>
 
-<section id="about" class="section-pad">
+<section id="articles" style="padding: 40px 20px;">
     <div class="section-header reveal">
-        <span class="section-eyebrow">Методологія</span>
-        <h2>Про дослідження</h2>
-        <div class="gold-rule"></div>
+        <span style="font-family: 'Cinzel'; font-size: 0.8rem; color: var(--gold-dark); letter-spacing: 4px;">МОВНА МАТРИЦЯ</span>
+        <h2 style="font-family: 'Cinzel'; font-size: 2.2rem; margin-top: 10px;">📚 АВТОРСЬКИЙ РЕЄСТР</h2>
     </div>
-    <p class="about-text reveal">Незалежне лінгвістичне дослідження систематичних зв'язків між давньоєврейською та українською мовами. Базується на 500+ кореневих відповідностях та 13 фонетичних законах. Трикутні кореспонденції Іврит — Українська — Ірландська гельська підтверджують спільний субстрат Загублених Племен через Хозарів та Козаків.</p>
-</section>
 
-<section id="stats" class="section-pad" style="background:linear-gradient(180deg,transparent,rgba(26,60,92,0.06),transparent)">
-    <div class="section-header reveal">
-        <span class="section-eyebrow">Масштаб</span>
-        <h2>Цифри дослідження</h2>
-        <div class="gold-rule"></div>
-    </div>
-    <div class="stats-row reveal">
-        <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">кореневих відповідностей</span></div>
-        <div class="stat-item"><span class="stat-number">13</span><span class="stat-label">фонетичних законів</span></div>
-        <div class="stat-item"><span class="stat-number">70+</span><span class="stat-label">мов перекладу</span></div>
-        <div class="stat-item"><span class="stat-number">10</span><span class="stat-label">втрачених племен</span></div>
-    </div>
-</section>
-
-<section id="articles" class="section-pad articles-section">
-    <div class="section-header reveal">
-        <span class="section-eyebrow">Публікації</span>
-        <h2>📚 Статті</h2>
-        <p>Нові відкриття з бази даних</p>
-        <div class="gold-rule"></div>
-    </div>
-    <div id="articlesList" class="articles-grid">
-        <div class="article-loading">· · · ЗАВАНТАЖЕННЯ · · ·</div>
-    </div>
-</section>
-
-<section class="section-pad quote-section">
-    <div class="quote-block reveal">
-        <span class="quote-mark">"</span>
-        <blockquote>Закостенілий іврит — мова Десяти Загублених Племен. Вони не зникли з історії — вони просто змінили ім'я. І їхні слова залишились, вмуровані у мову козаків, забуті, але живі.</blockquote>
-        <div class="quote-source">— Foundtribesofisrael.com</div>
+    <div class="scroll-container reveal">
+        <div class="celtic-border">
+            <div class="menorah-bg">🕎</div>
+            
+            <div id="articlesList">
+                <div style="text-align: center; padding: 60px; color: var(--gold-dark); font-family: 'Cinzel'; letter-spacing: 2px;">
+                    · · · РОЗГОРТАННЯ АРХІВІВ · · ·
+                </div>
+            </div>
+            
+            <div style="text-align:center; margin-top:40px; color:var(--petrykivka); font-size:2rem; letter-spacing: 25px; opacity: 0.9;">
+                ✿ ❀ ❁ ❀ ✿
+            </div>
+        </div>
     </div>
 </section>
 
 <footer>
-    <div class="footer-logo">🕎 Found Tribes of Israel</div>
-    <nav class="footer-nav">
-        <a href="#about">Дослідження</a>
-        <a href="#articles">Статті</a>
-        <a href="#stats">Статистика</a>
-    </nav>
-    <p class="footer-copy">© 2026 foundtribesofisrael.com</p>
+    <div style="font-family: 'Cinzel'; color: var(--gold); font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 2px;">🕎 FOUND TRIBES OF ISRAEL</div>
+    <p style="font-size: 0.85rem; color: rgba(245,237,214,0.3); font-style: italic;">© 2026 foundtribesofisrael.com</p>
 </footer>
+
+<div id="google_translate_element" style="display:none"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'uk', autoDisplay: false}, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const SUPABASE_URL = 'https://jztxznkjevzngvrlpzh.supabase.co';
-    const SUPABASE_KEY =  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE";
+    // ВСТАВ СВОЇ ДАНІ SUPABASE ТУТ
+    const SUPABASE_URL = 'https://jztxnznkjevzngvrlp.supabase.co'; 
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
 
     async function loadArticles() {
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
         const { data, error } = await supabase.from('articles').select('*').order('id', { ascending: false });
-        const c = document.getElementById('articlesList');
-        if (error || !data || !data.length) { c.innerHTML = "<div class='article-empty'>Статті з'являться незабаром</div>"; return; }
-        c.innerHTML = data.map(a => `<div class='article-card'><h3>${a.title}</h3><p>${(a.content||'').substring(0,120)}...</p></div>`).join('');
-    }
-    loadArticles();
-</script>
+        const list = document.getElementById('articlesList');
 
-<script>
-    function translateTo(lang) {
-        if (!lang) { document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`; location.reload(); return; }
-        const exp = new Date(); exp.setFullYear(exp.getFullYear() + 1);
-        document.cookie = `googtrans=/uk/${lang}; expires=${exp.toUTCString()}; path=/`;
+        if (error || !data || data.length === 0) {
+            list.innerHTML = "<div style='text-align:center; padding:40px;'>Архіви тимчасово недоступні. Перевірте з'єднання.</div>";
+            return;
+        }
+
+        list.innerHTML = data.map(a => `
+            <div class='article-row reveal'>
+                <div style="display: flex; align-items: baseline;">
+                    <span class="flower-icon">✿</span>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; margin: 0; color: #1a1208; letter-spacing: 0.5px;">${a.title}</h3>
+                </div>
+                <p style="color: #333; margin: 12px 0 0 35px; font-size: 1.15rem; line-height: 1.7; font-family: 'EB Garamond', serif;">
+                    ${(a.content||'').substring(0, 200)}...
+                </p>
+                <div style="text-align: right; margin-top: 15px;">
+                    <span style="font-family: 'Cinzel'; font-size: 0.75rem; color: #8a6b2a; font-weight: 800; cursor: pointer; letter-spacing: 1.5px; border-bottom: 1px solid var(--gold);">ВІДКРИТИ →</span>
+                </div>
+            </div>
+        `).join('');
+
+        // Ініціалізація анімації для нових елементів
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    }
+
+    loadArticles();
+
+    // Функція перекладу
+    window.translateTo = function(lang) {
+        if (!lang) {
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            location.reload();
+            return;
+        }
+        document.cookie = "googtrans=/uk/" + lang + "; path=/";
         location.reload();
     }
-    window.addEventListener('load', () => {
-        const m = document.cookie.match(/googtrans=\/uk\/([^;]+)/);
-        if (m) { const s = document.getElementById('language-select'); if(s) s.value = m[1]; }
-    });
-    function toggleMenu() { document.getElementById('nav-links').classList.toggle('open'); }
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-        let cur = '';
-        sections.forEach(s => { if (window.pageYOffset >= s.offsetTop - 120) cur = s.id; });
-        navLinks.forEach(a => { a.classList.remove('active'); if (a.getAttribute('href') === '#' + cur) a.classList.add('active'); });
-    });
-    const obs = new IntersectionObserver((entries) => {
-        entries.forEach((e,i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i*80); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
+
 </body>
 </html>
