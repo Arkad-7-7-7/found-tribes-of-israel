@@ -352,8 +352,8 @@ async function loadArticles(){
                 <p class="article-preview">${(a.content||'').substring(0,220)}...</p>
                 <div class="article-footer">
                     <span class="article-date">${a.created_at?new Date(a.created_at).toLocaleDateString('uk-UA'):''}</span>
-                    <span class="read-more-btn">Відкрити →</span>
-                </div>
+                    <span class="read-more-btn" onclick="sparkleAndOpen(event,'${a.title.replace(/'/g,String.fromCharCode(39))}','${(a.content||'').replace(/\n/g,'<br>')}')">ЧИТАТИ ПОВНІСТЮ →</span>
+                    </div>
             </div>`).join('');
         initReveal();
     }catch(e){
