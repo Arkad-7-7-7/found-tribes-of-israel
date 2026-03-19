@@ -347,12 +347,12 @@ async function loadArticles(){
             return;
         }
         list.innerHTML=data.map(a=>`
-            <div class="article-row">
+            <div class="article-row" data-title="${a.title}" data-content="${encodeURIComponent(a.content||'')}">
                 <div class="article-title-row"><span class="flower-icon">✿</span><h3 class="article-title">${a.title}</h3></div>
                 <p class="article-preview">${(a.content||'').substring(0,220)}...</p>
                 <div class="article-footer">
                     <span class="article-date">${a.created_at?new Date(a.created_at).toLocaleDateString('uk-UA'):''}</span>
-                    <span class="read-more-btn" onclick="sparkleAndOpen(event,'${a.title.replace(/'/g,String.fromCharCode(39))}','${(a.content||'').replace(/\n/g,'<br>')}')">ЧИТАТИ ПОВНІСТЮ →</span>
+                    <span class="read-more-btn" onclick="openArticle(this)">ЧИТАТИ ПОВНІСТЮ →</span>
                     </div>
             </div>`).join('');
         initReveal();
@@ -379,10 +379,8 @@ function initReveal(){
 initReveal();
 loadArticles();
     function openArticle(title,content){
-    document.getElementById('modalTitle').textContent=title;
-    document.getElementById('modalContent').innerHTML=content.split('\n').filter(p=>p.trim()).map(p=>`<p style="margin-bottom:16px;font-size:1.15rem;line-height:1.9;font-family:'EB Garamond',serif;">${p}</p>`).join('');
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow='hidden';
+    function openArticle(btn){const row=btn.closest('.article-row');document.getElementById('modalTitle').innerText=row.dataset.title;document.getElementById('modalBody').innerHTML=decodeURIComponent(row.dataset.content).replace(/\n/g,'<br>');document.getElementById('articleModal').style.display='block';document.body.style.overflow='hidden';}
+function closeArticle(){document.getElementById('articleModal').style.display='none';document.body.style.overflow='auto';}
 }
 function closeModal(){
     document.getElementById('modal').classList.remove('open');
