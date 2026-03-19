@@ -332,35 +332,27 @@ function googleTranslateElementInit(){
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<script>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 const SUPABASE_URL='https://jztxnznkjevzngvrlp.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
-
 async function loadArticles(){
     const list=document.getElementById('articlesList');
-    try{
-        const r=await fetch(SUPABASE_URL+'/rest/v1/articles?select=*&order=id.desc',{
-            headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
-        });
-        const data=await r.json();
-        if(!data||data.length===0){
-            list.innerHTML='<div class="empty-state"><div class="empty-text">Архіви порожні</div></div>';
-            return;
-        }
-        list.innerHTML=data.map(a=>`
-            <div class="article-row">
-                <div class="article-title-row"><span class="flower-icon">✿</span><h3 class="article-title">${a.title}</h3></div>
-                <p class="article-preview">${(a.content||'').substring(0,220)}...</p>
-                <div class="article-footer">
-                    <span class="article-date">${a.created_at?new Date(a.created_at).toLocaleDateString('uk-UA'):''}</span>
-                    <span class="read-more-btn">Відкрити →</span>
-                </div>
-            </div>`).join('');
-        initReveal();
-    }catch(e){
-        list.innerHTML='<div class="empty-state"><div class="empty-text">Помилка з\'єднання</div></div>';
+    const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
+    const {data,error}=await supabase.from('articles').select('*').order('id',{ascending:false});
+    if(error||!data||data.length===0){
+        list.innerHTML='<div class="empty-state"><div class="empty-text">Архіви недоступні</div></div>';
+        return;
     }
+    list.innerHTML=data.map(a=>`
+        <div class="article-row">
+            <div class="article-title-row"><span class="flower-icon">✿</span><h3 class="article-title">${a.title}</h3></div>
+            <p class="article-preview">${(a.content||'').substring(0,220)}...</p>
+        </div>`).join('');
 }
+
+loadArticles();
+</script>
 
 window.translateTo=function(lang){
     if(!lang){document.cookie="googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";location.reload();return;}
