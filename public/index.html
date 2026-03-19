@@ -375,7 +375,6 @@ function initReveal(){
     const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target);}});},{threshold:0.08});
     document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 }
-
 initReveal();
 loadArticles();
     function openArticle(title,content){
