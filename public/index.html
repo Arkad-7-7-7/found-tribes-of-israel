@@ -122,14 +122,13 @@ async function loadArticles() {
                 list.innerHTML = "<div style='text-align:center; padding:40px;'>Архів порожній.</div>";
                 return;
             }
-
             list.innerHTML = data.map(a => `
-                <div class="article-row reveal">
-                    <div>
-                        <span class="flower-icon">✿</span>
-                        <h3 class="article-title">${a.title}</h3>
-                    </div>
-                    <p class="article-preview">${(a.content || '').substring(0, 160)}...</p>
+    <div class="article-row reveal">
+        <div class="article-title-row">
+            <span class="flower-icon">✿</span>
+            <h3 class="article-title">${a.Title}</h3>
+        </div>
+        <p class="article-preview">${(a.Articles || '').substring(0, 160)}...</p>
                 </div>
             `).join('');
 
