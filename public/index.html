@@ -382,7 +382,7 @@ loadArticles();
     function openArticle(btn){const row=btn.closest('.article-row');document.getElementById('modalTitle').innerText=row.dataset.title;document.getElementById('modalBody').innerHTML=decodeURIComponent(row.dataset.content).replace(/\n/g,'<br>');document.getElementById('articleModal').style.display='block';document.body.style.overflow='hidden';}
 function closeArticle(){document.getElementById('articleModal').style.display='none';document.body.style.overflow='auto';}
 }
-function closeModal(){
+function closeModal(){closeArticle();}
     document.getElementById('modal').classList.remove('open');
     document.body.style.overflow='';
 }
