@@ -6,6 +6,7 @@
 <title>Found Tribes of Israel | Лінгвістичне Дослідження</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Hebrew:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
 :root{
     --gold:#c9a84c;
@@ -16,25 +17,33 @@
     --deep:#17120b;
     --red:#b02020;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--deep);color:var(--parchment);font-family:'EB Garamond',Georgia,serif;overflow-x:hidden;transition:background 0.3s, color 0.3s;}
 a{text-decoration:none;}
-nav.main-nav{position:sticky;top:0;z-index:500;background:rgba(23,18,11,0.95);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;border-bottom:1px solid rgba(201,168,76,0.3);}
+.lang-bar{background:rgba(23,18,11,0.95);border-bottom:1px solid rgba(201,168,76,0.25);padding:8px 24px;display:flex;align-items:center;justify-content:flex-end;gap:14px;position:sticky;top:0;z-index:600;}
+.lang-bar-label{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--gold-dark);letter-spacing:3px;}
+.lang-select-wrapper{position:relative;}
+.lang-select-wrapper::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none;}
+#language-select{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--parchment);padding:6px 32px 6px 12px;border-radius:3px;font-family:'EB Garamond',serif;font-size:0.9rem;cursor:pointer;outline:none;appearance:none;min-width:185px;}
+#language-select option{background:#1a1208;}
+nav.main-nav{position:sticky;top:41px;z-index:500;background:rgba(23,18,11,0.97);border-bottom:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;backdrop-filter:blur(8px);}
+nav.main-nav::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-dark),var(--gold),var(--gold-dark),transparent);}
 .nav-logo{font-family:'Cinzel Decorative',serif;font-size:0.95rem;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:10px;}
 .nav-logo-heb{font-family:'Noto Sans Hebrew',serif;font-size:1.1rem;color:var(--gold-dark);font-weight:300;}
 .nav-links{display:flex;list-style:none;}
-.nav-links li a{font-family:'Cinzel',serif;font-size:0.75rem;color:rgba(245,237,214,0.7);padding:0 18px;height:64px;display:flex;align-items:center;letter-spacing:2px;transition:color 0.3s;position:relative;}
+.nav-links li a{font-family:'Cinzel',serif;font-size:0.75rem;color:rgba(245,237,214,0.7);text-decoration:none;padding:0 18px;height:64px;display:flex;align-items:center;letter-spacing:2px;transition:color 0.3s;position:relative;}
 .nav-links li a::after{content:'';position:absolute;bottom:0;left:18px;right:18px;height:2px;background:var(--gold);transform:scaleX(0);transition:transform 0.3s;}
 .nav-links li a:hover{color:var(--gold-light);}
 .nav-links li a:hover::after{transform:scaleX(1);}
 .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
 .burger span{display:block;width:24px;height:2px;background:var(--gold);}
-.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(23,18,11,0.97);z-index:499;padding:20px 0;box-shadow:0 4px 16px rgba(0,0,0,0.4);}
+.mobile-menu{display:none;position:fixed;top:105px;left:0;right:0;background:rgba(23,18,11,0.98);border-bottom:1px solid rgba(201,168,76,0.3);z-index:499;padding:20px 0;}
 .mobile-menu.open{display:block;}
-.mobile-menu a{display:block;font-family:'Cinzel',serif;font-size:0.85rem;color:rgba(245,237,214,0.8);text-decoration:none;padding:14px 40px;border-bottom:1px solid rgba(201,168,76,0.1);}
-.hero{min-height:72vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:80px 20px 60px;position:relative;}
+.mobile-menu a{display:block;font-family:'Cinzel',serif;font-size:0.85rem;color:rgba(245,237,214,0.7);text-decoration:none;padding:14px 40px;border-bottom:1px solid rgba(201,168,76,0.1);}
+.hero{min-height:72vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:80px 20px 60px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:0;left:-50%;width:200%;height:200%;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800"><path fill="none" stroke="%23c9a84c" stroke-width="1" d="M100 300 Q200 100 400 300 T700 300"/></svg>') repeat;opacity:0.06;animation:dust 12s linear infinite;pointer-events:none;}
+@keyframes dust{0%{transform:translate(0,0);}100%{transform:translate(-100px,20px);}}
 .hero-top-ornament{font-family:'Noto Sans Hebrew',serif;font-size:clamp(1rem,3vw,1.6rem);color:var(--gold-dark);letter-spacing:8px;margin-bottom:6px;}
 .hero-hebrew{font-family:'Noto Sans Hebrew',serif;font-size:clamp(2rem,5.5vw,4rem);color:var(--gold);margin-bottom:8px;letter-spacing:6px;animation:glow 4s ease-in-out infinite alternate;}
 @keyframes glow{from{text-shadow:0 0 20px rgba(201,168,76,0.3);}to{text-shadow:0 0 50px rgba(201,168,76,0.6);}}
@@ -45,27 +54,8 @@ nav.main-nav{position:sticky;top:0;z-index:500;background:rgba(23,18,11,0.95);ba
 .hero h1 .accent{color:var(--gold);}
 .hero-subtitle{font-size:clamp(1rem,2vw,1.3rem);color:rgba(245,237,214,0.65);font-style:italic;max-width:620px;line-height:1.7;margin-bottom:30px;}
 .hero-badges{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
-.hero-badge{border:1px solid rgba(201,168,76,0.35);padding:6px 18px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:2px;border-radius:3px;color:var(--parchment);}
-.section-header{text-align:center;margin-bottom:40px;}
-.section-eyebrow{font-family:'Cinzel',serif;font-size:0.75rem;color:var(--gold-light);letter-spacing:2px;display:block;margin-bottom:6px;}
-.section-title{font-family:'Cinzel Decorative',serif;font-size:2rem;color:var(--gold);letter-spacing:2px;}
-.about-grid,.stats-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));padding:0 20px;}
-.about-card,.stat-item{background:rgba(23,18,11,0.9);padding:20px;border-radius:6px;border:1px solid rgba(201,168,76,0.2);position:relative;overflow:hidden;}
-.about-card::before,.stat-item::before{content:'✦';position:absolute;font-size:40px;color:rgba(201,168,76,0.05);top:10px;right:10px;transform:rotate(20deg);}
-.about-card-icon{font-size:2rem;margin-bottom:10px;display:block;}
-.article-row{background:rgba(23,18,11,0.95);padding:16px;border-radius:6px;margin-bottom:12px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;}
-.article-row:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,0.5);}
-.article-title-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
-.article-title{font-family:'Cinzel',serif;color:var(--gold);font-size:1rem;line-height:1.2;}
-.article-preview{color:rgba(245,237,214,0.7);font-size:0.85rem;margin-bottom:8px;}
-.article-footer{display:flex;justify-content:space-between;font-size:0.75rem;color:rgba(245,237,214,0.5);}
-.read-more-btn{color:var(--gold-light);cursor:pointer;}
-.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(23,18,11,0.95);backdrop-filter:blur(6px);z-index:1000;overflow-y:auto;padding:60px 20px;}
-.modal-content{background:var(--deep);padding:24px;border-radius:8px;max-width:700px;margin:0 auto;position:relative;box-shadow:0 16px 32px rgba(0,0,0,0.6);}
-.modal-close{position:absolute;top:12px;right:16px;font-size:1.3rem;color:var(--gold);cursor:pointer;}
-.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.6s ease, transform 0.6s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-@media(max-width:768px){.burger{display:flex;}}
+.hero-badge{border:1px solid rgba(201,168,76,0.35);padding:6px 18px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:2px;border-radius:3px;transition:all 0.3s;}
+.hero-badge:hover{background:var(--gold-dark);color:var(--deep);}
 </style>
 </head>
 <body>
@@ -78,13 +68,15 @@ nav.main-nav{position:sticky;top:0;z-index:500;background:rgba(23,18,11,0.95);ba
         <li><a href="#articles">Реєстр</a></li>
         <li><a href="#contact">Контакти</a></li>
     </ul>
-    <div class="burger" onclick="toggleMenu()" id="burger"><span></span><span></span><span></span></div>
+    <div class="burger" onclick="toggleMenu()" id="burger">
+        <span></span><span></span><span></span>
+    </div>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
     <a href="#about" onclick="closeMobile()">Дослідження</a>
     <a href="#stats" onclick="closeMobile()">Статистика</a>
-    <a href="#articles" onclick="closeMobile()">Реєстр</a>
+    <a href="#articles" onclick="closeMobile()">Реєстр статей</a>
     <a href="#contact" onclick="closeMobile()">Контакти</a>
 </div>
 
@@ -98,114 +90,13 @@ nav.main-nav{position:sticky;top:0;z-index:500;background:rgba(23,18,11,0.95);ba
     </div>
     <h1>Found Tribes<br><span class="accent">of Israel</span></h1>
     <p class="hero-subtitle">Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами. 500+ задокументованих відповідностей, 13 фонетичних законів.</p>
-    <div class="hero-badges">
-        <div class="hero-badge">500+ відповідностей</div>
-        <div class="hero-badge">13 фонетичних законів</div>
-        <div class="hero-badge">Аркадій Бойчук</div>
-    </div>
 </section>
-
-<section id="about" class="reveal">
-    <div class="section-header">
-        <span class="section-eyebrow">Про дослідження</span>
-        <h2 class="section-title">Мовна Матриця</h2>
-    </div>
-    <div class="about-grid">
-        <div class="about-card reveal">
-            <span class="about-card-icon">🔬</span>
-            <div class="about-card-title">Методологія</div>
-            <p>Систематичне читання Тори виявило механізм фосилізації: єврейський сполучник וְ назавжди прикріпився до слів, які давньоєврейська мова передала слов'янам. Відкриття органічне — не штучне.</p>
-        </div>
-        <div class="about-card reveal">
-            <span class="about-card-icon">📜</span>
-            <div class="about-card-title">База Даних</div>
-            <p>500+ задокументованих відповідностей між давньоєврейською та українською мовами. Ірландська гельська виступає незалежним кельтським свідком — окремий міграційний шлях, ті самі кореневі скелети.</p>
-        </div>
-        <div class="about-card reveal">
-            <span class="about-card-icon">⚖️</span>
-            <div class="about-card-title">13 Фонетичних Законів</div>
-            <p>Р↔Л, Л↔В, Р↔Б, аїн→Я/А, хет зникає, шин→С/Ш, епентетичні приголосні, метатеза, протеза. Два шари: давній (всі слов'янські мови) і хозарський (унікально українська).</p>
-        </div>
-    </div>
-</section>
-
-<section id="articles" class="reveal">
-    <div class="section-header">
-        <span class="section-eyebrow">Мовна Матриця</span>
-        <h2 class="section-title">📚 Авторський Реєстр</h2>
-    </div>
-    <div id="articlesList">
-        <div class="empty-state">
-            <div class="empty-heb">מָצָא</div>
-            <div class="empty-text">· · · Розгортання архівів · · ·</div>
-        </div>
-    </div>
-</section>
-
-<!-- Модалка -->
-<div class="modal-overlay" id="articleModal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeArticle()">✕</span>
-        <h2 id="modalTitle"></h2>
-        <div id="modalContent"></div>
-    </div>
-</div>
 
 <script>
-const SUPABASE_URL = 'https://jztxnznkjevzngvrlpzh.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
-
-// Завантаження статей
-async function loadArticles() {
-    const list = document.getElementById('articlesList');
-    try {
-        const r = await fetch(SUPABASE_URL + '/rest/v1/articles?select=*&order=id.desc', {
-            headers: {'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY}
-        });
-        const data = await r.json();
-        if (!data || data.length === 0) {
-            list.innerHTML = '<div class="empty-state"><div class="empty-text">Архіви порожні</div></div>';
-            return;
-        }
-        list.innerHTML = data.map(a => `
-            <div class="article-row" data-title="${a.title}" data-content="${encodeURIComponent(a.content || '')}">
-                <div class="article-title-row"><span class="flower-icon">✿</span><h3 class="article-title">${a.title}</h3></div>
-                <p class="article-preview">${(a.content || '').substring(0,220)}...</p>
-                <div class="article-footer"><span class="article-date">${a.created_at?new Date(a.created_at).toLocaleDateString('uk-UA'):""}</span><span class="read-more-btn" onclick="openArticle(this)">ЧИТАТИ ПОВНІСТЮ →</span></div>
-            </div>
-        `).join('');
-        initReveal();
-    } catch(e){console.error(e);list.innerHTML='<div class="empty-state"><div class="empty-text">Помилка з\'єднання</div></div>';}
-}
-
-// Модалка
-function openArticle(btn){
-    const row = btn.closest('.article-row');
-    document.getElementById('modalTitle').innerText = row.dataset.title;
-    document.getElementById('modalContent').innerHTML = decodeURIComponent(row.dataset.content).replace(/\n/g,'<br>');
-    document.getElementById('articleModal').style.display='block';
-    document.body.style.overflow='hidden';
-}
-function closeArticle(){
-    document.getElementById('articleModal').style.display='none';
-    document.body.style.overflow='auto';
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeArticle();});
-
-// Reveal анімації
-function initReveal(){
-    const obs = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-}
-
 // Мобільне меню
-function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
-function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
-document.addEventListener('click',e=>{if(!e.target.closest('.mobile-menu')&&!e.target.closest('.burger'))closeMobile();});
-
-// Ініціалізація
-loadArticles();
-initReveal();
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
 </script>
+
 </body>
 </html>
