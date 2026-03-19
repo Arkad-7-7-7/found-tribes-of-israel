@@ -4,98 +4,148 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Found Tribes of Israel | Лінгвістичне Дослідження</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Hebrew:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond&family=Noto+Sans+Hebrew&display=swap" rel="stylesheet">
 
 <style>
 :root{
     --gold:#c9a84c;
     --gold-light:#e8c97a;
     --gold-dark:#8a6b2a;
-    --ink:#1a1208;
     --parchment:#fdf5e6;
     --deep:#17120b;
-    --red:#b02020;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:var(--deep);color:var(--parchment);font-family:'EB Garamond',Georgia,serif;overflow-x:hidden;transition:background 0.3s, color 0.3s;}
-a{text-decoration:none;}
-.lang-bar{background:rgba(23,18,11,0.95);border-bottom:1px solid rgba(201,168,76,0.25);padding:8px 24px;display:flex;align-items:center;justify-content:flex-end;gap:14px;position:sticky;top:0;z-index:600;}
-.lang-bar-label{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--gold-dark);letter-spacing:3px;}
-.lang-select-wrapper{position:relative;}
-.lang-select-wrapper::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none;}
-#language-select{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--parchment);padding:6px 32px 6px 12px;border-radius:3px;font-family:'EB Garamond',serif;font-size:0.9rem;cursor:pointer;outline:none;appearance:none;min-width:185px;}
-#language-select option{background:#1a1208;}
-nav.main-nav{position:sticky;top:41px;z-index:500;background:rgba(23,18,11,0.97);border-bottom:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;backdrop-filter:blur(8px);}
-nav.main-nav::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-dark),var(--gold),var(--gold-dark),transparent);}
-.nav-logo{font-family:'Cinzel Decorative',serif;font-size:0.95rem;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:10px;}
-.nav-logo-heb{font-family:'Noto Sans Hebrew',serif;font-size:1.1rem;color:var(--gold-dark);font-weight:300;}
-.nav-links{display:flex;list-style:none;}
-.nav-links li a{font-family:'Cinzel',serif;font-size:0.75rem;color:rgba(245,237,214,0.7);text-decoration:none;padding:0 18px;height:64px;display:flex;align-items:center;letter-spacing:2px;transition:color 0.3s;position:relative;}
-.nav-links li a::after{content:'';position:absolute;bottom:0;left:18px;right:18px;height:2px;background:var(--gold);transform:scaleX(0);transition:transform 0.3s;}
-.nav-links li a:hover{color:var(--gold-light);}
-.nav-links li a:hover::after{transform:scaleX(1);}
-.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
-.burger span{display:block;width:24px;height:2px;background:var(--gold);}
-.mobile-menu{display:none;position:fixed;top:105px;left:0;right:0;background:rgba(23,18,11,0.98);border-bottom:1px solid rgba(201,168,76,0.3);z-index:499;padding:20px 0;}
-.mobile-menu.open{display:block;}
-.mobile-menu a{display:block;font-family:'Cinzel',serif;font-size:0.85rem;color:rgba(245,237,214,0.7);text-decoration:none;padding:14px 40px;border-bottom:1px solid rgba(201,168,76,0.1);}
-.hero{min-height:72vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:80px 20px 60px;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;top:0;left:-50%;width:200%;height:200%;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800"><path fill="none" stroke="%23c9a84c" stroke-width="1" d="M100 300 Q200 100 400 300 T700 300"/></svg>') repeat;opacity:0.06;animation:dust 12s linear infinite;pointer-events:none;}
-@keyframes dust{0%{transform:translate(0,0);}100%{transform:translate(-100px,20px);}}
-.hero-top-ornament{font-family:'Noto Sans Hebrew',serif;font-size:clamp(1rem,3vw,1.6rem);color:var(--gold-dark);letter-spacing:8px;margin-bottom:6px;}
-.hero-hebrew{font-family:'Noto Sans Hebrew',serif;font-size:clamp(2rem,5.5vw,4rem);color:var(--gold);margin-bottom:8px;letter-spacing:6px;animation:glow 4s ease-in-out infinite alternate;}
-@keyframes glow{from{text-shadow:0 0 20px rgba(201,168,76,0.3);}to{text-shadow:0 0 50px rgba(201,168,76,0.6);}}
-.gold-rule{display:flex;align-items:center;gap:16px;margin:16px auto;max-width:500px;width:100%;}
-.gold-rule-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark),var(--gold),var(--gold-dark),transparent);}
-.gold-rule-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);}
-.hero h1{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,4.5vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:18px;letter-spacing:3px;}
-.hero h1 .accent{color:var(--gold);}
-.hero-subtitle{font-size:clamp(1rem,2vw,1.3rem);color:rgba(245,237,214,0.65);font-style:italic;max-width:620px;line-height:1.7;margin-bottom:30px;}
-.hero-badges{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
-.hero-badge{border:1px solid rgba(201,168,76,0.35);padding:6px 18px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:2px;border-radius:3px;transition:all 0.3s;}
-.hero-badge:hover{background:var(--gold-dark);color:var(--deep);}
+
+body{
+    margin:0;
+    background:var(--deep);
+    color:var(--parchment);
+    font-family:'EB Garamond',serif;
+}
+
+nav{
+    background:linear-gradient(90deg,#fdf5e6,#f6e6c0);
+    color:#000;
+    padding:16px 40px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.nav-links a{
+    margin:0 10px;
+    color:#000;
+}
+
+.hero{
+    text-align:center;
+    padding:80px 20px;
+}
+
+.article-row{
+    border:1px solid rgba(201,168,76,0.3);
+    padding:16px;
+    margin:16px;
+    cursor:pointer;
+}
+
+.modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:none;
+    background:rgba(0,0,0,0.9);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:#111;
+    padding:20px;
+    max-width:700px;
+}
 </style>
 </head>
+
 <body>
 
-<nav class="main-nav" id="mainNav">
-    <a href="#" class="nav-logo"><span class="nav-logo-heb">שְׁבָטִים</span>Found Tribes</a>
-    <ul class="nav-links">
-        <li><a href="#about">Дослідження</a></li>
-        <li><a href="#stats">Статистика</a></li>
-        <li><a href="#articles">Реєстр</a></li>
-        <li><a href="#contact">Контакти</a></li>
-    </ul>
-    <div class="burger" onclick="toggleMenu()" id="burger">
-        <span></span><span></span><span></span>
+<nav>
+    <div>Found Tribes</div>
+    <div class="nav-links">
+        <a href="#">Головна</a>
+        <a href="#">Статті</a>
     </div>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu">
-    <a href="#about" onclick="closeMobile()">Дослідження</a>
-    <a href="#stats" onclick="closeMobile()">Статистика</a>
-    <a href="#articles" onclick="closeMobile()">Реєстр статей</a>
-    <a href="#contact" onclick="closeMobile()">Контакти</a>
-</div>
-
 <section class="hero">
-    <div class="hero-top-ornament">מָצָאנוּ — знайшли — found</div>
-    <div class="hero-hebrew">אֶת־הַשְּׁבָטִים</div>
-    <div class="gold-rule">
-        <div class="gold-rule-line"></div>
-        <div class="gold-rule-diamond"></div>
-        <div class="gold-rule-line"></div>
-    </div>
-    <h1>Found Tribes<br><span class="accent">of Israel</span></h1>
-    <p class="hero-subtitle">Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами. 500+ задокументованих відповідностей, 13 фонетичних законів.</p>
+    <h1>Found Tribes of Israel</h1>
 </section>
 
+<section id="articles">
+    <div id="articlesList">Завантаження...</div>
+</section>
+
+<div class="modal" id="articleModal">
+    <div class="modal-content">
+        <span onclick="closeArticle()" style="cursor:pointer;color:gold;">✕</span>
+        <h2 id="modalTitle"></h2>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
 <script>
-// Мобільне меню
-function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
-function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+// 🔑 SUPABASE
+const SUPABASE_URL = 'https://jztxnznkjevzngvrlpzh.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
+
+// 📚 LOAD ARTICLES
+async function loadArticles(){
+    const list = document.getElementById('articlesList');
+
+    try{
+        const res = await fetch(SUPABASE_URL + '/rest/v1/articles?select=*', {
+            headers:{
+                apikey: SUPABASE_KEY,
+                Authorization: 'Bearer ' + SUPABASE_KEY
+            }
+        });
+
+        const data = await res.json();
+
+        list.innerHTML = data.map(a => `
+            <div class="article-row" onclick="openArticle('${encodeURIComponent(a.title)}','${encodeURIComponent(a.content)}')">
+                <h3>${a.title}</h3>
+                <p>${(a.content || '').substring(0,120)}...</p>
+            </div>
+        `).join('');
+
+    }catch(e){
+        list.innerHTML = 'Помилка';
+    }
+}
+
+// 📖 MODAL
+function openArticle(title,content){
+    document.getElementById('modalTitle').innerText = decodeURIComponent(title);
+    document.getElementById('modalContent').innerHTML = decodeURIComponent(content);
+    document.getElementById('articleModal').style.display='flex';
+}
+
+function closeArticle(){
+    document.getElementById('articleModal').style.display='none';
+}
+
+// ESC
+document.addEventListener('keydown',e=>{
+    if(e.key==='Escape') closeArticle();
+});
+
+// 🚀 START
+loadArticles();
+
 </script>
 
 </body>
