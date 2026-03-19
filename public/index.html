@@ -391,17 +391,44 @@ function closeModal() {
     closeArticle();
 }
 
-// Мови (Google Translate)
-window.translateTo = function(lang) {
-    if (!lang) {
-        document.cookie = "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+// Встановлюємо мову перекладу
+window.translateTo = function(lang){
+    if(!lang || lang === 'uk'){
+        // Українська → скидаємо переклад
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + location.hostname + ";";
+        updateLanguageSelect('uk');
         location.reload();
         return;
     }
-    document.cookie = "googtrans=/uk/" + lang + ";path=/";
-    document.cookie = "googtrans=/uk/" + lang + ";path=/;domain=" + location.hostname;
+    // Інші мови → встановлюємо Google Translate
+    document.cookie = "googtrans=/uk/" + lang + "; path=/";
+    document.cookie = "googtrans=/uk/" + lang + "; path=/; domain=" + location.hostname + ";";
+    updateLanguageSelect(lang);
     location.reload();
 }
+
+// Підсвічування активної мови в select
+function updateLanguageSelect(lang){
+    const select = document.getElementById('language-select');
+    if(!select) return;
+    select.value = lang;
+}
+
+// При завантаженні сторінки показуємо активну мову
+window.addEventListener('DOMContentLoaded', () => {
+    const cookies = document.cookie.split('; ').reduce((acc, cur) => {
+        const [key, value] = cur.split('=');
+        acc[key] = value;
+        return acc;
+    }, {});
+    let lang = 'uk'; // за замовчуванням українська
+    if(cookies['googtrans']){
+        const parts = decodeURIComponent(cookies['googtrans']).split('/');
+        if(parts.length === 3) lang = parts[2];
+    }
+    updateLanguageSelect(lang);
+});
 
 // Мобільне меню
 function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
