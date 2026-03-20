@@ -334,57 +334,122 @@ function googleTranslateElementInit(){
 <script>
     const SUPABASE_URL='https://jztxnznkjevzngvrlpzh.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
-
-async function loadArticles(){
-    const list=document.getElementById('articlesList');
-    try{
-        const r=await fetch(SUPABASE_URL+'/rest/v1/articles?select=*&order=id.desc',{
-            headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+    
+// Завантаження статей
+async function loadArticles() {
+    const list = document.getElementById('articlesList');
+    try {
+        const r = await fetch(SUPABASE_URL + '/rest/v1/articles?select=*&order=id.desc', {
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY
+            }
         });
-        const data=await r.json();
-        if(!data||data.length===0){
-            list.innerHTML='<div class="empty-state"><div class="empty-text">Архіви порожні</div></div>';
+        const data = await r.json();
+        if (!data || data.length === 0) {
+            list.innerHTML = '<div class="empty-state"><div class="empty-text">Архіви порожні</div></div>';
             return;
         }
-        list.innerHTML=data.map(a=>`
-            <div class="article-row" data-title="${a.title}" data-content="${encodeURIComponent(a.content||'')}">
-                <div class="article-title-row"><span class="flower-icon">✿</span><h3 class="article-title">${a.title}</h3></div>
-                <p class="article-preview">${(a.content||'').substring(0,220)}...</p>
+
+        list.innerHTML = data.map(a => `
+            <div class="article-row" data-title="${a.title}" data-content="${encodeURIComponent(a.content || '')}">
+                <div class="article-title-row">
+                    <span class="flower-icon">✿</span>
+                    <h3 class="article-title">${a.title}</h3>
+                </div>
+                <p class="article-preview">${(a.content || '').substring(0, 220)}...</p>
                 <div class="article-footer">
-                    <span class="article-date">${a.created_at?new Date(a.created_at).toLocaleDateString('uk-UA'):''}</span>
+                    <span class="article-date">${a.created_at ? new Date(a.created_at).toLocaleDateString('uk-UA') : ''}</span>
                     <span class="read-more-btn" onclick="openArticle(this)">ЧИТАТИ ПОВНІСТЮ →</span>
-                    </div>
-            </div>`).join('');
+                </div>
+            </div>
+        `).join('');
+
         initReveal();
-    }catch(e){
-        list.innerHTML='<div class="empty-state"><div class="empty-text">Помилка з\'єднання</div></div>';
+    } catch (e) {
+        console.error(e);
+        list.innerHTML = '<div class="empty-state"><div class="empty-text">Помилка з\'єднання</div></div>';
     }
 }
 
-window.translateTo=function(lang){
-    if(!lang){document.cookie="googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";location.reload();return;}
-    document.cookie="googtrans=/uk/"+lang+";path=/";
-    document.cookie="googtrans=/uk/"+lang+";path=/;domain="+location.hostname;
+// Відкриття модалки
+function openArticle(btn) {
+    const row = btn.closest('.article-row');
+    document.getElementById('modalTitle').innerText = row.dataset.title;
+    document.getElementById('modalContent').innerHTML = decodeURIComponent(row.dataset.content).replace(/\n/g, '<br>');
+    document.getElementById('articleModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Закриття модалки
+function closeArticle() {
+    document.getElementById('articleModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+function closeModal() {
+    closeArticle();
+}
+
+// Встановлюємо мову перекладу
+window.translateTo = function(lang){
+    if(!lang || lang === 'uk'){
+        // Українська → скидаємо переклад
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + location.hostname + ";";
+        updateLanguageSelect('uk');
+        location.reload();
+        return;
+    }
+    // Інші мови → встановлюємо Google Translate
+    document.cookie = "googtrans=/uk/" + lang + "; path=/";
+    document.cookie = "googtrans=/uk/" + lang + "; path=/; domain=" + location.hostname + ";";
+    updateLanguageSelect(lang);
     location.reload();
 }
 
-function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
-function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
-
-function initReveal(){
-    const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target);}});},{threshold:0.08});
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// Підсвічування активної мови в select
+function updateLanguageSelect(lang){
+    const select = document.getElementById('language-select');
+    if(!select) return;
+    select.value = lang;
 }
+
+// При завантаженні сторінки показуємо активну мову
+window.addEventListener('DOMContentLoaded', () => {
+    const cookies = document.cookie.split('; ').reduce((acc, cur) => {
+        const [key, value] = cur.split('=');
+        acc[key] = value;
+        return acc;
+    }, {});
+    let lang = 'uk'; // за замовчуванням українська
+    if(cookies['googtrans']){
+        const parts = decodeURIComponent(cookies['googtrans']).split('/');
+        if(parts.length === 3) lang = parts[2];
+    }
+    updateLanguageSelect(lang);
+});
+
+// Мобільне меню
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+// Анімація reveal
+function initReveal() {
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                obs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+// Запуск
 initReveal();
 loadArticles();
-    function openArticle(title,content){
-    function openArticle(btn){const row=btn.closest('.article-row');document.getElementById('modalTitle').innerText=row.dataset.title;document.getElementById('modalBody').innerHTML=decodeURIComponent(row.dataset.content).replace(/\n/g,'<br>');document.getElementById('articleModal').style.display='block';document.body.style.overflow='hidden';}
-function closeArticle(){document.getElementById('articleModal').style.display='none';document.body.style.overflow='auto';}
-}
-function closeModal(){closeArticle();}
-    document.getElementById('modal').classList.remove('open');
-    document.body.style.overflow='';
-}
 </script>
 </body>
 </html>
