@@ -92,7 +92,30 @@ nav.main-nav::before{
         .mobile-menu{display:none;position:fixed;top:105px;left:0;right:0;background:rgba(13,10,5,0.98);border-bottom:1px solid rgba(201,168,76,0.3);z-index:499;padding:20px 0;}
         .mobile-menu.open{display:block;}
         .mobile-menu a{display:block;font-family:'Cinzel',serif;font-size:0.85rem;color:rgba(245,237,214,0.7);text-decoration:none;padding:14px 40px;border-bottom:1px solid rgba(201,168,76,0.1);}
-        .hero{min-height:72vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:80px 20px 60px;position:relative;}
+        .hero{
+    min-height:72vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    padding:80px 20px 60px;
+    position:relative;
+    background:
+        radial-gradient(1px 1px at 5% 10%, #fff 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 12% 55%, rgba(201,168,76,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 22% 30%, #fff 0%, transparent 100%),
+        radial-gradient(2px 2px at 35% 75%, rgba(255,220,100,1) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 15%, #fff 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 52% 85%, rgba(201,168,76,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 63% 40%, #fff 0%, transparent 100%),
+        radial-gradient(2px 2px at 72% 20%, rgba(255,220,100,1) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 65%, #fff 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 87% 45%, rgba(201,168,76,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 93% 80%, #fff 0%, transparent 100%),
+        radial-gradient(2px 2px at 98% 25%, rgba(255,220,100,1) 0%, transparent 100%),
+        linear-gradient(180deg, #03010a 0%, #06031a 40%, #03010a 100%);
+        }
         .hero-top-ornament{font-family:'Noto Sans Hebrew',serif;font-size:clamp(1rem,3vw,1.6rem);color:var(--gold-dark);letter-spacing:8px;margin-bottom:6px;}
         .hero-hebrew{font-family:'Noto Sans Hebrew',serif;font-size:clamp(2rem,5.5vw,4rem);color:var(--gold);margin-bottom:8px;letter-spacing:6px;animation:glow 4s ease-in-out infinite alternate;}
         @keyframes glow{from{text-shadow:0 0 20px rgba(201,168,76,0.3);}to{text-shadow:0 0 50px rgba(201,168,76,0.6);}}
@@ -104,6 +127,74 @@ nav.main-nav::before{
         .hero-subtitle{font-size:clamp(1rem,2vw,1.3rem);color:rgba(245,237,214,0.65);font-style:italic;max-width:620px;line-height:1.7;margin-bottom:30px;}
         .hero-badges{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
         .hero-badge{border:1px solid rgba(201,168,76,0.35);padding:6px 18px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:2px;color:var(--gold-dark);}
+        .hero{
+    min-height:72vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    padding:80px 20px 60px;
+    position:relative;
+    background:
+        radial-gradient(1px 1px at 5% 10%, #fff 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 15% 35%, rgba(201,168,76,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 65%, #fff 0%, transparent 100%),
+        radial-gradient(2px 2px at 38% 20%, rgba(255,220,100,1) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 80%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 68% 45%, rgba(201,168,76,0.8) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 78% 15%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 60%, rgba(201,168,76,0.7) 0%, transparent 100%),
+        radial-gradient(2px 2px at 95% 30%, #fff 0%, transparent 100%),
+        linear-gradient(180deg, #03010a 0%, #06031a 40%, #03010a 100%);
+}
+.hero-scroll-left,
+.hero-scroll-right{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:70px;
+    pointer-events:none;
+    animation:heroGlow 3s ease-in-out infinite alternate;
+    filter:drop-shadow(0 0 8px rgba(201,168,76,0.7));
+}
+.hero-scroll-left{
+    left:8px;
+}
+.hero-scroll-right{
+    right:8px;
+    transform:translateY(-50%) scaleX(-1);
+}
+/* золотий пил по боках */
+.hero::before{
+    content:'';
+    position:absolute;
+    top:0;bottom:0;left:0;
+    width:120px;
+    background:radial-gradient(ellipse at left center,
+        rgba(201,168,76,0.18) 0%,
+        rgba(201,168,76,0.06) 40%,
+        transparent 70%);
+    pointer-events:none;
+}
+.hero::after{
+    content:'';
+    position:absolute;
+    top:0;bottom:0;right:0;
+    width:120px;
+    background:radial-gradient(ellipse at right center,
+        rgba(201,168,76,0.18) 0%,
+        rgba(201,168,76,0.06) 40%,
+        transparent 70%);
+    pointer-events:none;
+}
+@keyframes heroGlow{
+    from{ filter:drop-shadow(0 0 6px rgba(201,168,76,0.5)); }
+    to{   filter:drop-shadow(0 0 20px rgba(201,168,76,1)); }
+}
+@media(max-width:600px){
+    .hero-scroll-left,.hero-scroll-right{ width:36px; }
+}
         .divider{text-align:center;padding:30px 20px 10px;color:var(--red);font-size:1.6rem;letter-spacing:20px;opacity:0.7;}
         .section-header{text-align:center;margin-bottom:50px;}
         .section-eyebrow{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--gold-dark);letter-spacing:5px;display:block;margin-bottom:12px;text-transform:uppercase;}
@@ -279,7 +370,45 @@ nav.main-nav::before{
     <a href="#contact" onclick="closeMobile()">Контакти</a>
 </div>
 
-<section class="hero">
+<section class="hero"><span class="hero-scroll-left">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 400" fill="none">
+  <!-- головне стебло -->
+  <path d="M35 5 C35 5, 20 40, 22 80 C24 120, 48 130, 46 170 C44 210, 18 220, 20 260 C22 300, 46 310, 44 350 C42 380, 30 395, 30 395" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- верхній великий завиток -->
+  <path d="M35 5 C50 5, 62 15, 60 28 C58 42, 44 46, 36 40 C28 34, 26 22, 34 18" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <!-- верхній малий завиток -->
+  <path d="M34 18 C30 14, 18 16, 16 24 C14 32, 22 38, 28 34" stroke="#c9a84c" stroke-width="1" stroke-linecap="round" fill="none"/>
+  <!-- середній правий завиток -->
+  <path d="M46 170 C58 165, 66 175, 64 185 C62 196, 50 198, 44 192 C38 186, 40 176, 46 174" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <!-- середній лівий завиток -->
+  <path d="M20 260 C8 255, 2 265, 4 275 C6 285, 18 287, 24 280" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  <!-- нижній великий завиток -->
+  <path d="M44 350 C56 345, 64 358, 60 370 C56 382, 42 384, 36 376 C30 368, 33 356, 40 354" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <!-- маленькі квіточки -->
+  <circle cx="60" cy="28" r="2.5" fill="#e8c97a"/>
+  <circle cx="16" cy="24" r="1.8" fill="#c9a84c"/>
+  <circle cx="64" cy="185" r="2" fill="#e8c97a"/>
+  <circle cx="4" cy="275" r="1.8" fill="#c9a84c"/>
+  <circle cx="60" cy="370" r="2.5" fill="#e8c97a"/>
+  <circle cx="30" cy="395" r="2" fill="#c9a84c"/>
+</svg>
+</span>
+<span class="hero-scroll-right">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 400" fill="none">
+  <path d="M35 5 C35 5, 20 40, 22 80 C24 120, 48 130, 46 170 C44 210, 18 220, 20 260 C22 300, 46 310, 44 350 C42 380, 30 395, 30 395" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <path d="M35 5 C50 5, 62 15, 60 28 C58 42, 44 46, 36 40 C28 34, 26 22, 34 18" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <path d="M34 18 C30 14, 18 16, 16 24 C14 32, 22 38, 28 34" stroke="#c9a84c" stroke-width="1" stroke-linecap="round" fill="none"/>
+  <path d="M46 170 C58 165, 66 175, 64 185 C62 196, 50 198, 44 192 C38 186, 40 176, 46 174" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <path d="M20 260 C8 255, 2 265, 4 275 C6 285, 18 287, 24 280" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  <path d="M44 350 C56 345, 64 358, 60 370 C56 382, 42 384, 36 376 C30 368, 33 356, 40 354" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <circle cx="60" cy="28" r="2.5" fill="#e8c97a"/>
+  <circle cx="16" cy="24" r="1.8" fill="#c9a84c"/>
+  <circle cx="64" cy="185" r="2" fill="#e8c97a"/>
+  <circle cx="4" cy="275" r="1.8" fill="#c9a84c"/>
+  <circle cx="60" cy="370" r="2.5" fill="#e8c97a"/>
+  <circle cx="30" cy="395" r="2" fill="#c9a84c"/>
+</svg>
+</span>
     <div class="hero-top-ornament" style="font-family:'Noto Sans Hebrew',serif;font-size:1.4rem;color:var(--gold-dark);letter-spacing:8px;margin-bottom:6px;">מָצָאנוּ — знайшли — found</div>
     <div class="hero-hebrew">אֶת־הַשְּׁבָטִים</div>
     <div class="gold-rule">
