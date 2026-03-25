@@ -159,13 +159,14 @@ nav.main-nav::before{
     transform:translateY(-50%);
     width:88px;
     pointer-events:none;
-    z-index:2;
+    z-index:4;
     animation:heroScrollPulse 4s ease-in-out infinite alternate;
 }
-.hero-scroll-left{left:2px;}
+.hero-scroll-left{left:2px;z-index:4;}
 .hero-scroll-right{
     right:2px;
     transform:translateY(-50%) scaleX(-1);
+z-index:4;
 }
 @keyframes heroScrollPulse{
     from{
