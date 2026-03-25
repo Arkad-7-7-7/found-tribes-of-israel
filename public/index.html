@@ -128,7 +128,7 @@ nav.main-nav::before{
         .hero-badges{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
         .hero-badge{border:1px solid rgba(201,168,76,0.35);padding:6px 18px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:2px;color:var(--gold-dark);}
         .hero{
-    min-height:72vh;
+    min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -136,17 +136,59 @@ nav.main-nav::before{
     text-align:center;
     padding:80px 20px 60px;
     position:relative;
-    background:
-        radial-gradient(1px 1px at 5% 10%, #fff 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 15% 35%, rgba(201,168,76,0.9) 0%, transparent 100%),
-        radial-gradient(1px 1px at 25% 65%, #fff 0%, transparent 100%),
-        radial-gradient(2px 2px at 38% 20%, rgba(255,220,100,1) 0%, transparent 100%),
-        radial-gradient(1px 1px at 55% 80%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 68% 45%, rgba(201,168,76,0.8) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 78% 15%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 88% 60%, rgba(201,168,76,0.7) 0%, transparent 100%),
-        radial-gradient(2px 2px at 95% 30%, #fff 0%, transparent 100%),
-        linear-gradient(180deg, #03010a 0%, #06031a 40%, #03010a 100%);
+    overflow:hidden;
+    background:linear-gradient(180deg,
+        #000008 0%,
+        #02000f 20%,
+        #050020 50%,
+        #02000f 80%,
+        #000008 100%);
+}
+.hero-canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:0;
+}
+.hero-scroll-left,
+.hero-scroll-right{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:88px;
+    pointer-events:none;
+    z-index:2;
+    animation:heroScrollPulse 4s ease-in-out infinite alternate;
+}
+.hero-scroll-left{left:2px;}
+.hero-scroll-right{
+    right:2px;
+    transform:translateY(-50%) scaleX(-1);
+}
+@keyframes heroScrollPulse{
+    from{
+        filter:
+            drop-shadow(0 0 6px rgba(201,168,76,0.5))
+            drop-shadow(0 0 18px rgba(201,168,76,0.25));
+        opacity:0.75;
+    }
+    to{
+        filter:
+            drop-shadow(0 0 18px rgba(201,168,76,1))
+            drop-shadow(0 0 40px rgba(201,168,76,0.8))
+            drop-shadow(0 0 80px rgba(255,200,50,0.5))
+            drop-shadow(0 0 120px rgba(255,180,30,0.3));
+        opacity:1;
+    }
+}
+.hero>*:not(.hero-canvas):not(.hero-scroll-left):not(.hero-scroll-right){
+    position:relative;
+    z-index:3;
+}
+@media(max-width:600px){
+    .hero-scroll-left,.hero-scroll-right{width:38px;}
 }
 .hero-scroll-left,
 .hero-scroll-right{
@@ -370,45 +412,76 @@ nav.main-nav::before{
     <a href="#contact" onclick="closeMobile()">Контакти</a>
 </div>
 
-<section class="hero"><span class="hero-scroll-left">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 400" fill="none">
-  <!-- головне стебло -->
-  <path d="M35 5 C35 5, 20 40, 22 80 C24 120, 48 130, 46 170 C44 210, 18 220, 20 260 C22 300, 46 310, 44 350 C42 380, 30 395, 30 395" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <!-- верхній великий завиток -->
-  <path d="M35 5 C50 5, 62 15, 60 28 C58 42, 44 46, 36 40 C28 34, 26 22, 34 18" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-  <!-- верхній малий завиток -->
-  <path d="M34 18 C30 14, 18 16, 16 24 C14 32, 22 38, 28 34" stroke="#c9a84c" stroke-width="1" stroke-linecap="round" fill="none"/>
-  <!-- середній правий завиток -->
-  <path d="M46 170 C58 165, 66 175, 64 185 C62 196, 50 198, 44 192 C38 186, 40 176, 46 174" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-  <!-- середній лівий завиток -->
-  <path d="M20 260 C8 255, 2 265, 4 275 C6 285, 18 287, 24 280" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-  <!-- нижній великий завиток -->
-  <path d="M44 350 C56 345, 64 358, 60 370 C56 382, 42 384, 36 376 C30 368, 33 356, 40 354" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-  <!-- маленькі квіточки -->
-  <circle cx="60" cy="28" r="2.5" fill="#e8c97a"/>
-  <circle cx="16" cy="24" r="1.8" fill="#c9a84c"/>
-  <circle cx="64" cy="185" r="2" fill="#e8c97a"/>
-  <circle cx="4" cy="275" r="1.8" fill="#c9a84c"/>
-  <circle cx="60" cy="370" r="2.5" fill="#e8c97a"/>
-  <circle cx="30" cy="395" r="2" fill="#c9a84c"/>
-</svg>
-</span>
-<span class="hero-scroll-right">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 400" fill="none">
-  <path d="M35 5 C35 5, 20 40, 22 80 C24 120, 48 130, 46 170 C44 210, 18 220, 20 260 C22 300, 46 310, 44 350 C42 380, 30 395, 30 395" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <path d="M35 5 C50 5, 62 15, 60 28 C58 42, 44 46, 36 40 C28 34, 26 22, 34 18" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-  <path d="M34 18 C30 14, 18 16, 16 24 C14 32, 22 38, 28 34" stroke="#c9a84c" stroke-width="1" stroke-linecap="round" fill="none"/>
-  <path d="M46 170 C58 165, 66 175, 64 185 C62 196, 50 198, 44 192 C38 186, 40 176, 46 174" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-  <path d="M20 260 C8 255, 2 265, 4 275 C6 285, 18 287, 24 280" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-  <path d="M44 350 C56 345, 64 358, 60 370 C56 382, 42 384, 36 376 C30 368, 33 356, 40 354" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-  <circle cx="60" cy="28" r="2.5" fill="#e8c97a"/>
-  <circle cx="16" cy="24" r="1.8" fill="#c9a84c"/>
-  <circle cx="64" cy="185" r="2" fill="#e8c97a"/>
-  <circle cx="4" cy="275" r="1.8" fill="#c9a84c"/>
-  <circle cx="60" cy="370" r="2.5" fill="#e8c97a"/>
-  <circle cx="30" cy="395" r="2" fill="#c9a84c"/>
-</svg>
-</span>
+<section class="hero">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+
+    <span class="hero-scroll-left">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 520" fill="none">
+      <path d="M58 10 C58 10,32 50,35 100 C38 152,70 165,67 220 C64 274,28 288,30 342 C32 394,65 408,62 455 C59 488,44 505,44 505" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M58 10 C75 8,87 22,85 40 C83 58,66 64,55 55 C44 46,43 29,55 22" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M55 22 C48 14,30 15,27 27 C24 39,36 47,45 42" stroke="#c9a84c" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M27 27 C20 18,10 20,8 30 C6 40,14 46,20 42" stroke="#c9a84c" stroke-width="0.9" stroke-linecap="round"/>
+      <path d="M35 100 C18 92,7 102,7 115 C7 128,20 133,30 126" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M7 115 C2 107,1 94,10 90 C19 86,26 93,23 101" stroke="#c9a84c" stroke-width="1" stroke-linecap="round"/>
+      <path d="M35 100 C28 84,18 82,14 90 C10 98,17 107,25 104" stroke="#c9a84c" stroke-width="0.85" stroke-linecap="round"/>
+      <path d="M67 220 C83 214,88 228,86 244 C84 260,67 265,56 256 C45 247,47 232,56 227" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M56 227 C49 219,36 221,33 233 C30 244,42 251,50 246" stroke="#c9a84c" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M33 233 C26 225,16 227,14 237 C12 247,20 253,27 248" stroke="#c9a84c" stroke-width="0.9" stroke-linecap="round"/>
+      <path d="M67 220 C75 204,82 201,84 210 C86 219,79 226,72 223" stroke="#c9a84c" stroke-width="0.85" stroke-linecap="round"/>
+      <path d="M30 342 C13 335,4 346,5 359 C6 372,20 377,30 369" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M5 359 C1 350,2 337,11 334 C20 331,27 339,24 347" stroke="#c9a84c" stroke-width="1" stroke-linecap="round"/>
+      <path d="M30 342 C23 326,13 324,10 333 C7 342,14 350,22 347" stroke="#c9a84c" stroke-width="0.85" stroke-linecap="round"/>
+      <path d="M62 455 C78 449,86 463,84 478 C82 492,65 497,54 488 C43 479,46 464,55 459" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M55 459 C48 451,35 453,32 464 C29 475,41 482,49 476" stroke="#c9a84c" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M32 464 C25 456,15 458,13 468 C11 478,19 484,26 479" stroke="#c9a84c" stroke-width="0.9" stroke-linecap="round"/>
+      <circle cx="85" cy="40" r="3.5" fill="#e8c97a"/>
+      <circle cx="27" cy="27" r="2.2" fill="#c9a84c"/>
+      <circle cx="8" cy="30" r="1.8" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="7" cy="90" r="2.8" fill="#e8c97a"/>
+      <circle cx="86" cy="244" r="3.5" fill="#e8c97a"/>
+      <circle cx="33" cy="233" r="2.2" fill="#c9a84c"/>
+      <circle cx="14" cy="237" r="1.8" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="5" cy="337" r="2.8" fill="#e8c97a"/>
+      <circle cx="84" cy="478" r="3.5" fill="#e8c97a"/>
+      <circle cx="32" cy="464" r="2.2" fill="#c9a84c"/>
+      <circle cx="13" cy="468" r="1.8" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="44" cy="505" r="2.5" fill="#c9a84c" opacity="0.6"/>
+    </svg>
+    </span>
+
+    <span class="hero-scroll-right">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 520" fill="none">
+      <path d="M58 10 C58 10,32 50,35 100 C38 152,70 165,67 220 C64 274,28 288,30 342 C32 394,65 408,62 455 C59 488,44 505,44 505" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M58 10 C75 8,87 22,85 40 C83 58,66 64,55 55 C44 46,43 29,55 22" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M55 22 C48 14,30 15,27 27 C24 39,36 47,45 42" stroke="#c9a84c" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M27 27 C20 18,10 20,8 30 C6 40,14 46,20 42" stroke="#c9a84c" stroke-width="0.9" stroke-linecap="round"/>
+      <path d="M35 100 C18 92,7 102,7 115 C7 128,20 133,30 126" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M7 115 C2 107,1 94,10 90 C19 86,26 93,23 101" stroke="#c9a84c" stroke-width="1" stroke-linecap="round"/>
+      <path d="M35 100 C28 84,18 82,14 90 C10 98,17 107,25 104" stroke="#c9a84c" stroke-width="0.85" stroke-linecap="round"/>
+      <path d="M67 220 C83 214,88 228,86 244 C84 260,67 265,56 256 C45 247,47 232,56 227" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M56 227 C49 219,36 221,33 233 C30 244,42 251,50 246" stroke="#c9a84c" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M33 233 C26 225,16 227,14 237 C12 247,20 253,27 248" stroke="#c9a84c" stroke-width="0.9" stroke-linecap="round"/>
+      <path d="M67 220 C75 204,82 201,84 210 C86 219,79 226,72 223" stroke="#c9a84c" stroke-width="0.85" stroke-linecap="round"/>
+      <path d="M30 342 C13 335,4 346,5 359 C6 372,20 377,30 369" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M5 359 C1 350,2 337,11 334 C20 331,27 339,24 347" stroke="#c9a84c" stroke-width="1" stroke-linecap="round"/>
+      <path d="M30 342 C23 326,13 324,10 333 C7 342,14 350,22 347" stroke="#c9a84c" stroke-width="0.85" stroke-linecap="round"/>
+      <path d="M62 455 C78 449,86 463,84 478 C82 492,65 497,54 488 C43 479,46 464,55 459" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M55 459 C48 451,35 453,32 464 C29 475,41 482,49 476" stroke="#c9a84c" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M32 464 C25 456,15 458,13 468 C11 478,19 484,26 479" stroke="#c9a84c" stroke-width="0.9" stroke-linecap="round"/>
+      <circle cx="85" cy="40" r="3.5" fill="#e8c97a"/>
+      <circle cx="27" cy="27" r="2.2" fill="#c9a84c"/>
+      <circle cx="8" cy="30" r="1.8" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="7" cy="90" r="2.8" fill="#e8c97a"/>
+      <circle cx="86" cy="244" r="3.5" fill="#e8c97a"/>
+      <circle cx="33" cy="233" r="2.2" fill="#c9a84c"/>
+      <circle cx="14" cy="237" r="1.8" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="5" cy="337" r="2.8" fill="#e8c97a"/>
+      <circle cx="84" cy="478" r="3.5" fill="#e8c97a"/>
+      <circle cx="32" cy="464" r="2.2" fill="#c9a84c"/>
+      <circle cx="13" cy="468" r="1.8" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="44" cy="505" r="2.5" fill="#c9a84c" opacity="0.6"/>
+    </svg>
+    </span>
     <div class="hero-top-ornament" style="font-family:'Noto Sans Hebrew',serif;font-size:1.4rem;color:var(--gold-dark);letter-spacing:8px;margin-bottom:6px;">מָצָאנוּ — знайшли — found</div>
     <div class="hero-hebrew">אֶת־הַשְּׁבָטִים</div>
     <div class="gold-rule">
@@ -635,7 +708,152 @@ function initReveal() {
 }
 
 // Запуск
-initReveal();
+// ══ CANVAS — ЗОРЯНЕ НЕБО + ЗОЛОТИЙ ПИЛ ══
+(function(){
+    const canvas = document.getElementById('heroCanvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, stars=[], dust=[], nebula=[];
+
+    function resize(){
+        W = canvas.width = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+        initScene();
+    }
+
+    function initScene(){
+        stars = []; dust = []; nebula = [];
+        for(let i=0; i<300; i++){
+            stars.push({
+                x:Math.random()*W, y:Math.random()*H,
+                r:Math.random()*1.8+0.2,
+                gold:Math.random()<0.25,
+                twinkle:Math.random()*Math.PI*2,
+                speed:Math.random()*0.02+0.005,
+                baseAlpha:Math.random()*0.5+0.4
+            });
+        }
+        for(let i=0; i<60; i++) spawnDust();
+        for(let i=0; i<5; i++){
+            nebula.push({
+                x:Math.random()*W, y:Math.random()*H,
+                r:Math.random()*200+100,
+                alpha:Math.random()*0.06+0.02,
+                gold:Math.random()<0.5
+            });
+        }
+    }
+
+    function spawnDust(){
+        const side = Math.random()<0.5 ? 'left':'right';
+        dust.push({
+            x: side==='left' ? Math.random()*130 : W-Math.random()*130,
+            y: H+Math.random()*50,
+            r: Math.random()*3+0.5,
+            vx: (Math.random()-0.5)*0.6,
+            vy: -(Math.random()*0.8+0.3),
+            alpha: Math.random()*0.7+0.3,
+            life: 1,
+            decay: Math.random()*0.003+0.001
+        });
+    }
+
+    function drawNebula(){
+        nebula.forEach(n=>{
+            const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);
+            if(n.gold){
+                g.addColorStop(0,`rgba(201,168,76,${n.alpha})`);
+                g.addColorStop(0.5,`rgba(139,100,20,${n.alpha*0.4})`);
+            } else {
+                g.addColorStop(0,`rgba(40,20,120,${n.alpha})`);
+                g.addColorStop(0.5,`rgba(20,10,80,${n.alpha*0.4})`);
+            }
+            g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle=g;
+            ctx.beginPath();
+            ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+            ctx.fill();
+        });
+    }
+
+    function drawStars(t){
+        stars.forEach(s=>{
+            s.twinkle += s.speed;
+            const alpha = s.baseAlpha + Math.sin(s.twinkle)*0.3;
+            ctx.save();
+            ctx.globalAlpha = Math.max(0.1, Math.min(1, alpha));
+            if(s.r > 1.2){
+                const grd = ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*4);
+                if(s.gold){
+                    grd.addColorStop(0,'rgba(255,230,130,1)');
+                    grd.addColorStop(0.3,'rgba(201,168,76,0.6)');
+                    grd.addColorStop(1,'rgba(201,168,76,0)');
+                } else {
+                    grd.addColorStop(0,'rgba(255,255,255,1)');
+                    grd.addColorStop(0.3,'rgba(200,220,255,0.5)');
+                    grd.addColorStop(1,'rgba(200,220,255,0)');
+                }
+                ctx.fillStyle=grd;
+                ctx.beginPath();
+                ctx.arc(s.x,s.y,s.r*4,0,Math.PI*2);
+                ctx.fill();
+                ctx.strokeStyle = s.gold ? 'rgba(255,230,130,0.4)':'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(s.x-s.r*6,s.y); ctx.lineTo(s.x+s.r*6,s.y);
+                ctx.moveTo(s.x,s.y-s.r*6); ctx.lineTo(s.x,s.y+s.r*6);
+                ctx.stroke();
+            } else {
+                ctx.fillStyle = s.gold ? 'rgba(201,168,76,0.9)':'rgba(255,255,255,0.85)';
+                ctx.beginPath();
+                ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+                ctx.fill();
+            }
+            ctx.restore();
+        });
+    }
+
+    function drawDust(){
+        for(let i=dust.length-1; i>=0; i--){
+            const d=dust[i];
+            d.x+=d.vx; d.y+=d.vy; d.life-=d.decay; d.vy-=0.002;
+            if(d.life<=0||d.y<-20){ dust.splice(i,1); spawnDust(); continue; }
+            const grd = ctx.createRadialGradient(d.x,d.y,0,d.x,d.y,d.r*3);
+            grd.addColorStop(0,`rgba(255,220,100,${d.alpha*d.life})`);
+            grd.addColorStop(0.4,`rgba(201,168,76,${d.alpha*d.life*0.5})`);
+            grd.addColorStop(1,'rgba(201,168,76,0)');
+            ctx.fillStyle=grd;
+            ctx.beginPath();
+            ctx.arc(d.x,d.y,d.r*3,0,Math.PI*2);
+            ctx.fill();
+        }
+    }
+
+    function drawGoldFog(){
+        const lf = ctx.createLinearGradient(0,0,200,0);
+        lf.addColorStop(0,'rgba(201,168,76,0.14)');
+        lf.addColorStop(1,'rgba(201,168,76,0)');
+        ctx.fillStyle=lf; ctx.fillRect(0,0,200,H);
+        const rf = ctx.createLinearGradient(W,0,W-200,0);
+        rf.addColorStop(0,'rgba(201,168,76,0.14)');
+        rf.addColorStop(1,'rgba(201,168,76,0)');
+        ctx.fillStyle=rf; ctx.fillRect(W-200,0,200,H);
+    }
+
+    function animate(t){
+        ctx.clearRect(0,0,W,H);
+        drawNebula();
+        drawGoldFog();
+        drawStars(t);
+        drawDust();
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize',resize);
+    resize();
+    requestAnimationFrame(animate);
+})();
+    initReveal();
 loadArticles();
 </script>
 </body>
