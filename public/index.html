@@ -637,14 +637,18 @@ async function loadArticles() {
 // Відкриття модалки
 function openArticle(btn) {
     const row = btn.closest('.article-row');
-    document.getElementById('modalTitle').innerText = row.dataset.title;
-    document.getElementById('modalContent').innerHTML = decodeURIComponent(row.dataset.content).replace(/\n/g, '<br>');
+    const title = row.dataset.title;
+    const slug = encodeURIComponent(title.toLowerCase().replace(/\s+/g,'-'));
+    history.pushState({}, '', '?article=' + slug);
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalContent').innerHTML = decodeURIComponent(row.dataset.content).replace(/\n/g,'<br>');
     document.getElementById('articleModal').style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
 
 // Закриття модалки
 function closeArticle() {
+    history.pushState({}, '', '/');
     document.getElementById('articleModal').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
