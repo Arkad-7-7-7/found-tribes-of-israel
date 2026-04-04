@@ -8,36 +8,26 @@ jobs:
   sitemap:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Generate sitemap
         run: |
+          ARTICLES=$(curl -s \
+            -H "apikey: $SUPABASE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_KEY" \
+            "https://jztxnznkjevzngvrlp.supabase.co/rest/v1/articles?select=title,created_at&order=created_at.desc")
           node -e "
-          const https = require('https');
-          const fs = require('fs');
-          const url = 'https://jztxnznkjevzngvrlp.supabase.co/rest/v1/articles?select=title,created_at&order=created_at.desc';
-          const options = {
-            headers: {
-              'apikey': process.env.SUPABASE_KEY,
-              'Authorization': 'Bearer ' + process.env.SUPABASE_KEY
-            }
-          };
-          https.get(url, options, res => {
-            let data = '';
-            res.on('data', d => data += d);
-            res.on('end', () => {
-              const articles = JSON.parse(data);
-              const urls = articles.map(a => {
-                const slug = encodeURIComponent(a.title.toLowerCase().replace(/\s+/g,'-'));
-                return '<url><loc>https://foundtribesofisrael.com/?article=' + slug + '</loc><lastmod>' + a.created_at.split('T')[0] + '</lastmod></url>';
-              }).join('');
-              const xml = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>https://foundtribesofisrael.com/</loc></url>' + urls + '</urlset>';
-              fs.writeFileSync('public/sitemap.xml', xml);
-              console.log('Sitemap generated with ' + articles.length + ' articles');
-            });
-          });
+          const articles = JSON.parse(process.env.ARTICLES);
+          const urls = articles.map(a => {
+            const slug = encodeURIComponent(a.title.toLowerCase().replace(/\s+/g,'-'));
+            return '<url><loc>https://foundtribesofisrael.com/?article='+slug+'</loc><lastmod>'+a.created_at.split('T')[0]+'</lastmod></url>';
+          }).join('');
+          const xml = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>https://foundtribesofisrael.com/</loc></url>'+urls+'</urlset>';
+          require('fs').writeFileSync('public/sitemap.xml', xml);
+          console.log('Done: '+articles.length+' articles');
           "
         env:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          ARTICLES: $(echo $ARTICLES)
       - name: Commit sitemap
         run: |
           git config user.name "GitHub Actions"
