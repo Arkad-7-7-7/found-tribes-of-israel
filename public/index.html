@@ -627,12 +627,20 @@ async function loadArticles() {
             </div>
         `).join('');
 
-        initReveal();
+        initReveal();// Генерація sitemap для Google
+generateSitemap(data);
     } catch (e) {
         console.error(e);
         list.innerHTML = '<div class="empty-state"><div class="empty-text">Помилка з\'єднання</div></div>';
     }
-}
+}async function generateSitemap(articles) {
+    const urls = articles.map(a => {
+        const slug = encodeURIComponent(a.title.toLowerCase().replace(/\s+/g,'-'));
+        return `<url><loc>https://foundtribesofisrael.com/?article=${slug}</loc></url>`;
+    }).join('');
+    const xml = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://foundtribesofisrael.com/</loc></url>${urls}</urlset>`;
+    console.log('SITEMAP:', xml);
+    }
 
 // Відкриття модалки
 function openArticle(btn) {
