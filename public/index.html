@@ -36,6 +36,8 @@
         .modal-bar-right{display:flex;gap:10px;flex-wrap:wrap;}
         .modal-hint{margin:-16px 0 22px;font-size:0.98rem;font-style:italic;line-height:1.5;color:#5a4424;}
         .print-only{display:none;}
+        .modal-langs{margin:10px 0 0;font-size:0.98rem;line-height:1.6;color:#4a3618;}
+        .modal-langs a{color:#8a4b12;}
         .modal-threads{margin-top:28px;padding:14px 16px;border:1px dashed rgba(138,107,42,0.45);font-size:1.02rem;line-height:1.5;color:#4a3618;text-align:center;}
         .modal-threads a{color:#8a4b12;font-weight:500;}
         /* ══ КЛЮЧОВА ПУБЛІКАЦІЯ ══ */
@@ -53,7 +55,7 @@
             html.article-open #articleModal{position:static!important;display:block!important;overflow:visible!important;padding:0!important;background:none!important;animation:none!important;}
             html.article-open .modal-scroll{box-shadow:none!important;margin:0!important;max-width:none!important;animation:none!important;}
             html.article-open .modal-box{background:#fff!important;border:0!important;padding:0!important;}
-            html.article-open .modal-x,html.article-open .modal-bar,html.article-open .modal-hint,html.article-open .modal-threads,html.article-open .modal-nav,html.article-open .modal-flowers,html.article-open .scroll-roller,html.article-open .modal-eyebrow{display:none!important;}
+            html.article-open .modal-x,html.article-open .modal-bar,html.article-open .modal-hint,html.article-open .modal-threads,html.article-open .modal-langs,html.article-open .modal-nav,html.article-open .modal-flowers,html.article-open .scroll-roller,html.article-open .modal-eyebrow{display:none!important;}
             html.article-open .print-only{display:block!important;}
             .print-head{font-family:'Cinzel',serif;font-size:9pt;letter-spacing:2px;text-transform:uppercase;color:#555;border-bottom:1px solid #999;padding-bottom:6pt;margin-bottom:14pt;}
             .print-foot{margin-top:18pt;padding-top:6pt;border-top:1px solid #999;font-size:9pt;color:#555;}
@@ -331,6 +333,9 @@ nav.main-nav::before{
         .notice-btn{background:none;border:1px solid var(--gold-dark);color:var(--gold-dark);font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;padding:6px 12px;cursor:pointer;}
         .notice-btn:hover,.notice-btn:focus-visible{background:var(--gold-dark);color:var(--parchment);}
         .registry-more{text-align:center;margin-top:26px;}
+        .archive-links{text-align:center;margin:22px 0 0;font-size:1rem;line-height:1.7;}
+        .archive-links a{color:var(--gold-dark);}
+        .archive-langs{font-size:0.95rem;}
         .more-btn{background:transparent;border:1px solid var(--gold-dark);color:var(--gold-dark);font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;padding:12px 26px;cursor:pointer;transition:background .25s,color .25s;}
         .more-btn:hover,.more-btn:focus-visible{background:var(--gold-dark);color:var(--parchment);}
         .empty-state.loading .empty-heb{animation:archivePulse 1.8s ease-in-out infinite;}
@@ -414,6 +419,7 @@ nav.main-nav::before{
         body{top:0!important;}
         .skiptranslate{display:none!important;}
     </style>
+    <!--BUILD:HEAD-->
 </head>
 <body>
 <div id="articleModal" class="modal" aria-hidden="true">
@@ -434,6 +440,7 @@ nav.main-nav::before{
             <span class="modal-eyebrow">📚 Авторський реєстр</span>
             <h2 class="modal-title" id="modalTitle"></h2>
             <time class="modal-date" id="modalDate"></time>
+            <p class="modal-langs" id="modalLangs" hidden></p>
             <div class="modal-rule" aria-hidden="true"><span></span><i></i><span></span></div>
             <div class="article-body" id="modalContent"></div>
             <p class="modal-threads">Обговорення дослідження — у Threads: <a href="https://www.threads.com/@arkadiyboichuk" target="_blank" rel="noopener">@arkadiyboichuk</a></p>
@@ -668,6 +675,7 @@ nav.main-nav::before{
                     </div>
                 </div>
                 <div class="registry-more" id="registryMore" hidden><button type="button" class="more-btn">Показати ще</button></div>
+                <!--BUILD:ARCHIVE-->
                 <noscript><p class="empty-hint" style="text-align:center;">Щоб переглянути реєстр статей, увімкніть JavaScript у браузері.</p></noscript>
                 <div class="scroll-flowers" aria-hidden="true">✿ ❀ ❁ ❀ ✿</div>
             </div>
@@ -776,7 +784,13 @@ function googleTranslateElementInit(){
     // Адреса статті ?article=назва-статті — та сама, що й раніше (посилання в Google не змінюються)
     function slugOf(title) { return String(title).toLowerCase().replace(/\s+/g, '-'); }
     function slugKey(s) { return fold(String(s).replace(/-+/g, ' ')); }
-    function articleUrl(a) { return SITE_URL + '?article=' + encodeURIComponent(a.slug); }
+    // Окремі сторінки статей і переклади (їх збирає scripts/build-pages.mjs під час оновлення сайту)
+    let manifest = null;
+    function staticEntry(a) { return manifest && a && a.id != null && manifest.articles ? manifest.articles[a.id] || null : null; }
+    function articleUrl(a) {
+        const e = staticEntry(a);
+        return e ? SITE_URL + e.p : SITE_URL + '?article=' + encodeURIComponent(a.slug);
+    }
     function findBySlug(slug) {
         if (!slug) return null;
         const key = slugKey(slug);
@@ -871,7 +885,8 @@ function googleTranslateElementInit(){
 
     // ── Список статей ──────────────────────────────────────────
     function rowHtml(a, re) {
-        return '<a class="article-row" href="' + esc('?article=' + encodeURIComponent(a.slug)) + '" data-key="' + a.key + '">' +
+        const e = staticEntry(a);
+        return '<a class="article-row" href="' + esc(e ? '/' + e.p : '?article=' + encodeURIComponent(a.slug)) + '" data-key="' + a.key + '">' +
             '<div class="article-title-row"><span class="flower-icon" aria-hidden="true">✿</span>' +
             '<h3 class="article-title">' + markText(a.title, re) + '</h3></div>' +
             (a.text ? '<p class="article-preview">' + markText(excerpt(a.text, re), re) + '</p>' : '') +
@@ -1278,8 +1293,35 @@ function googleTranslateElementInit(){
         // Посилання на статтю внизу PDF / друкованої сторінки
         const printLink = byId('printLink');
         printLink.href = articleUrl(a);
-        printLink.textContent = SITE_URL + '?article=' + a.slug;
+        printLink.textContent = staticEntry(a) ? articleUrl(a) : SITE_URL + '?article=' + a.slug;
         byId('modalHint').hidden = true;
+        fillLangs(a);
+    }
+    // «Ця стаття іншими мовами» — посилання на готові переклади
+    function fillLangs(a) {
+        const box = byId('modalLangs'), e = staticEntry(a);
+        const codes = e && e.t ? Object.keys(e.t) : [];
+        if (!codes.length) { box.hidden = true; box.textContent = ''; return; }
+        const langs = manifest.langs || [];
+        const order = langs.map(l => l.code), names = new Map(langs.map(l => [l.code, l.name]));
+        codes.sort((x, y) => order.indexOf(x) - order.indexOf(y));
+        box.innerHTML = '🌐 ' + codes.map(c => '<a href="/' + esc(e.t[c].p) + '" hreflang="' + esc(c) + '" lang="' + esc(c) + '" translate="no">' + esc(names.get(c) || c) + '</a>').join(' · ');
+        box.hidden = false;
+    }
+    function loadManifest() {
+        if (!window.fetch) return;
+        fetch('/articles-manifest.json', { cache: 'no-cache' })
+            .then(r => (r.ok ? r.json() : null))
+            .then(m => {
+                if (!m || !m.articles) return;
+                manifest = m;
+                if (current) {
+                    fillLangs(current);
+                    setCanonical(articleUrl(current));
+                    byId('printLink').href = byId('printLink').textContent = articleUrl(current);
+                }
+            })
+            .catch(() => { /* окремих сторінок ще немає — працюємо як раніше */ });
     }
     function printCurrent() {
         if (!current) return;
@@ -1521,6 +1563,7 @@ function googleTranslateElementInit(){
     initRegistry();
     initReveal();
     if (!registry.pendingSlug) setCanonical(SITE_URL);
+    loadManifest();
     bootRegistry();
 })();
 

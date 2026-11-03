@@ -1,8 +1,12 @@
 {
   "name": "found-tribes-of-israel",
   "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "build": "echo Build OK"
+    "build": "node scripts/build-pages.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^7.0.0",
