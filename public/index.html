@@ -4,14 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Found Tribes of Israel | Лінгвістичне Дослідження</title>
+    <meta name="description" content="Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами: 500+ задокументованих відповідностей, 13 фонетичних законів. Дослідження Аркадія Бойчука.">
+    <meta name="author" content="Аркадій Бойчук">
+    <meta name="google-site-verification" content="yrB8zZS6JeZZvTPSmA8u6ekbKnDxwI_oRZki5maoEIQ">
+    <meta name="theme-color" content="#03010a">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Found Tribes of Israel">
+    <meta property="og:title" content="Found Tribes of Israel — Лінгвістичне Дослідження">
+    <meta property="og:description" content="Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами. 500+ відповідностей, 13 фонетичних законів.">
+    <meta property="og:url" content="https://foundtribesofisrael.com/">
+    <meta property="og:locale" content="uk_UA">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2303010a'/%3E%3Ctext x='32' y='47' font-size='44' text-anchor='middle' fill='%23c9a84c' font-family='serif'%3E%D7%A9%3C/text%3E%3C/svg%3E">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Found Tribes of Israel","url":"https://foundtribesofisrael.com/","inLanguage":"uk","description":"Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами.","author":{"@type":"Person","name":"Аркадій Бойчук"}}</script>
+    <link rel="preconnect" href="https://jztxnznkjevzngvrlpzh.supabase.co" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Hebrew:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:1000;overflow-y:auto;padding:20px;}
-.modal.open{display:block;}
-.modal-box{background:var(--parchment);color:var(--ink);max-width:800px;margin:40px auto;padding:40px;border-left:16px solid #c09050;border-right:16px solid #c09050;}
-.modal-title{font-family:'Cinzel',serif;font-size:1.6rem;margin-bottom:24px;color:var(--ink);}
-.modal-close{font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:3px;cursor:pointer;color:var(--gold-dark);border:1px solid var(--gold-dark);padding:8px 20px;margin-bottom:30px;display:inline-block;}
+        [hidden]{display:none!important;}
+        /* ══ ВІКНО СТАТТІ (сувій) ══ */
+        .modal{display:none;position:fixed;inset:0;z-index:1000;overflow-y:auto;overscroll-behavior:contain;padding:28px 16px;background:radial-gradient(ellipse at 50% 30%,rgba(18,10,40,0.94),rgba(0,0,0,0.97));}
+        .modal.open{display:block;animation:modalFade .3s ease-out;}
+        @keyframes modalFade{from{opacity:0;}to{opacity:1;}}
+        .modal-x{position:fixed;top:14px;right:14px;z-index:1001;width:44px;height:44px;border-radius:50%;border:1px solid rgba(201,168,76,0.6);background:rgba(3,1,10,0.85);color:var(--gold-light);font-size:1.05rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s,transform .25s;}
+        .modal-x:hover,.modal-x:focus-visible{background:var(--gold-dark);color:#fff;transform:rotate(90deg);}
+        .modal-scroll{max-width:860px;margin:10px auto 40px;box-shadow:0 40px 90px rgba(0,0,0,0.9),0 0 70px rgba(201,168,76,0.12);animation:modalRise .4s ease-out;}
+        @keyframes modalRise{from{transform:translateY(22px);}to{transform:none;}}
+        .modal-box{display:block;background:linear-gradient(180deg,#fdf5e6,#faf0dc,#fdf5e6);color:var(--ink);padding:30px 52px 44px;border-left:16px solid #c09050;border-right:16px solid #c09050;}
+        .modal-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:30px;}
+        .modal-btn{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;color:var(--gold-dark);background:transparent;border:1px solid var(--gold-dark);padding:9px 20px;transition:background .25s,color .25s;}
+        .modal-btn:hover,.modal-btn:focus-visible{background:var(--gold-dark);color:var(--parchment);}
+        .modal-eyebrow{display:block;font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:4px;text-transform:uppercase;color:rgba(138,107,42,0.8);margin-bottom:12px;}
+        .modal-title{font-family:'Cinzel',serif;font-size:clamp(1.45rem,3.4vw,2.1rem);line-height:1.25;color:var(--ink);margin-bottom:10px;}
+        .modal-date{display:block;font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:2px;color:rgba(138,107,42,0.85);}
+        .modal-rule{display:flex;align-items:center;gap:14px;margin:22px 0 30px;}
+        .modal-rule span{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);}
+        .modal-rule i{width:7px;height:7px;background:var(--gold-dark);transform:rotate(45deg);}
+        .article-body{font-size:1.2rem;line-height:1.85;color:#2a1d0c;overflow-wrap:break-word;}
+        .article-body>*:first-child{margin-top:0;}
+        .article-body p{margin:0 0 1.05em;}
+        .article-body h2,.article-body h3,.article-body h4,.article-body h5,.article-body h6{font-family:'Cinzel',serif;color:var(--ink);line-height:1.3;margin:1.5em 0 0.6em;}
+        .article-body h2{font-size:1.45rem;}
+        .article-body h3{font-size:1.25rem;}
+        .article-body h4,.article-body h5,.article-body h6{font-size:1.08rem;}
+        .article-body a{color:#8a4b12;text-decoration:underline;text-underline-offset:3px;}
+        .article-body blockquote{margin:1.2em 0;padding:0.3em 0 0.3em 1.1em;border-left:3px solid var(--gold);font-style:italic;color:#4a3618;}
+        .article-body ul,.article-body ol{margin:0 0 1.05em 1.5em;}
+        .article-body li{margin-bottom:0.35em;}
+        .article-body img,.article-body video{display:block;max-width:100%;height:auto;margin:1.2em auto;}
+        .article-body audio{width:100%;margin:1em 0;}
+        .article-body iframe{display:block;width:100%;aspect-ratio:16/9;height:auto;border:0;margin:1.2em 0;}
+        .article-body table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:1.2em 0;font-size:1.05rem;}
+        .article-body th,.article-body td{border:1px solid rgba(138,107,42,0.4);padding:0.4em 0.7em;text-align:left;vertical-align:top;}
+        .article-body th{background:rgba(201,168,76,0.15);}
+        .article-body hr{border:0;height:1px;margin:1.8em 0;background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);}
+        .article-body code,.article-body pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.9em;background:rgba(138,107,42,0.1);}
+        .article-body pre{padding:0.8em 1em;overflow-x:auto;white-space:pre-wrap;}
+        .article-empty{font-style:italic;color:rgba(90,68,36,0.7);}
+        .modal-nav{display:flex;justify-content:space-between;gap:14px;margin-top:38px;padding-top:24px;border-top:1px dashed rgba(138,107,42,0.4);}
+        .modal-nav-btn{flex:0 1 49%;min-width:0;background:none;border:1px solid rgba(138,107,42,0.35);padding:12px 16px;cursor:pointer;text-align:left;color:var(--ink);font-family:'EB Garamond',Georgia,serif;transition:border-color .25s,background .25s;}
+        .modal-nav-btn.next{text-align:right;margin-left:auto;}
+        .modal-nav-btn:hover,.modal-nav-btn:focus-visible{border-color:var(--gold-dark);background:rgba(201,168,76,0.12);}
+        .modal-nav-dir{display:block;font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:4px;}
+        .modal-nav-name{display:block;font-size:1.08rem;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .modal-flowers{text-align:center;margin-top:34px;color:var(--red);font-size:1.5rem;letter-spacing:20px;}
+        /* Давньоєврейські слова: власний шрифт і захист від автоперекладу */
+        .heb{font-family:'Noto Sans Hebrew','EB Garamond',serif;color:#6b4a14;font-size:1.04em;}
+        .heb-gold{font-family:'Noto Sans Hebrew',serif;color:var(--gold);}
         :root{--gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6b2a;--ink:#1a1208;--parchment:#fdf5e6;--deep:#0d0a05;--red:#b02020;}
         *{margin:0;padding:0;box-sizing:border-box;}
         html{scroll-behavior:smooth;}
@@ -87,7 +147,7 @@ nav.main-nav::before{
         .nav-links li a::after{content:'';position:absolute;bottom:0;left:18px;right:18px;height:2px;background:var(--gold);transform:scaleX(0);transition:transform 0.3s;}
         .nav-links li a:hover{color:var(--gold-light);}
         .nav-links li a:hover::after{transform:scaleX(1);}
-        .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
+        .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;background:none;border:0;}
         .burger span{display:block;width:24px;height:2px;background:var(--gold);}
         .mobile-menu{display:none;position:fixed;top:105px;left:0;right:0;background:rgba(13,10,5,0.98);border-bottom:1px solid rgba(201,168,76,0.3);z-index:499;padding:20px 0;}
         .mobile-menu.open{display:block;}
@@ -262,20 +322,46 @@ z-index:4;
         .celtic-frame{border:3px double rgba(138,107,42,0.6);padding:35px 30px;position:relative;min-height:200px;}
         .celtic-frame::before{content:'✦';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#fdf5e6;color:var(--gold-dark);padding:0 8px;font-size:1.2rem;}
         .menorah-watermark{position:absolute;bottom:30px;right:30px;font-size:8rem;opacity:0.035;pointer-events:none;color:var(--gold-dark);}
-        .article-row{padding:22px 0;border-bottom:1px dashed rgba(138,107,42,0.35);transition:transform 0.3s;cursor:pointer;}
+        .article-row{display:block;color:inherit;text-decoration:none;padding:22px 0;border-bottom:1px dashed rgba(138,107,42,0.35);transition:transform 0.3s;cursor:pointer;}
         .article-row:last-child{border-bottom:none;}
         .article-row:hover{transform:translateX(6px);}
         .article-title-row{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;}
         .flower-icon{color:var(--red);font-size:1.3rem;}
         .article-title{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--ink);}
         .article-preview{color:#3a2a14;margin:0 0 0 28px;font-size:1.1rem;line-height:1.7;}
-        .article-footer{display:flex;justify-content:space-between;margin-top:10px;padding-left:28px;}
-        .article-date{font-family:'Cinzel',serif;font-size:0.65rem;color:rgba(138,107,42,0.6);}
-        .read-more-btn{font-family:'Cinzel',serif;font-size:0.7rem;color:var(--gold-dark);font-weight:800;letter-spacing:2px;border-bottom:1px solid var(--gold-dark);cursor:pointer;}
+        .article-footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px;margin-top:10px;padding-left:28px;}
+        .article-date{font-family:'Cinzel',serif;font-size:0.68rem;color:rgba(138,107,42,0.85);white-space:nowrap;}
+        .read-more-btn{font-family:'Cinzel',serif;font-size:0.7rem;color:var(--gold-dark);font-weight:800;letter-spacing:2px;border-bottom:1px solid var(--gold-dark);cursor:pointer;white-space:nowrap;margin-left:auto;}
         .scroll-flowers{text-align:center;margin-top:35px;color:var(--red);font-size:1.8rem;letter-spacing:22px;}
         .empty-state{text-align:center;padding:60px 20px;}
         .empty-heb{font-family:'Noto Sans Hebrew',serif;font-size:2.5rem;color:rgba(138,107,42,0.3);margin-bottom:16px;}
         .empty-text{font-family:'Cinzel',serif;font-size:0.75rem;color:rgba(138,107,42,0.5);letter-spacing:3px;}
+        /* ══ РЕЄСТР: пошук, сортування, стани ══ */
+        .registry-tools{display:flex;gap:12px;flex-wrap:wrap;align-items:stretch;margin-bottom:10px;}
+        .registry-search{flex:1 1 260px;position:relative;display:block;}
+        .registry-search svg{position:absolute;left:13px;top:50%;width:18px;height:18px;transform:translateY(-50%);stroke:var(--gold-dark);fill:none;stroke-width:2;stroke-linecap:round;pointer-events:none;}
+        .registry-search input{width:100%;padding:11px 14px 11px 42px;background:rgba(255,255,255,0.6);border:1px solid rgba(138,107,42,0.45);border-radius:2px;font-family:'EB Garamond',Georgia,serif;font-size:1.1rem;color:var(--ink);outline:none;transition:border-color .25s,box-shadow .25s;-webkit-appearance:none;appearance:none;}
+        .registry-search input::placeholder{color:rgba(90,68,36,0.6);font-style:italic;}
+        .registry-search input:focus{border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(201,168,76,0.28);}
+        .registry-sort{position:relative;flex:0 0 auto;}
+        .registry-sort::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--gold-dark);pointer-events:none;}
+        .registry-sort select{height:100%;min-height:44px;padding:10px 34px 10px 14px;background:rgba(255,255,255,0.6);border:1px solid rgba(138,107,42,0.45);border-radius:2px;font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:1.5px;color:var(--ink);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;}
+        .registry-sort select:focus{border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(201,168,76,0.28);}
+        .registry-count{min-height:1.3em;font-family:'Cinzel',serif;font-size:0.66rem;letter-spacing:2px;text-transform:uppercase;color:rgba(138,107,42,0.85);margin:4px 0 2px;}
+        .registry-notice{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 4px;padding:10px 14px;background:rgba(201,168,76,0.14);border:1px dashed rgba(138,107,42,0.5);font-size:1rem;color:#4a3618;}
+        .notice-btn{background:none;border:1px solid var(--gold-dark);color:var(--gold-dark);font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;padding:6px 12px;cursor:pointer;}
+        .notice-btn:hover,.notice-btn:focus-visible{background:var(--gold-dark);color:var(--parchment);}
+        .registry-more{text-align:center;margin-top:26px;}
+        .more-btn{background:transparent;border:1px solid var(--gold-dark);color:var(--gold-dark);font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;padding:12px 26px;cursor:pointer;transition:background .25s,color .25s;}
+        .more-btn:hover,.more-btn:focus-visible{background:var(--gold-dark);color:var(--parchment);}
+        .empty-state.loading .empty-heb{animation:archivePulse 1.8s ease-in-out infinite;}
+        @keyframes archivePulse{0%,100%{opacity:0.35;}50%{opacity:1;}}
+        .empty-title{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:2px;color:var(--ink);margin-bottom:10px;}
+        .empty-hint{max-width:470px;margin:0 auto 20px;color:#5a4424;font-size:1.08rem;line-height:1.6;}
+        .empty-tech{max-width:520px;margin:16px auto 0;font-size:0.88rem;font-style:italic;line-height:1.5;color:rgba(90,68,36,0.75);}
+        .article-row mark{background:rgba(201,168,76,0.42);color:inherit;border-radius:2px;padding:0 0.08em;}
+        .article-row:hover .read-more-btn{color:var(--red);border-bottom-color:var(--red);}
+        .article-row:focus-visible{outline:2px solid var(--gold-dark);outline-offset:4px;}
         #contact{padding:70px 20px;max-width:700px;margin:0 auto;text-align:center;}
         .contact-box{border:1px solid rgba(201,168,76,0.25);padding:50px 40px;margin-top:40px;}
         .contact-email{font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold);letter-spacing:2px;margin-bottom:8px;}
@@ -289,25 +375,60 @@ z-index:4;
         .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease-out,transform 0.8s ease-out;}
         .reveal.visible{opacity:1;transform:translateY(0);}
         @media(max-width:768px){nav.main-nav{padding:0 20px;}.nav-links{display:none;}.burger{display:flex;}.about-grid{grid-template-columns:1fr;}.stats-grid{grid-template-columns:1fr 1fr;}.scroll-body{padding:24px 20px;border-left-width:10px;border-right-width:10px;}.celtic-frame{padding:20px 16px;}}
+        @media(max-width:768px){
+            .modal{padding:16px 8px;}
+            .modal-x{top:10px;right:10px;}
+            .modal-box{padding:24px 20px 30px;border-left-width:10px;border-right-width:10px;}
+            .article-body{font-size:1.12rem;line-height:1.8;}
+            .modal-nav{flex-direction:column;}
+            .modal-nav-btn{flex-basis:auto;width:100%;}
+            .registry-sort{flex:1 1 100%;}
+            .registry-sort select{width:100%;}
+            .scroll-flowers,.divider{letter-spacing:12px;white-space:nowrap;}
+            .read-more-btn{letter-spacing:1.5px;}
+        }
+        a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+        .scroll-body :focus-visible,.modal-box :focus-visible{outline-color:var(--gold-dark);}
+        @media (prefers-reduced-motion: reduce){
+            html{scroll-behavior:auto;}
+            *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;}
+            .reveal{opacity:1;transform:none;}
+        }
         .goog-te-banner-frame{display:none!important;}
         body{top:0!important;}
         .skiptranslate{display:none!important;}
     </style>
 </head>
 <body>
-    <div id="articleModal" class="modal" onclick="if(event.target===this)closeArticle()">
-<div class="modal-box">
-<span class="modal-close" onclick="closeModal()">✕ ЗАКРИТИ</span>
-<h2 class="modal-title" id="modalTitle"></h2>
-<div id="modalContent"></div>
-</div>
+<div id="articleModal" class="modal" aria-hidden="true">
+    <button type="button" class="modal-x" id="modalX" aria-label="Закрити статтю">✕</button>
+    <div class="modal-scroll" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="scroll-roller"></div>
+        <article class="modal-box">
+            <div class="modal-bar">
+                <button type="button" class="modal-btn" id="modalClose">✕ Закрити</button>
+                <button type="button" class="modal-btn" id="modalShare">🔗 Посилання</button>
+            </div>
+            <span class="modal-eyebrow">📚 Авторський реєстр</span>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <time class="modal-date" id="modalDate"></time>
+            <div class="modal-rule" aria-hidden="true"><span></span><i></i><span></span></div>
+            <div class="article-body" id="modalContent"></div>
+            <nav class="modal-nav" id="modalNav" aria-label="Інші статті реєстру">
+                <button type="button" class="modal-nav-btn prev" id="modalPrev"></button>
+                <button type="button" class="modal-nav-btn next" id="modalNext"></button>
+            </nav>
+            <div class="modal-flowers" aria-hidden="true">✿ ❀ ❁ ❀ ✿</div>
+        </article>
+        <div class="scroll-roller"></div>
+    </div>
 </div>
 
 <div class="lang-bar">
     <span class="lang-bar-label">🌐 Мова / Language</span>
     <div class="lang-select-wrapper">
         <select id="language-select" onchange="translateTo(this.value)">
-            <option value="">🇺🇦 Українська</option>
+            <option value="uk">🇺🇦 Українська</option>
             <optgroup label="── Слов'янські ──">
                 <option value="ru">🇷🇺 Русский</option>
                 <option value="pl">🇵🇱 Polski</option>
@@ -394,7 +515,7 @@ z-index:4;
 
 <nav class="main-nav" id="mainNav">
     <span class="nav-scroll-left">❧</span>
-    <a href="#" class="nav-logo"><span class="nav-logo-heb">שְׁבָטִים</span>Found Tribes</a>
+    <a href="#" class="nav-logo notranslate" translate="no"><span class="nav-logo-heb" lang="he">שְׁבָטִים</span>Found Tribes</a>
     <ul class="nav-links">
         <li><a href="#about">Дослідження</a></li>
         <li><a href="#stats">Статистика</a></li>
@@ -402,9 +523,9 @@ z-index:4;
         <li><a href="#contact">Контакти</a></li>
     </ul>
     <span class="nav-scroll-right">❧</span>
-    <div class="burger" onclick="toggleMenu()" id="burger">
+    <button type="button" class="burger" onclick="toggleMenu()" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span><span></span>
-    </div>
+    </button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
@@ -484,14 +605,14 @@ z-index:4;
       <circle cx="44" cy="505" r="2.5" fill="#c9a84c" opacity="0.6"/>
     </svg>
     </span>
-    <div class="hero-top-ornament" style="font-family:'Noto Sans Hebrew',serif;font-size:1.4rem;color:var(--gold-dark);letter-spacing:8px;margin-bottom:6px;">מָצָאנוּ — знайшли — found</div>
-    <div class="hero-hebrew">אֶת־הַשְּׁבָטִים</div>
+    <div class="hero-top-ornament notranslate" translate="no" style="font-family:'Noto Sans Hebrew',serif;font-size:1.4rem;color:var(--gold-dark);letter-spacing:8px;margin-bottom:6px;"><span lang="he">מָצָאנוּ</span> — знайшли — found</div>
+    <div class="hero-hebrew notranslate" lang="he" translate="no">אֶת־הַשְּׁבָטִים</div>
     <div class="gold-rule">
         <div class="gold-rule-line"></div>
         <div class="gold-rule-diamond"></div>
         <div class="gold-rule-line"></div>
     </div>
-    <h1>Found Tribes<br><span class="accent">of Israel</span></h1>
+    <h1 class="notranslate" translate="no">Found Tribes<br><span class="accent">of Israel</span></h1>
     <p class="hero-subtitle">Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами. 500+ задокументованих відповідностей, 13 фонетичних законів.</p>
     <div class="hero-badges" style="margin-top:20px;">
         <div class="hero-badge">500+ відповідностей</div>
@@ -511,7 +632,7 @@ z-index:4;
         <div class="about-card reveal">
             <span class="about-card-icon">🔬</span>
             <div class="about-card-title">Методологія</div>
-            <p>Систематичне читання Тори виявило механізм фосилізації: єврейський сполучник וְ назавжди прикріпився до слів, які давньоєврейська мова передала слов'янам. Відкриття органічне — не штучне.</p>
+            <p>Систематичне читання Тори виявило механізм фосилізації: єврейський сполучник <span class="heb-gold notranslate" lang="he" translate="no">וְ</span> назавжди прикріпився до слів, які давньоєврейська мова передала слов'янам. Відкриття органічне — не штучне.</p>
         </div>
         <div class="about-card reveal">
             <span class="about-card-icon">📜</span>
@@ -550,14 +671,31 @@ z-index:4;
         <div class="scroll-roller"></div>
         <div class="scroll-body">
             <div class="celtic-frame">
-                <div class="menorah-watermark">🕎</div>
+                <div class="menorah-watermark" aria-hidden="true">🕎</div>
+                <div class="registry-tools" role="search">
+                    <label class="registry-search">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+                        <input type="search" id="registrySearch" placeholder="Пошук у реєстрі…" autocomplete="off" spellcheck="false" aria-label="Пошук у реєстрі">
+                    </label>
+                    <div class="registry-sort">
+                        <select id="registrySort" aria-label="Порядок статей">
+                            <option value="new">Спочатку нові</option>
+                            <option value="old">Спочатку давні</option>
+                            <option value="az">За абеткою</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="registry-count" id="registryCount" aria-live="polite"></div>
+                <div class="registry-notice" id="registryNotice" role="status" hidden></div>
                 <div id="articlesList">
-                    <div class="empty-state">
-                        <div class="empty-heb">מָצָא</div>
+                    <div class="empty-state loading" role="status">
+                        <div class="empty-heb notranslate" lang="he" translate="no">מָצָא</div>
                         <div class="empty-text">· · · Розгортання архівів · · ·</div>
                     </div>
                 </div>
-                <div class="scroll-flowers">✿ ❀ ❁ ❀ ✿</div>
+                <div class="registry-more" id="registryMore" hidden><button type="button" class="more-btn">Показати ще</button></div>
+                <noscript><p class="empty-hint" style="text-align:center;">Щоб переглянути реєстр статей, увімкніть JavaScript у браузері.</p></noscript>
+                <div class="scroll-flowers" aria-hidden="true">✿ ❀ ❁ ❀ ✿</div>
             </div>
         </div>
         <div class="scroll-roller"></div>
@@ -573,15 +711,15 @@ z-index:4;
         <p class="contact-email">foundtribesofisrael.com</p>
         <p style="color:rgba(245,237,214,0.4);font-style:italic;margin-top:6px;">Автор: Аркадій Бойчук · Роттердам, 2026</p>
         <div class="social-row">
-            <a href="https://t.me/Ancient_Hebrew_1n_ukrainian_lang" class="social-btn" target="_blank">✈ Telegram</a>
-            <a href="https://youtube.com/@Nes-il4ip" class="social-btn" target="_blank">▶ YouTube</a>
+            <a href="https://t.me/Ancient_Hebrew_1n_ukrainian_lang" class="social-btn" target="_blank" rel="noopener">✈ Telegram</a>
+            <a href="https://youtube.com/@Nes-il4ip" class="social-btn" target="_blank" rel="noopener">▶ YouTube</a>
         </div>
     </div>
 </section>
 
 <footer>
-    <div class="footer-heb">מָצָאנוּ אֶת־הַשְּׁבָטִים</div>
-    <div class="footer-logo">🕎 Found Tribes of Israel</div>
+    <div class="footer-heb notranslate" lang="he" translate="no">מָצָאנוּ אֶת־הַשְּׁבָטִים</div>
+    <div class="footer-logo notranslate" translate="no">🕎 Found Tribes of Israel</div>
     <p class="footer-copy">© 2026 foundtribesofisrael.com · Аркадій Бойчук</p>
 </footer>
 
@@ -591,148 +729,734 @@ function googleTranslateElementInit(){
     new google.translate.TranslateElement({pageLanguage:'uk',autoDisplay:false},'google_translate_element');
 }
 </script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
+(function () {
+    'use strict';
+
+    // ══════════════════════════════════════════════════════════
+    //  АРХІВ СТАТЕЙ — база даних Supabase.
+    //  Якщо в Supabase зміниться адреса проєкту чи ключ доступу,
+    //  достатньо замінити ці два рядки. Ключ «anon» («publishable»)
+    //  призначений саме для сторінок сайту.
+    // ══════════════════════════════════════════════════════════
     const SUPABASE_URL='https://jztxnznkjevzngvrlpzh.supabase.co';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
-    
-// Завантаження статей
-async function loadArticles() {
-    const list = document.getElementById('articlesList');
-    try {
-        const r = await fetch(SUPABASE_URL + '/rest/v1/articles?select=*&order=id.desc', {
-            headers: {
-                'apikey': SUPABASE_KEY,
-                'Authorization': 'Bearer ' + SUPABASE_KEY
-            }
-        });
-        const data = await r.json();
-        if (!data || data.length === 0) {
-            list.innerHTML = '<div class="empty-state"><div class="empty-text">Архіви порожні</div></div>';
+    const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
+    const SITE_URL='https://foundtribesofisrael.com/';
+
+    const PAGE_SIZE = 30;                 // скільки статей показувати за раз
+    const FETCH_TIMEOUT = 15000;          // скільки чекати відповіді бази, мс
+    const CACHE_KEY = 'ftoi-archive-v1';  // збережена копія архіву в браузері
+
+    const byId = id => document.getElementById(id);
+    const HEB_CHAR = /[֑-״יִ-ﭏ]/;
+    const HEB_RUN = /[֑-״יִ-ﭏ]+(?:[  -]+[֑-״יִ-ﭏ]+)*/g;
+    const collator = new Intl.Collator('uk', { sensitivity: 'base', numeric: true });
+    const domParser = new DOMParser();
+    const baseTitle = document.title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const baseDesc = metaDesc ? metaDesc.content : '';
+    const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    const registry = {
+        all: [], view: [], shown: PAGE_SIZE,
+        query: '', sort: 'new',
+        ready: false, loading: false, savedAt: null,
+        pendingSlug: new URLSearchParams(location.search).get('article')
+    };
+    let current = null;       // стаття, відкрита у вікні
+    let modalPushed = false;  // чи додано запис в історію браузера
+    let lastFocus = null;
+
+    // ── Текст ──────────────────────────────────────────────────
+    function esc(s) {
+        return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    }
+    // Давньоєврейські слова — власним шрифтом і без автоперекладу
+    function hebWrap(html) {
+        return html.replace(HEB_RUN, m => '<span class="heb notranslate" lang="he" translate="no">' + m + '</span>');
+    }
+    // Для пошуку: без регістру, наголосів, огласовок (нікуд) і апострофів
+    function fold(s) {
+        return String(s).toLowerCase()
+            .replace(/־/g, ' ')
+            .normalize('NFD')
+            .replace(/[̀-֑ͯ-ׇ]/g, '')
+            .replace(/[ʼ’‘'`´]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+    function plural(n, one, few, many) {
+        const d = n % 10, h = n % 100;
+        if (d === 1 && h !== 11) return one;
+        if (d >= 2 && d <= 4 && (h < 12 || h > 14)) return few;
+        return many;
+    }
+    function fmtDate(d) {
+        try { return d.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }); }
+        catch (_) { return d.toISOString().slice(0, 10); }
+    }
+    // Адреса статті ?article=назва-статті — та сама, що й раніше (посилання в Google не змінюються)
+    function slugOf(title) { return String(title).toLowerCase().replace(/\s+/g, '-'); }
+    function slugKey(s) { return fold(String(s).replace(/-+/g, ' ')); }
+    function articleUrl(a) { return SITE_URL + '?article=' + encodeURIComponent(a.slug); }
+    function findBySlug(slug) {
+        if (!slug) return null;
+        const key = slugKey(slug);
+        return registry.all.find(a => a.slug === slug) || registry.all.find(a => slugKey(a.slug) === key) || null;
+    }
+    function htmlToText(html) {
+        if (!/[<&]/.test(html)) return html.replace(/\s+/g, ' ').trim();
+        const doc = domParser.parseFromString(html.replace(/<(br|\/p|\/div|\/li|\/h[1-6]|\/tr|\/td|\/blockquote)\b[^>]*>/gi, ' $&'), 'text/html');
+        doc.querySelectorAll('script,style,template,noscript').forEach(n => n.remove());
+        return (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+    function toArticle(row, i) {
+        row = row || {};
+        const rawTitle = row.title == null ? '' : String(row.title);
+        const title = rawTitle.trim() || 'Без назви';
+        const html = row.content == null ? '' : String(row.content);
+        const text = htmlToText(html);
+        const time = row.created_at ? Date.parse(row.created_at) : NaN;
+        return {
+            key: i, id: row.id, title, html, text,
+            date: isNaN(time) ? null : new Date(time),
+            slug: slugOf(rawTitle.trim() ? rawTitle : title),
+            hay: fold(title + ' ' + text)
+        };
+    }
+
+    // ── Пошук і сортування ─────────────────────────────────────
+    function sortArticles(list, mode) {
+        const arr = list.slice();
+        const t = a => (a.date ? a.date.getTime() : -Infinity);
+        const byIdDesc = (a, b) => (Number(b.id) || 0) - (Number(a.id) || 0);
+        if (mode === 'az') arr.sort((a, b) => collator.compare(a.title, b.title));
+        else if (mode === 'old') arr.sort((a, b) => (t(a) - t(b)) || byIdDesc(b, a));
+        else arr.sort((a, b) => (t(b) - t(a)) || byIdDesc(a, b));
+        return arr;
+    }
+    function applyView() {
+        const words = fold(registry.query).split(' ').filter(Boolean);
+        const found = words.length ? registry.all.filter(a => words.every(w => a.hay.includes(w))) : registry.all;
+        registry.view = sortArticles(found, registry.sort);
+    }
+    // Підсвічування збігів; у давньоєврейських словах огласовки не заважають
+    function queryRegex(q) {
+        const words = String(q).trim().split(/\s+/).filter(Boolean);
+        if (!words.length) return null;
+        const NIQQUD = '[\\u0591-\\u05C7]*';
+        const parts = words.map(w => Array.from(w).map(ch => ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + (HEB_CHAR.test(ch) ? NIQQUD : '')).join(''));
+        parts.sort((a, b) => b.length - a.length);
+        try { return new RegExp(parts.join('|'), 'giu'); } catch (_) { return null; }
+    }
+    function excerpt(text, re) {
+        const LIMIT = 220;
+        let start = 0;
+        if (re) {
+            const i = text.search(re);
+            if (i > 90) { const sp = text.lastIndexOf(' ', i - 50); start = sp > 0 ? sp + 1 : i - 50; }
+        }
+        let s = text.slice(start, start + LIMIT);
+        if (start + LIMIT < text.length) s = s.replace(/\s+\S*$/, '') + '…';
+        return (start > 0 ? '…' : '') + s;
+    }
+    function markText(text, re) {
+        if (!re) return hebWrap(esc(text));
+        let out = '', last = 0;
+        re.lastIndex = 0;
+        for (const m of text.matchAll(re)) {
+            out += esc(text.slice(last, m.index)) + '<mark>' + esc(m[0]) + '</mark>';
+            last = m.index + m[0].length;
+        }
+        return hebWrap(out + esc(text.slice(last)));
+    }
+
+    // ── Список статей ──────────────────────────────────────────
+    function rowHtml(a, re) {
+        return '<a class="article-row" href="' + esc('?article=' + encodeURIComponent(a.slug)) + '" data-key="' + a.key + '">' +
+            '<div class="article-title-row"><span class="flower-icon" aria-hidden="true">✿</span>' +
+            '<h3 class="article-title">' + markText(a.title, re) + '</h3></div>' +
+            (a.text ? '<p class="article-preview">' + markText(excerpt(a.text, re), re) + '</p>' : '') +
+            '<div class="article-footer">' +
+            (a.date ? '<time class="article-date" datetime="' + a.date.toISOString() + '">' + esc(fmtDate(a.date)) + '</time>' : '<span></span>') +
+            '<span class="read-more-btn">ЧИТАТИ ПОВНІСТЮ →</span></div></a>';
+    }
+    function stateHtml(kind, err) {
+        const sign = word => '<div class="empty-heb notranslate" lang="he" translate="no">' + word + '</div>';
+        if (kind === 'loading') {
+            return '<div class="empty-state loading" role="status">' + sign('מָצָא') +
+                '<div class="empty-text">· · · Розгортання архівів · · ·</div></div>';
+        }
+        if (kind === 'empty') {
+            return '<div class="empty-state">' + sign('אֵין') + '<div class="empty-title">Архів поки порожній</div>' +
+                '<p class="empty-hint">Статті з’являться тут одразу після публікації.</p>' +
+                '<p class="empty-tech">Технічно: база даних відповіла, але не повернула жодної статті.</p></div>';
+        }
+        if (kind === 'nothing') {
+            return '<div class="empty-state">' + sign('אֵין') + '<div class="empty-title">Нічого не знайдено</div>' +
+                '<p class="empty-hint">За запитом «' + esc(registry.query.trim()) + '» статей немає. Спробуйте інше слово чи корінь.</p>' +
+                '<button type="button" class="more-btn" data-action="clear">Показати весь реєстр</button></div>';
+        }
+        return '<div class="empty-state" role="alert">' + sign('אֵין') + '<div class="empty-title">Архів тимчасово недоступний</div>' +
+            '<p class="empty-hint">Не вдалося завантажити статті. Спробуйте ще раз за хвилину.</p>' +
+            '<button type="button" class="more-btn" data-action="retry">↻ Спробувати ще раз</button>' +
+            '<p class="empty-tech">' + esc(describeError(err)) + '</p></div>';
+    }
+    function describeError(e) {
+        const detail = e && e.detail ? ' (' + String(e.detail).slice(0, 160) + ')' : '';
+        switch (e && e.kind) {
+            case 'timeout':
+                return 'Технічно: сервер бази даних не відповів за ' + (FETCH_TIMEOUT / 1000) + ' секунд.';
+            case 'network':
+                return 'Технічно: немає з’єднання з базою даних Supabase. Можливо, проєкт у Supabase призупинено або зникло інтернет-з’єднання.';
+            case 'http':
+                if (e.status === 401 || e.status === 403) return 'Технічно: база даних відхилила ключ доступу (HTTP ' + e.status + ')' + detail + '.';
+                if (e.status === 404) return 'Технічно: таблицю «articles» не знайдено (HTTP 404)' + detail + '.';
+                if (e.status >= 500) return 'Технічно: сервер бази даних повернув помилку HTTP ' + e.status + detail + '. Можливо, проєкт у Supabase призупинено.';
+                return 'Технічно: база даних повернула помилку HTTP ' + e.status + detail + '.';
+            default:
+                return 'Технічно: база даних повернула дані в неочікуваному форматі.';
+        }
+    }
+    function renderList(append) {
+        const list = byId('articlesList'), more = byId('registryMore');
+        updateCount();
+        const view = registry.view;
+        if (!view.length) {
+            list.innerHTML = stateHtml(registry.all.length ? 'nothing' : 'empty');
+            more.hidden = true;
             return;
         }
-
-        list.innerHTML = data.map(a => `
-            <div class="article-row" data-title="${a.title}" data-content="${encodeURIComponent(a.content || '')}">
-                <div class="article-title-row">
-                    <span class="flower-icon">✿</span>
-                    <h3 class="article-title">${a.title}</h3>
-                </div>
-                <p class="article-preview">${(a.content || '').substring(0, 220)}...</p>
-                <div class="article-footer">
-                    <span class="article-date">${a.created_at ? new Date(a.created_at).toLocaleDateString('uk-UA') : ''}</span>
-                    <span class="read-more-btn" onclick="openArticle(this)">ЧИТАТИ ПОВНІСТЮ →</span>
-                </div>
-            </div>
-        `).join('');
-
-        initReveal();// Генерація sitemap для Google
-generateSitemap(data);
-    } catch (e) {
-        console.error(e);
-        list.innerHTML = '<div class="empty-state"><div class="empty-text">Помилка з\'єднання</div></div>';
+        const re = queryRegex(registry.query);
+        const shown = Math.min(registry.shown, view.length);
+        if (append) {
+            const have = list.querySelectorAll('.article-row').length;
+            list.insertAdjacentHTML('beforeend', view.slice(have, shown).map(a => rowHtml(a, re)).join(''));
+        } else {
+            list.innerHTML = view.slice(0, shown).map(a => rowHtml(a, re)).join('');
+        }
+        const rest = view.length - shown;
+        more.hidden = rest <= 0;
+        if (rest > 0) more.querySelector('button').textContent = 'Показати ще · залишилось ' + rest;
     }
-}async function generateSitemap(articles) {
-    const urls = articles.map(a => {
-        const slug = encodeURIComponent(a.title.toLowerCase().replace(/\s+/g,'-'));
-        return `<url><loc>https://foundtribesofisrael.com/?article=${slug}</loc></url>`;
-    }).join('');
-    const xml = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://foundtribesofisrael.com/</loc></url>${urls}</urlset>`;
-    console.log('SITEMAP:', xml);
+    function updateCount() {
+        const el = byId('registryCount');
+        if (!registry.ready) { el.textContent = ''; return; }
+        const n = registry.all.length, v = registry.view.length;
+        if (!registry.query.trim()) el.textContent = n ? 'У реєстрі ' + n + ' ' + plural(n, 'стаття', 'статті', 'статей') : '';
+        else el.textContent = v ? 'Знайдено: ' + v + ' із ' + n : '';
+    }
+    function setQuery(q, syncInput) {
+        registry.query = String(q || '');
+        if (syncInput !== false) byId('registrySearch').value = registry.query;
+        registry.shown = PAGE_SIZE;
+        if (registry.ready) { applyView(); renderList(); }
     }
 
-// Відкриття модалки
-function openArticle(btn) {
-    const row = btn.closest('.article-row');
-    const title = row.dataset.title;
-    const slug = encodeURIComponent(title.toLowerCase().replace(/\s+/g,'-'));
-    history.pushState({}, '', '?article=' + slug);
-    document.getElementById('modalTitle').innerText = title;
-    document.getElementById('modalContent').innerHTML = decodeURIComponent(row.dataset.content).replace(/\n/g,'<br>');
-    document.getElementById('articleModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-// Закриття модалки
-function closeArticle() {
-    history.pushState({}, '', '/');
-    document.getElementById('articleModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-function closeModal() {
-    closeArticle();
-}
-
-// Встановлюємо мову перекладу
-window.translateTo = function(lang){
-    if(!lang || lang === 'uk'){
-        // Українська → скидаємо переклад
-        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + location.hostname + ";";
-        updateLanguageSelect('uk');
-        location.reload();
-        return;
+    // ── Завантаження з бази ────────────────────────────────────
+    function archiveError(kind, extra) {
+        const e = new Error('Архів: ' + kind);
+        e.kind = kind;
+        return Object.assign(e, extra || {});
     }
-    // Інші мови → встановлюємо Google Translate
-    document.cookie = "googtrans=/uk/" + lang + "; path=/";
-    document.cookie = "googtrans=/uk/" + lang + "; path=/; domain=" + location.hostname + ";";
-    updateLanguageSelect(lang);
-    location.reload();
-}
-
-// Підсвічування активної мови в select
-function updateLanguageSelect(lang){
-    const select = document.getElementById('language-select');
-    if(!select) return;
-    select.value = lang;
-}
-
-// При завантаженні сторінки показуємо активну мову
-window.addEventListener('DOMContentLoaded', () => {
-    const cookies = document.cookie.split('; ').reduce((acc, cur) => {
-        const [key, value] = cur.split('=');
-        acc[key] = value;
-        return acc;
-    }, {});
-    let lang = 'uk'; // за замовчуванням українська
-    if(cookies['googtrans']){
-        const parts = decodeURIComponent(cookies['googtrans']).split('/');
-        if(parts.length === 3) lang = parts[2];
+    async function fetchArticles() {
+        const headers = { apikey: SUPABASE_KEY };
+        if (/^eyJ/.test(SUPABASE_KEY)) headers.Authorization = 'Bearer ' + SUPABASE_KEY;
+        const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+        const timer = ctrl ? setTimeout(() => ctrl.abort(), FETCH_TIMEOUT) : 0;
+        let res;
+        try {
+            res = await fetch(SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/articles?select=*&order=id.desc', { headers, signal: ctrl ? ctrl.signal : undefined });
+        } catch (err) {
+            throw archiveError(err && err.name === 'AbortError' ? 'timeout' : 'network', { cause: err });
+        } finally {
+            clearTimeout(timer);
+        }
+        let body = null;
+        try { body = await res.json(); } catch (_) { /* відповідь не у форматі JSON */ }
+        if (!res.ok) throw archiveError('http', { status: res.status, detail: body && (body.message || body.error || body.hint) });
+        if (!Array.isArray(body)) throw archiveError('format');
+        return body;
     }
-    updateLanguageSelect(lang);
-});
-
-// Мобільне меню
-function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
-function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
-
-// Анімація reveal
-function initReveal() {
-    const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('visible');
-                obs.unobserve(e.target);
+    async function fetchWithRetry() {
+        try { return await fetchArticles(); }
+        catch (err) {
+            const temporary = err.kind === 'network' || err.kind === 'timeout' || (err.kind === 'http' && err.status >= 500);
+            if (!temporary) throw err;
+            await new Promise(r => setTimeout(r, 1500));
+            return fetchArticles();
+        }
+    }
+    // Копія архіву в браузері: статті видно одразу, навіть коли база тимчасово недоступна
+    function readCache() {
+        try {
+            const c = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+            return c && Array.isArray(c.articles) && c.articles.length ? c : null;
+        } catch (_) { return null; }
+    }
+    function saveCache(rows) {
+        try {
+            const slim = rows.map(r => ({ id: r.id, title: r.title, content: r.content, created_at: r.created_at }));
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), articles: slim }));
+        } catch (_) { /* сховище браузера недоступне або переповнене */ }
+    }
+    function setArticles(rows, source) {
+        registry.all = rows.map(toArticle);
+        registry.ready = true;
+        registry.source = source;
+        applyView();
+        renderList();
+        if (current) {
+            const fresh = findBySlug(current.slug);
+            if (fresh) {
+                const changed = fresh.html !== current.html || fresh.title !== current.title;
+                current = fresh;
+                if (changed) fillModal(fresh);
+                updateModalNav();
             }
-        });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-}
+        }
+        resolvePendingSlug(source === 'live');
+    }
+    async function loadArticles() {
+        if (registry.loading) return;
+        registry.loading = true;
+        const notice = byId('registryNotice');
+        if (registry.ready) notice.hidden = true;
+        else { byId('articlesList').innerHTML = stateHtml('loading'); byId('registryMore').hidden = true; }
+        try {
+            const rows = await fetchWithRetry();
+            saveCache(rows);
+            registry.savedAt = new Date();
+            setArticles(rows, 'live');
+        } catch (err) {
+            console.error('[Реєстр] Статті не завантажено. ' + describeError(err), err);
+            if (registry.ready) {
+                notice.innerHTML = '<span>Показано збережену копію архіву' +
+                    (registry.savedAt ? ' від ' + esc(fmtDate(registry.savedAt)) : '') +
+                    ': з’єднання з базою зараз недоступне.</span>' +
+                    '<button type="button" class="notice-btn" data-action="retry">↻ Оновити</button>';
+                notice.hidden = false;
+                resolvePendingSlug(true);
+            } else {
+                byId('articlesList').innerHTML = stateHtml('error', err);
+                updateCount();
+            }
+        } finally {
+            registry.loading = false;
+        }
+    }
+    // Відкриття статті за посиланням ?article=…
+    function resolvePendingSlug(final) {
+        const slug = registry.pendingSlug;
+        if (!slug || !registry.ready) return;
+        const a = findBySlug(slug);
+        if (a) {
+            registry.pendingSlug = null;
+            if (!current) openArticle(a, { history: 'none' });
+        } else if (final) {
+            // Статтю не знайдено (можливо, назву змінено) — шукаємо схожі
+            registry.pendingSlug = null;
+            history.replaceState(null, '', location.pathname + location.hash);
+            setCanonical(SITE_URL);
+            setQuery(slug.replace(/-+/g, ' '));
+            byId('articles').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+        }
+    }
+    function bootRegistry() {
+        const cached = readCache();
+        if (cached) {
+            registry.savedAt = cached.savedAt ? new Date(cached.savedAt) : null;
+            setArticles(cached.articles, 'cache');
+        }
+        loadArticles();
+    }
 
-// Запуск
+    // ── Текст статті: абзаци, безпечний HTML, давньоєврейські слова ──
+    const KEEP_TAGS = new Set('P BR B STRONG I EM U S DEL INS SUB SUP SMALL MARK SPAN DIV BLOCKQUOTE UL OL LI H1 H2 H3 H4 H5 H6 HR A IMG TABLE THEAD TBODY TFOOT TR TH TD CAPTION CODE PRE FIGURE FIGCAPTION Q CITE ABBR DL DT DD RUBY RT RP BDI BDO IFRAME AUDIO VIDEO SOURCE CENTER FONT'.split(' '));
+    const DROP_TAGS = new Set('SCRIPT STYLE LINK META BASE TITLE OBJECT EMBED APPLET FORM INPUT BUTTON TEXTAREA SELECT OPTION TEMPLATE NOSCRIPT FRAME FRAMESET SVG MATH CANVAS PORTAL DIALOG'.split(' '));
+    const TAG_ATTRS = { A: ['href'], IMG: ['src', 'alt', 'width', 'height'], TD: ['colspan', 'rowspan'], TH: ['colspan', 'rowspan', 'scope'], OL: ['start', 'type', 'reversed'], LI: ['value'], IFRAME: ['src'], AUDIO: ['src'], VIDEO: ['src', 'poster'], SOURCE: ['src', 'type'] };
+    const URL_ATTRS = new Set(['href', 'src', 'poster']);
+    const STYLE_PROPS = new Set(['color', 'background-color', 'font-weight', 'font-style', 'text-decoration', 'text-align', 'font-size', 'direction']);
+    const BLOCK_HTML = /<(p|div|ul|ol|li|h[1-6]|table|blockquote|pre|figure)\b/i;
+
+    function isInternal(href) {
+        try {
+            const u = new URL(href, SITE_URL);
+            return u.host === new URL(SITE_URL).host || u.host === location.host;
+        } catch (_) { return false; }
+    }
+    function safeUrl(value, media) {
+        const raw = String(value).trim();
+        try {
+            const u = new URL(raw, SITE_URL);
+            if (u.protocol === 'http:' || u.protocol === 'https:') return u.href;
+            if (!media && (u.protocol === 'mailto:' || u.protocol === 'tel:')) return u.href;
+            if (media && /^data:image\/(png|jpe?g|gif|webp);/i.test(raw)) return raw;
+        } catch (_) { /* недійсна адреса */ }
+        return null;
+    }
+    function cleanStyle(css) {
+        const out = [];
+        String(css).split(';').forEach(decl => {
+            const i = decl.indexOf(':');
+            if (i < 0) return;
+            const prop = decl.slice(0, i).trim().toLowerCase();
+            const val = decl.slice(i + 1).trim();
+            if (STYLE_PROPS.has(prop) && val && !/url\s*\(|expression|javascript|[\\<>{}]|\/\*/i.test(val)) out.push(prop + ':' + val);
+        });
+        return out.join(';');
+    }
+    function cleanChildren(from, to) {
+        from.childNodes.forEach(ch => { const c = cleanNode(ch); if (c) to.appendChild(c); });
+    }
+    function cleanNode(node) {
+        if (node.nodeType === 3) return document.createTextNode(node.nodeValue);
+        if (node.nodeType !== 1) return null;
+        const tag = node.tagName.toUpperCase();
+        if (DROP_TAGS.has(tag)) return null;
+        if (!KEEP_TAGS.has(tag)) {
+            const frag = document.createDocumentFragment();
+            cleanChildren(node, frag);
+            return frag;
+        }
+        const el = document.createElement(tag === 'H1' ? 'h2' : tag === 'FONT' ? 'span' : tag === 'CENTER' ? 'div' : tag.toLowerCase());
+        const allowed = TAG_ATTRS[tag] || [];
+        Array.from(node.attributes).forEach(attr => {
+            const name = attr.name.toLowerCase();
+            if (name === 'style') { const css = cleanStyle(attr.value); if (css) el.setAttribute('style', css); return; }
+            if (name === 'lang' || name === 'title' || (name === 'dir' && /^(ltr|rtl|auto)$/i.test(attr.value))) { el.setAttribute(name, attr.value); return; }
+            if (allowed.indexOf(name) < 0) return;
+            if (URL_ATTRS.has(name)) { const u = safeUrl(attr.value, tag !== 'A'); if (u) el.setAttribute(name, u); return; }
+            el.setAttribute(name, attr.value);
+        });
+        if (tag === 'FONT' && /^#?[a-z0-9]+$/i.test(node.getAttribute('color') || '')) el.style.color = node.getAttribute('color');
+        if (tag === 'CENTER') el.style.textAlign = 'center';
+        if (tag === 'A' && el.getAttribute('href') && !isInternal(el.getAttribute('href'))) { el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+        if (tag === 'IMG') {
+            if (!el.getAttribute('src')) return null;
+            el.setAttribute('loading', 'lazy');
+            el.setAttribute('decoding', 'async');
+        }
+        if (tag === 'IFRAME') {
+            const src = el.getAttribute('src') || '';
+            if (!/^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com)\/embed\//.test(src)) return null;
+            el.setAttribute('allow', 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+            el.setAttribute('allowfullscreen', '');
+            el.setAttribute('loading', 'lazy');
+            el.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+            if (!el.getAttribute('title')) el.setAttribute('title', 'Відео');
+            return el;
+        }
+        if (tag === 'AUDIO' || tag === 'VIDEO') { el.setAttribute('controls', ''); el.setAttribute('preload', 'none'); }
+        cleanChildren(node, el);
+        return el;
+    }
+    function wrapHebrew(root) {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        const targets = [];
+        while (walker.nextNode()) {
+            const t = walker.currentNode, parent = t.parentNode;
+            if (HEB_CHAR.test(t.nodeValue) && !(parent && parent.nodeType === 1 && parent.closest('.heb,code,pre'))) targets.push(t);
+        }
+        targets.forEach(t => {
+            const s = t.nodeValue, frag = document.createDocumentFragment();
+            let last = 0;
+            HEB_RUN.lastIndex = 0;
+            for (const m of s.matchAll(HEB_RUN)) {
+                if (m.index > last) frag.appendChild(document.createTextNode(s.slice(last, m.index)));
+                const span = document.createElement('span');
+                span.className = 'heb notranslate';
+                span.lang = 'he';
+                span.setAttribute('translate', 'no');
+                span.textContent = m[0];
+                frag.appendChild(span);
+                last = m.index + m[0].length;
+            }
+            if (last < s.length) frag.appendChild(document.createTextNode(s.slice(last)));
+            t.parentNode.replaceChild(frag, t);
+        });
+    }
+    function renderContent(raw) {
+        let html = String(raw || '').replace(/\r\n?/g, '\n').trim();
+        if (!BLOCK_HTML.test(html)) {
+            // Звичайний текст: порожній рядок — новий абзац, Enter — новий рядок
+            html = html.split(/\n[ \t]*\n+/).map(p => '<p>' + p.trim().replace(/\n/g, '<br>') + '</p>').join('');
+        }
+        const doc = domParser.parseFromString(html, 'text/html');
+        const frag = document.createDocumentFragment();
+        cleanChildren(doc.body, frag);
+        wrapHebrew(frag);
+        if (!frag.textContent.trim() && !frag.querySelector('img,iframe,audio,video')) {
+            const p = document.createElement('p');
+            p.className = 'article-empty';
+            p.textContent = 'Текст статті ще готується.';
+            frag.appendChild(p);
+        }
+        return frag;
+    }
+
+    // ── Вікно статті ───────────────────────────────────────────
+    function setCanonical(url) {
+        let link = document.querySelector('link[rel="canonical"]');
+        if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); }
+        link.href = url;
+    }
+    function fillModal(a) {
+        byId('modalTitle').innerHTML = hebWrap(esc(a.title));
+        const d = byId('modalDate');
+        d.hidden = !a.date;
+        if (a.date) { d.textContent = fmtDate(a.date); d.setAttribute('datetime', a.date.toISOString()); }
+        const body = byId('modalContent');
+        body.textContent = '';
+        body.appendChild(renderContent(a.html));
+    }
+    function openArticle(a, opts) {
+        if (!a) return;
+        const mode = (opts && opts.history) || 'push';
+        const modal = byId('articleModal');
+        const wasOpen = modal.classList.contains('open');
+        current = a;
+        fillModal(a);
+        updateModalNav();
+        const search = '?article=' + encodeURIComponent(a.slug);
+        if (mode === 'push' && !wasOpen) { history.pushState({ article: a.slug }, '', search); modalPushed = true; }
+        else if (mode !== 'none') history.replaceState({ article: a.slug }, '', search);
+        document.title = a.title + ' — Found Tribes of Israel';
+        if (metaDesc) metaDesc.content = a.text ? excerpt(a.text, null).slice(0, 160) : baseDesc;
+        setCanonical(articleUrl(a));
+        if (!wasOpen) {
+            lastFocus = document.activeElement;
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+        modal.scrollTop = 0;
+        byId('modalClose').focus({ preventScroll: true });
+    }
+    function closeArticle(opts) {
+        const modal = byId('articleModal');
+        if (!modal.classList.contains('open')) return;
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        current = null;
+        document.title = baseTitle;
+        if (metaDesc) metaDesc.content = baseDesc;
+        setCanonical(SITE_URL);
+        if (((opts && opts.history) || 'auto') === 'auto') {
+            if (modalPushed) { modalPushed = false; history.back(); }
+            else history.replaceState(null, '', location.pathname + location.hash);
+        } else {
+            modalPushed = false;
+        }
+        if (lastFocus && lastFocus.focus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
+        lastFocus = null;
+    }
+    function neighbours() {
+        if (!current) return [null, null];
+        const list = registry.view.indexOf(current) >= 0 ? registry.view : sortArticles(registry.all, registry.sort);
+        const i = list.indexOf(current);
+        return i < 0 ? [null, null] : [list[i - 1] || null, list[i + 1] || null];
+    }
+    function navButton(btn, a, label) {
+        btn.hidden = !a;
+        if (a) btn.innerHTML = '<span class="modal-nav-dir">' + label + '</span><span class="modal-nav-name">' + hebWrap(esc(a.title)) + '</span>';
+    }
+    function updateModalNav() {
+        const [prev, next] = neighbours();
+        navButton(byId('modalPrev'), prev, '← Попередня');
+        navButton(byId('modalNext'), next, 'Наступна →');
+        byId('modalNav').hidden = !prev && !next;
+    }
+    async function shareCurrent() {
+        if (!current) return;
+        const url = articleUrl(current), btn = byId('modalShare');
+        if (navigator.share && window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+            try { await navigator.share({ title: current.title + ' — Found Tribes of Israel', url }); } catch (_) { /* скасовано */ }
+            return;
+        }
+        let ok = false;
+        try { await navigator.clipboard.writeText(url); ok = true; }
+        catch (_) {
+            const ta = document.createElement('textarea');
+            ta.value = url;
+            ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+            document.body.appendChild(ta);
+            ta.select();
+            try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+            ta.remove();
+        }
+        if (!ok) { window.prompt('Скопіюйте посилання на статтю:', url); return; }
+        if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+        btn.textContent = '✓ Скопійовано';
+        clearTimeout(btn._timer);
+        btn._timer = setTimeout(() => { btn.textContent = btn.dataset.label; }, 2200);
+    }
+    function trapFocus(e, modal) {
+        const items = Array.from(modal.querySelectorAll('button, a[href], iframe, audio[controls], video[controls], [tabindex]:not([tabindex="-1"])'))
+            .filter(el => !el.hidden && el.getClientRects().length);
+        if (!items.length) return;
+        const first = items[0], last = items[items.length - 1], active = document.activeElement;
+        if (e.shiftKey && (active === first || !modal.contains(active))) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && (active === last || !modal.contains(active))) { e.preventDefault(); first.focus(); }
+    }
+    function onModalKey(e) {
+        const modal = byId('articleModal');
+        if (!modal.classList.contains('open')) return;
+        if (e.key === 'Escape') { e.preventDefault(); closeArticle(); return; }
+        if (e.key === 'Tab') { trapFocus(e, modal); return; }
+        if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+            const [prev, next] = neighbours();
+            const target = e.key === 'ArrowLeft' ? prev : next;
+            if (target) { e.preventDefault(); openArticle(target, { history: 'replace' }); }
+        }
+    }
+    function onPopState() {
+        const slug = new URLSearchParams(location.search).get('article');
+        if (!slug) { closeArticle({ history: 'none' }); return; }
+        const a = findBySlug(slug);
+        if (a) { modalPushed = false; openArticle(a, { history: 'none' }); }
+        else registry.pendingSlug = slug;
+    }
+    function initRegistry() {
+        const search = byId('registrySearch'), sort = byId('registrySort');
+        let timer = 0;
+        search.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(() => setQuery(search.value, false), 140); });
+        search.addEventListener('keydown', e => { if (e.key === 'Enter') { clearTimeout(timer); setQuery(search.value, false); } });
+        sort.addEventListener('change', () => {
+            registry.sort = sort.value;
+            registry.shown = PAGE_SIZE;
+            if (registry.ready) { applyView(); renderList(); }
+        });
+        byId('articlesList').addEventListener('click', e => {
+            const row = e.target.closest('.article-row');
+            if (!row || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            const a = registry.all[Number(row.dataset.key)];
+            if (a) { e.preventDefault(); openArticle(a, { history: 'push' }); }
+        });
+        byId('articles').addEventListener('click', e => {
+            const btn = e.target.closest('[data-action]');
+            if (!btn) return;
+            if (btn.dataset.action === 'retry') loadArticles();
+            else if (btn.dataset.action === 'clear') { setQuery(''); search.focus(); }
+        });
+        byId('registryMore').querySelector('button').addEventListener('click', () => {
+            registry.shown += PAGE_SIZE;
+            renderList(true);
+        });
+        const modal = byId('articleModal');
+        modal.addEventListener('click', e => { if (e.target === modal) closeArticle(); });
+        byId('modalX').addEventListener('click', () => closeArticle());
+        byId('modalClose').addEventListener('click', () => closeArticle());
+        byId('modalShare').addEventListener('click', shareCurrent);
+        byId('modalPrev').addEventListener('click', () => { const p = neighbours()[0]; if (p) openArticle(p, { history: 'replace' }); });
+        byId('modalNext').addEventListener('click', () => { const n = neighbours()[1]; if (n) openArticle(n, { history: 'replace' }); });
+        // Посилання з однієї статті на іншу відкриваються одразу у вікні
+        byId('modalContent').addEventListener('click', e => {
+            const link = e.target.closest('a[href]');
+            if (!link || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || !isInternal(link.href)) return;
+            let slug = null;
+            try { slug = new URL(link.href).searchParams.get('article'); } catch (_) { slug = null; }
+            const a = slug && findBySlug(slug);
+            if (a) { e.preventDefault(); openArticle(a, { history: 'replace' }); }
+        });
+        document.addEventListener('keydown', onModalKey);
+        window.addEventListener('popstate', onPopState);
+    }
+
+    // ── Мобільне меню ──────────────────────────────────────────
+    function toggleMenu(force) {
+        const menu = byId('mobileMenu'), burger = byId('burger');
+        const open = typeof force === 'boolean' ? force : !menu.classList.contains('open');
+        menu.classList.toggle('open', open);
+        if (burger) burger.setAttribute('aria-expanded', String(open));
+    }
+    function closeMobile() { toggleMenu(false); }
+    function initMenu() {
+        document.addEventListener('click', e => {
+            if (byId('mobileMenu').classList.contains('open') && !e.target.closest('#mobileMenu, #burger')) closeMobile();
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobile(); });
+    }
+
+    // ── Мова перекладу (Google Translate) ──────────────────────
+    function translateTo(lang) {
+        if (!lang || lang === 'uk') {
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname + ';';
+            updateLanguageSelect('uk');
+            location.reload();
+            return;
+        }
+        document.cookie = 'googtrans=/uk/' + lang + '; path=/';
+        document.cookie = 'googtrans=/uk/' + lang + '; path=/; domain=' + location.hostname + ';';
+        updateLanguageSelect(lang);
+        location.reload();
+    }
+    function updateLanguageSelect(lang) {
+        const select = byId('language-select');
+        if (!select) return;
+        select.value = lang;
+        if (select.value !== lang) select.value = 'uk';
+    }
+    function initLanguage() {
+        const m = document.cookie.match(/(?:^|;\s*)googtrans=([^;]*)/);
+        let lang = 'uk';
+        if (m) {
+            const parts = decodeURIComponent(m[1]).split('/');
+            if (parts.length === 3 && parts[2]) lang = parts[2];
+        }
+        updateLanguageSelect(lang);
+    }
+
+    // ── Плавна поява розділів ──────────────────────────────────
+    let revealObserver = null;
+    function initReveal() {
+        const items = document.querySelectorAll('.reveal:not(.visible)');
+        if (!('IntersectionObserver' in window) || reduceMotion) { items.forEach(el => el.classList.add('visible')); return; }
+        if (!revealObserver) {
+            // threshold 0: навіть дуже довгий реєстр з'являється, щойно доходить до екрана
+            revealObserver = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+            }, { threshold: 0, rootMargin: '0px 0px -6% 0px' });
+        }
+        items.forEach(el => revealObserver.observe(el));
+    }
+
+    // ── Запуск ─────────────────────────────────────────────────
+    window.toggleMenu = toggleMenu;
+    window.closeMobile = closeMobile;
+    window.translateTo = translateTo;
+
+    initLanguage();
+    initMenu();
+    initRegistry();
+    initReveal();
+    if (!registry.pendingSlug) setCanonical(SITE_URL);
+    bootRegistry();
+})();
+
 // ══ CANVAS — ЗОРЯНЕ НЕБО + ЗОЛОТИЙ ПИЛ ══
 (function(){
     const canvas = document.getElementById('heroCanvas');
     if(!canvas) return;
     const ctx = canvas.getContext('2d');
-    let W, H, stars=[], dust=[], nebula=[];
+    const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    let W = 0, H = 0, stars=[], dust=[], nebula=[];
+    let running = false, onScreen = true;
 
     function resize(){
-        W = canvas.width = canvas.offsetWidth;
-        H = canvas.height = canvas.offsetHeight;
+        const w = canvas.offsetWidth, h = canvas.offsetHeight;
+        // Небо не перемальовується, якщо розмір не змінився
+        // (на телефонах «resize» спрацьовує навіть під час прокрутки)
+        if (!w || !h || (w === W && h === H)) return;
+        W = canvas.width = w;
+        H = canvas.height = h;
         initScene();
+        if (!running) drawFrame();
     }
 
     function initScene(){
@@ -854,21 +1578,40 @@ function initReveal() {
         ctx.fillStyle=rf; ctx.fillRect(W-200,0,200,H);
     }
 
-    function animate(t){
+    function drawFrame(t){
         ctx.clearRect(0,0,W,H);
         drawNebula();
         drawGoldFog();
         drawStars(t);
         drawDust();
+    }
+
+    function animate(t){
+        if(!running) return;
+        drawFrame(t);
         requestAnimationFrame(animate);
     }
 
-    window.addEventListener('resize',resize);
+    // Анімація працює лише тоді, коли небо видно на екрані (менше навантаження на телефон)
+    function updateRunning(){
+        const shouldRun = !reduceMotion && onScreen && !document.hidden;
+        if(shouldRun === running) return;
+        running = shouldRun;
+        if(running) requestAnimationFrame(animate);
+    }
+
+    if('ResizeObserver' in window) new ResizeObserver(resize).observe(canvas);
+    else window.addEventListener('resize',resize);
     resize();
-    requestAnimationFrame(animate);
+    if('IntersectionObserver' in window){
+        new IntersectionObserver(entries => {
+            onScreen = entries[entries.length-1].isIntersecting;
+            updateRunning();
+        }).observe(canvas);
+    }
+    document.addEventListener('visibilitychange', updateRunning);
+    updateRunning();
 })();
-    initReveal();
-loadArticles();
 </script>
 </body>
 </html>
