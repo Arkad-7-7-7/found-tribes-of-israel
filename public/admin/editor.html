@@ -3,63 +3,247 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Редактор статей</title>
+<meta name="robots" content="noindex, nofollow">
+<title>Редактор статей · Found Tribes of Israel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:wght@400;500&family=Noto+Sans+Hebrew:wght@400&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body{background:#f5f5f5;padding:20px;}
-.container{max-width:800px;margin:0 auto;background:white;padding:30px;border-radius:12px;}
-h1{color:#2c3e50;margin-bottom:20px;}
-input,textarea{width:100%;padding:12px;border:2px solid #dee2e6;border-radius:8px;font-size:1em;margin-bottom:16px;}
-textarea{height:300px;resize:vertical;}
-button{padding:12px 24px;background:#2c3e50;color:white;border:none;border-radius:8px;font-size:1em;cursor:pointer;}
-#message{margin-top:16px;color:green;}
+:root{--gold:#c9a84c;--gold-dark:#8a6b2a;--ink:#1a1208;--parchment:#fdf5e6;--red:#a01818;--green:#2f6b1f;}
+*{margin:0;padding:0;box-sizing:border-box;}
+[hidden]{display:none!important;}
+html{background:#000008;}
+body{min-height:100vh;background:linear-gradient(180deg,#000008,#050020 50%,#000008) fixed;font-family:'EB Garamond',Georgia,serif;color:var(--ink);padding:24px 14px 60px;}
+.wrap{max-width:860px;margin:0 auto;}
+.loading{color:rgba(253,245,230,0.75);text-align:center;margin-top:30vh;font-size:1.1rem;}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+.top .heb{font-family:'Noto Sans Hebrew',serif;color:var(--gold);font-size:1.3rem;letter-spacing:3px;}
+.top h1{font-family:'Cinzel',serif;font-size:1.05rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.who{font-size:0.98rem;color:rgba(253,245,230,0.8);display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.who a{color:var(--gold);}
+.card{background:linear-gradient(180deg,#fdf5e6,#faf0dc);border-left:10px solid #c09050;border-right:10px solid #c09050;box-shadow:0 24px 60px rgba(0,0,0,0.7);padding:24px 22px;margin-bottom:22px;}
+.card h2{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:2px;margin-bottom:16px;}
+label{display:block;font-family:'Cinzel',serif;font-size:0.66rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;}
+input,textarea{width:100%;padding:10px 12px;margin-bottom:14px;border:1px solid rgba(138,107,42,0.45);background:rgba(255,255,255,0.75);font-family:inherit;font-size:1.08rem;color:var(--ink);outline:none;border-radius:2px;}
+textarea{min-height:340px;resize:vertical;line-height:1.6;}
+input:focus,textarea:focus{border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(201,168,76,0.28);}
+.hint{font-size:0.92rem;color:#5a4424;margin:-6px 0 14px;line-height:1.5;}
+.hint code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.85em;background:rgba(138,107,42,0.1);padding:0 4px;}
+.warn{font-size:0.92rem;color:#8a4b12;margin:-6px 0 14px;line-height:1.5;}
+.actions{display:flex;gap:10px;flex-wrap:wrap;}
+button{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:10px 18px;border:1px solid var(--gold-dark);background:transparent;color:var(--gold-dark);}
+button.primary{background:var(--gold-dark);color:var(--parchment);}
+button.danger{border-color:var(--red);color:var(--red);}
+button.link{border:0;padding:0;background:none;color:var(--gold);text-decoration:underline;font-family:'EB Garamond',Georgia,serif;font-size:0.98rem;letter-spacing:0;text-transform:none;}
+button:disabled{opacity:0.6;cursor:wait;}
+.msg{min-height:1.4em;margin-top:12px;font-size:1rem;line-height:1.4;}
+.msg.error{color:var(--red);}
+.msg.ok{color:var(--green);}
+.msg a{color:inherit;}
+.list{list-style:none;}
+.list li{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px dashed rgba(138,107,42,0.35);}
+.list li:last-child{border-bottom:0;}
+.li-title{font-weight:500;font-size:1.08rem;}
+.li-date{display:block;font-size:0.85rem;color:rgba(90,68,36,0.8);}
+.li-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.li-actions a{color:var(--gold-dark);font-size:0.95rem;}
+.li-actions button{padding:6px 12px;font-size:0.62rem;}
+.muted{color:rgba(90,68,36,0.8);font-style:italic;}
+.list .error{color:var(--red);}
 </style>
 </head>
 <body>
-<div class="container">
-<h1>✍️ Нова стаття</h1>
-<input type="text" id="title" placeholder="Заголовок статті">
-<textarea id="content" placeholder="Текст статті..."></textarea>
-<button id="saveBtn">Зберегти статтю</button>
-<div id="message"></div>
+<p class="loading" id="loading">Перевірка входу…</p>
+
+<div class="wrap" id="app" hidden>
+    <header class="top">
+        <div>
+            <div class="heb" lang="he" translate="no">שְׁבָטִים</div>
+            <h1>Редактор статей</h1>
+        </div>
+        <div class="who">
+            <span id="who"></span>
+            <a href="../" target="_blank" rel="noopener">Сайт ↗</a>
+            <button type="button" class="link" id="logoutBtn">Вийти</button>
+        </div>
+    </header>
+
+    <section class="card">
+        <h2 id="formTitle">✍️ Нова стаття</h2>
+        <label for="title">Назва</label>
+        <input type="text" id="title" maxlength="300" autocomplete="off">
+        <p class="warn" id="slugWarn" hidden>Увага: якщо змінити назву, зміниться й адреса статті, і старі посилання на неї перестануть працювати.</p>
+        <label for="content">Текст</label>
+        <textarea id="content"></textarea>
+        <p class="hint">Розмітка: <code>## заголовок</code>, <code>*курсив*</code>, <code>**жирний**</code>, <code>&gt; цитата</code>, <code>- пункт списку</code>. Порожній рядок означає новий абзац.</p>
+        <div class="actions">
+            <button type="button" class="primary" id="saveBtn">Зберегти статтю</button>
+            <button type="button" id="cancelBtn" hidden>Скасувати редагування</button>
+        </div>
+        <p class="msg" id="msg" role="status"></p>
+    </section>
+
+    <section class="card">
+        <h2>📚 Усі статті <span id="count"></span></h2>
+        <input type="search" id="filter" placeholder="Пошук за назвою…" autocomplete="off">
+        <ul class="list" id="list"><li class="muted">Завантаження…</li></ul>
+    </section>
 </div>
 
+<script>
+// Якщо бібліотеку входу не вдалося завантажити (немає інтернету тощо) — кажемо про це
+setTimeout(function () {
+    if (!window.__adminReady) {
+        document.getElementById('loading').textContent = 'Не вдалося завантажити редактор. Перевірте інтернет і оновіть сторінку.';
+    }
+}, 10000);
+</script>
 <script type="module">
-const SUPABASE_URL = "https://jztxnznkjevzngvrlpzh.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE";
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
+
+// Та сама база, що й на сайті (public/index.html). Ключ «anon» публічний:
+// без входу автора він дозволяє лише читати статті — так налаштовано правила доступу в базі.
+const SUPABASE_URL = 'https://jztxnznkjevzngvrlpzh.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-document.getElementById("saveBtn").addEventListener("click", save);
-// Перевірка адміна
-if(!localStorage.getItem("admin")){
-  window.location.href="/admin/login.html";
+window.__adminReady = true;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+// Адреса статті на сайті — так само, як її будує сайт: ?article=назва-статті
+const articleLink = title => '../?article=' + encodeURIComponent(String(title).toLowerCase().replace(/\s+/g, '-'));
+
+let articles = [];
+let editingId = null;
+let dirty = false;
+
+function show(html, kind) {
+    const m = $('msg');
+    m.innerHTML = html || '';
+    m.className = 'msg' + (kind ? ' ' + kind : '');
+}
+function explain(error) {
+    const text = String((error && error.message) || error || '');
+    if (/row-level security|permission denied|violates/i.test(text)) return 'Немає дозволу. Увійдіть з поштою автора.';
+    if (/jwt|expired|session/i.test(text)) return 'Сеанс завершився. Вийдіть і увійдіть знову.';
+    return 'Помилка: ' + esc(text);
+}
+
+async function loadList() {
+    const { data, error } = await supabase.from('articles').select('id,title,content,created_at').order('id', { ascending: false });
+    if (error) {
+        $('list').innerHTML = '<li class="error">Не вдалося завантажити статті. ' + explain(error) + '</li>';
+        return;
+    }
+    articles = data || [];
+    renderList();
+}
+function renderList() {
+    const q = $('filter').value.trim().toLowerCase();
+    const items = articles.filter(a => !q || String(a.title || '').toLowerCase().includes(q));
+    $('count').textContent = '(' + articles.length + ')';
+    $('list').innerHTML = items.length ? items.map(a =>
+        '<li><div><span class="li-title">' + esc(a.title || 'Без назви') + '</span>' +
+        '<span class="li-date">' + (a.created_at ? new Date(a.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }) : '') + '</span></div>' +
+        '<div class="li-actions">' +
+        '<a href="' + esc(articleLink(a.title || '')) + '" target="_blank" rel="noopener">Відкрити</a>' +
+        '<button type="button" data-edit="' + esc(a.id) + '">Редагувати</button>' +
+        '<button type="button" class="danger" data-del="' + esc(a.id) + '">Видалити</button>' +
+        '</div></li>'
+    ).join('') : '<li class="muted">Нічого не знайдено</li>';
+}
+
+function confirmDiscard() {
+    return !dirty || confirm('Є незбережені зміни. Відкинути їх?');
+}
+function startEdit(a) {
+    if (!confirmDiscard()) return;
+    editingId = a.id;
+    $('title').value = a.title || '';
+    $('content').value = a.content || '';
+    $('formTitle').textContent = '✏️ Редагування статті';
+    $('saveBtn').textContent = 'Зберегти зміни';
+    $('cancelBtn').hidden = false;
+    $('slugWarn').hidden = false;
+    dirty = false;
+    show('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function resetForm() {
+    editingId = null;
+    $('title').value = '';
+    $('content').value = '';
+    $('formTitle').textContent = '✍️ Нова стаття';
+    $('saveBtn').textContent = 'Зберегти статтю';
+    $('cancelBtn').hidden = true;
+    $('slugWarn').hidden = true;
+    dirty = false;
 }
 
 async function save() {
-  const title = document.getElementById("title").value;
-  const content = document.getElementById("content").value;
-  const message = document.getElementById("message");
+    const title = $('title').value.trim();
+    const content = $('content').value;
+    if (!title || !content.trim()) { show('Заповніть назву і текст статті.', 'error'); return; }
+    const isNew = editingId == null;
+    $('saveBtn').disabled = true;
+    show('Зберігаю…');
+    const request = isNew
+        ? supabase.from('articles').insert([{ title, content }]).select('id')
+        : supabase.from('articles').update({ title, content }).eq('id', editingId).select('id');
+    const { data, error } = await request;
+    $('saveBtn').disabled = false;
+    if (error || !data || !data.length) {
+        show(error ? explain(error) : 'Не збережено: немає дозволу змінювати цю статтю.', 'error');
+        return;
+    }
+    resetForm();
+    show((isNew ? 'Статтю додано! ' : 'Зміни збережено. ') + '<a href="' + esc(articleLink(title)) + '" target="_blank" rel="noopener">Відкрити на сайті →</a>', 'ok');
+    loadList();
+}
 
-  if (!title || !content) {
-    message.style.color = "red";
-    message.textContent = "Заповніть всі поля";
-    return;
-  }
+async function remove(a) {
+    if (!confirm('Видалити статтю «' + (a.title || 'Без назви') + '»?\nЦю дію не можна скасувати.')) return;
+    const { data, error } = await supabase.from('articles').delete().eq('id', a.id).select('id');
+    if (error || !data || !data.length) {
+        show(error ? explain(error) : 'Статтю не видалено: немає дозволу.', 'error');
+        return;
+    }
+    if (editingId === a.id) resetForm();
+    show('Статтю «' + esc(a.title || 'Без назви') + '» видалено.', 'ok');
+    loadList();
+}
 
-  const { data, error } = await supabase
-    .from("articles")
-    .insert([{ title, content }]);
+// ── Запуск: лише для того, хто увійшов ──
+const { data: { session } } = await supabase.auth.getSession();
+if (!session) {
+    location.replace('login.html');
+} else {
+    $('who').textContent = session.user.email || '';
+    $('loading').hidden = true;
+    $('app').hidden = false;
 
-  if (error) {
-    message.style.color = "red";
-    message.textContent = "Помилка збереження: " + error.message;
-    console.log(error);
-  } else {
-    message.style.color = "green";
-    message.textContent = "Стаття збережена!";
-    document.getElementById("title").value = "";
-    document.getElementById("content").value = "";
-  }
+    $('saveBtn').addEventListener('click', save);
+    $('cancelBtn').addEventListener('click', () => { if (confirmDiscard()) { resetForm(); show(''); } });
+    $('logoutBtn').addEventListener('click', async () => {
+        if (!confirmDiscard()) return;
+        dirty = false;
+        await supabase.auth.signOut();
+        location.replace('login.html');
+    });
+    $('filter').addEventListener('input', renderList);
+    $('title').addEventListener('input', () => { dirty = true; });
+    $('content').addEventListener('input', () => { dirty = true; });
+    $('list').addEventListener('click', (e) => {
+        const edit = e.target.closest('[data-edit]');
+        const del = e.target.closest('[data-del]');
+        const find = id => articles.find(a => String(a.id) === id);
+        if (edit) { const a = find(edit.dataset.edit); if (a) startEdit(a); }
+        if (del) { const a = find(del.dataset.del); if (a) remove(a); }
+    });
+    window.addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+    supabase.auth.onAuthStateChange((event, s) => { if (!s) location.replace('login.html'); });
+
+    loadList();
 }
 </script>
 </body>
