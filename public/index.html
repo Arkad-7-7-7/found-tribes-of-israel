@@ -432,6 +432,30 @@ z-index:4;
             *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;}
             .reveal{opacity:1;transform:none;}
         }
+        /* ══ ПЕРШИЙ ЕКРАН: тепле золоте сяйво, чіткіший текст, кнопки ══ */
+        .hero{
+            min-height:calc(100vh - 105px);
+            min-height:calc(100svh - 105px);
+            padding:56px 20px 44px;
+            background:
+                radial-gradient(ellipse 70% 50% at 50% 60%, rgba(232,201,122,0.20) 0%, rgba(201,168,76,0.08) 40%, transparent 72%),
+                radial-gradient(ellipse 120% 60% at 50% 115%, rgba(190,120,45,0.32) 0%, transparent 62%),
+                linear-gradient(180deg,#07051c 0%,#100a2e 38%,#1b1238 70%,#160d26 100%);
+        }
+        .hero-subtitle{color:#f3dfa6;text-shadow:0 1px 14px rgba(0,0,0,0.9);font-size:clamp(1.05rem,2.1vw,1.3rem);}
+        .hero-badge{color:var(--gold-light);border-color:rgba(201,168,76,0.6);background:rgba(8,5,22,0.45);font-size:0.68rem;}
+        .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:4px 0 26px;}
+        .hero-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;font-family:'Cinzel',serif;font-size:0.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:transform .25s,box-shadow .25s;}
+        .hero-btn.primary{background:linear-gradient(135deg,#f0d58c,#c9a84c);color:#1a1208;box-shadow:0 8px 28px rgba(201,168,76,0.35);}
+        .hero-btn.ghost{color:var(--gold-light);border:1px solid rgba(232,201,122,0.75);background:rgba(8,5,22,0.4);}
+        .hero-btn:hover,.hero-btn:focus-visible{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,0.45);}
+        .hero-down{display:inline-block;margin-top:30px;color:var(--gold);font-size:1.7rem;line-height:1;text-decoration:none;opacity:0.8;animation:heroBob 2.4s ease-in-out infinite;}
+        @keyframes heroBob{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
+        @media(max-width:600px){
+            .hero{padding-left:46px;padding-right:46px;}
+            .hero-top-ornament{letter-spacing:3px!important;font-size:1.05rem!important;}
+        }
+        .nav-links li a{color:rgba(245,237,214,0.82);}
         .goog-te-banner-frame{display:none!important;}
         body{top:0!important;}
         .skiptranslate{display:none!important;}
@@ -660,11 +684,16 @@ z-index:4;
     </div>
     <h1 class="notranslate" translate="no">Found Tribes<br><span class="accent">of Israel</span></h1>
     <p class="hero-subtitle">Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами. 500+ задокументованих відповідностей, 13 фонетичних законів.</p>
-    <div class="hero-badges" style="margin-top:20px;">
+    <div class="hero-cta">
+        <a class="hero-btn primary" href="#articles">📚 Читати реєстр</a>
+        <a class="hero-btn ghost" href="#featured">📌 Головне відкриття</a>
+    </div>
+    <div class="hero-badges">
         <div class="hero-badge">500+ відповідностей</div>
         <div class="hero-badge">13 фонетичних законів</div>
         <div class="hero-badge">Аркадій Бойчук</div>
     </div>
+    <a class="hero-down" href="#about" aria-label="Гортати вниз">⌄</a>
 </section>
 
 <div class="divider">✿ ❀ ✦ ❀ ✿</div>
@@ -691,7 +720,7 @@ z-index:4;
             <p>Р↔Л, Л↔В, Р↔Б, аїн→Я/А, хет зникає, шин→С/Ш, епентетичні приголосні, метатеза, протеза. Два шари: давній (всі слов'янські мови) і хозарський (унікально українська).</p>
         </div>
     </div>
-    <div class="featured reveal">
+    <div class="featured reveal" id="featured">
         <span class="featured-eyebrow">📌 Ключова публікація</span>
         <h3 class="featured-title">Слов'янський інфінітив — з давньоєврейської мови</h3>
         <p class="featured-text">Одне з головних відкриттів дослідження. Читайте статтю на сайті та публікацію в Threads.</p>
@@ -1642,7 +1671,7 @@ function googleTranslateElementInit(){
             nebula.push({
                 x:Math.random()*W, y:Math.random()*H,
                 r:Math.random()*200+100,
-                alpha:Math.random()*0.06+0.02,
+                alpha:Math.random()*0.08+0.04,
                 gold:Math.random()<0.5
             });
         }
