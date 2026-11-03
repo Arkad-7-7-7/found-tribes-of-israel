@@ -50,6 +50,8 @@ button:disabled{opacity:0.6;cursor:wait;}
 .li-actions button{padding:6px 12px;font-size:0.62rem;}
 .muted{color:rgba(90,68,36,0.8);font-style:italic;}
 .list .error{color:var(--red);}
+.export{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.msg .inline{border:0;padding:0;background:none;color:inherit;text-decoration:underline;font-family:'EB Garamond',Georgia,serif;font-size:1rem;letter-spacing:0;text-transform:none;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -85,6 +87,11 @@ button:disabled{opacity:0.6;cursor:wait;}
 
     <section class="card">
         <h2>📚 Усі статті <span id="count"></span></h2>
+        <div class="export">
+            <button type="button" id="exportMd">⬇ Усі статті (.md)</button>
+            <button type="button" id="exportJson">⬇ Резервна копія (.json)</button>
+        </div>
+        <p class="hint">Файл .md відкривається будь-яким текстовим редактором і зручний для читання. Файл .json — точна копія бази, з неї можна відновити статті. Зберігайте копію щомісяця.</p>
         <input type="search" id="filter" placeholder="Пошук за назвою…" autocomplete="off">
         <ul class="list" id="list"><li class="muted">Завантаження…</li></ul>
     </section>
@@ -116,6 +123,66 @@ const articleLink = title => '../?article=' + encodeURIComponent(String(title).t
 let articles = [];
 let editingId = null;
 let dirty = false;
+
+// ── Чернетка: текст зберігається в браузері сам, поки ви пишете ──
+const DRAFT_KEY = 'ftoi-editor-draft-v1';
+let draftTimer = 0;
+function readDraft() {
+    try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch (_) { return null; }
+}
+function clearDraft() {
+    clearTimeout(draftTimer);
+    try { localStorage.removeItem(DRAFT_KEY); } catch (_) { /* сховище браузера недоступне */ }
+}
+function saveDraftSoon() {
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(() => {
+        const title = $('title').value, content = $('content').value;
+        try {
+            if (!title.trim() && !content.trim()) localStorage.removeItem(DRAFT_KEY);
+            else localStorage.setItem(DRAFT_KEY, JSON.stringify({ editingId, title, content, savedAt: Date.now() }));
+        } catch (_) { /* сховище браузера недоступне або переповнене */ }
+    }, 400);
+}
+const plural = (n, one, few, many) => {
+    const d = n % 10, h = n % 100;
+    return d === 1 && h !== 11 ? one : d >= 2 && d <= 4 && (h < 12 || h > 14) ? few : many;
+};
+
+// ── Завантаження всіх статей у файл (резервна копія) ──
+function download(name, text, type) {
+    const url = URL.createObjectURL(new Blob([text], { type }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 15000);
+}
+async function exportArticles(format) {
+    show('Готую файл…');
+    const { data, error } = await supabase.from('articles').select('id,title,content,created_at').order('id', { ascending: true });
+    if (error) { show('Не вдалося отримати статті. ' + explain(error), 'error'); return; }
+    const rows = data || [];
+    const day = new Date().toISOString().slice(0, 10);
+    const count = rows.length + ' ' + plural(rows.length, 'стаття', 'статті', 'статей');
+    let name;
+    if (format === 'json') {
+        name = 'found-tribes-backup-' + day + '.json';
+        download(name, JSON.stringify({ site: 'https://foundtribesofisrael.com/', exportedAt: new Date().toISOString(), count: rows.length, articles: rows }, null, 2), 'application/json');
+    } else {
+        name = 'found-tribes-statti-' + day + '.md';
+        const parts = ['# Found Tribes of Israel — усі статті', '', 'Автор: Аркадій Бойчук · https://foundtribesofisrael.com/', 'Збережено: ' + new Date().toLocaleString('uk-UA') + ' · ' + count, ''];
+        rows.forEach(a => {
+            parts.push('---', '', '# ' + String(a.title || 'Без назви').replace(/^\s*#+\s*/, '').trim(), '');
+            if (a.created_at) parts.push('_' + new Date(a.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }) + '_', '');
+            parts.push(String(a.content || '').trim(), '');
+        });
+        download(name, parts.join('\n'), 'text/markdown;charset=utf-8');
+    }
+    show('Збережено файл «' + esc(name) + '» (' + count + '). Шукайте його в «Завантаженнях».', 'ok');
+}
 
 function show(html, kind) {
     const m = $('msg');
@@ -158,6 +225,7 @@ function confirmDiscard() {
 }
 function startEdit(a) {
     if (!confirmDiscard()) return;
+    clearDraft();
     editingId = a.id;
     $('title').value = a.title || '';
     $('content').value = a.content || '';
@@ -178,6 +246,7 @@ function resetForm() {
     $('cancelBtn').hidden = true;
     $('slugWarn').hidden = true;
     dirty = false;
+    clearDraft();
 }
 
 async function save() {
@@ -227,12 +296,18 @@ if (!session) {
     $('logoutBtn').addEventListener('click', async () => {
         if (!confirmDiscard()) return;
         dirty = false;
+        clearDraft();
         await supabase.auth.signOut();
         location.replace('login.html');
     });
     $('filter').addEventListener('input', renderList);
-    $('title').addEventListener('input', () => { dirty = true; });
-    $('content').addEventListener('input', () => { dirty = true; });
+    $('title').addEventListener('input', () => { dirty = true; saveDraftSoon(); });
+    $('content').addEventListener('input', () => { dirty = true; saveDraftSoon(); });
+    $('exportMd').addEventListener('click', () => exportArticles('md'));
+    $('exportJson').addEventListener('click', () => exportArticles('json'));
+    $('msg').addEventListener('click', (e) => {
+        if (e.target.closest('#discardDraft')) { resetForm(); show('Чернетку відкинуто.'); }
+    });
     $('list').addEventListener('click', (e) => {
         const edit = e.target.closest('[data-edit]');
         const del = e.target.closest('[data-del]');
@@ -242,6 +317,22 @@ if (!session) {
     });
     window.addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
     supabase.auth.onAuthStateChange((event, s) => { if (!s) location.replace('login.html'); });
+
+    // Незбережена чернетка з минулого разу — повертаємо її у форму
+    const draft = readDraft();
+    if (draft && ((draft.title || '').trim() || (draft.content || '').trim())) {
+        editingId = draft.editingId == null ? null : draft.editingId;
+        $('title').value = draft.title || '';
+        $('content').value = draft.content || '';
+        if (editingId != null) {
+            $('formTitle').textContent = '✏️ Редагування статті';
+            $('saveBtn').textContent = 'Зберегти зміни';
+            $('cancelBtn').hidden = false;
+            $('slugWarn').hidden = false;
+        }
+        dirty = true;
+        show('📝 Відновлено незбережену чернетку від ' + esc(new Date(draft.savedAt || Date.now()).toLocaleString('uk-UA')) + '. <button type="button" class="inline" id="discardDraft">Відкинути чернетку</button>');
+    }
 
     loadList();
 }

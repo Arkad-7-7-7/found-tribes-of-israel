@@ -33,6 +33,33 @@
         @keyframes modalRise{from{transform:translateY(22px);}to{transform:none;}}
         .modal-box{display:block;background:linear-gradient(180deg,#fdf5e6,#faf0dc,#fdf5e6);color:var(--ink);padding:30px 52px 44px;border-left:16px solid #c09050;border-right:16px solid #c09050;}
         .modal-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:30px;}
+        .modal-bar-right{display:flex;gap:10px;flex-wrap:wrap;}
+        .modal-hint{margin:-16px 0 22px;font-size:0.98rem;font-style:italic;line-height:1.5;color:#5a4424;}
+        .print-only{display:none;}
+        /* ══ ДРУК / PDF: лише відкрита стаття, на білому тлі ══ */
+        @media print{
+            @page{margin:16mm 14mm;}
+            html.article-open,html.article-open body{background:#fff!important;}
+            html.article-open body{overflow:visible!important;height:auto!important;}
+            html.article-open body>*:not(#articleModal){display:none!important;}
+            html.article-open #articleModal{position:static!important;display:block!important;overflow:visible!important;padding:0!important;background:none!important;animation:none!important;}
+            html.article-open .modal-scroll{box-shadow:none!important;margin:0!important;max-width:none!important;animation:none!important;}
+            html.article-open .modal-box{background:#fff!important;border:0!important;padding:0!important;}
+            html.article-open .modal-x,html.article-open .modal-bar,html.article-open .modal-hint,html.article-open .modal-nav,html.article-open .modal-flowers,html.article-open .scroll-roller,html.article-open .modal-eyebrow{display:none!important;}
+            html.article-open .print-only{display:block!important;}
+            .print-head{font-family:'Cinzel',serif;font-size:9pt;letter-spacing:2px;text-transform:uppercase;color:#555;border-bottom:1px solid #999;padding-bottom:6pt;margin-bottom:14pt;}
+            .print-foot{margin-top:18pt;padding-top:6pt;border-top:1px solid #999;font-size:9pt;color:#555;}
+            .print-foot a{color:#555!important;word-break:break-all;}
+            .modal-title{font-size:20pt!important;color:#000!important;}
+            .modal-date{color:#555!important;}
+            .modal-rule{margin:10pt 0 14pt!important;}
+            .article-body{font-size:12pt!important;line-height:1.55!important;color:#000!important;}
+            .article-body .heb,.modal-title .heb{color:#3d2a08!important;}
+            .article-body a{color:#000!important;}
+            .article-body h2,.article-body h3,.article-body h4,.article-body h5{break-after:avoid;page-break-after:avoid;}
+            .article-body li,.article-body blockquote{break-inside:avoid;}
+            .article-body p{orphans:3;widows:3;}
+        }
         .modal-btn{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;color:var(--gold-dark);background:transparent;border:1px solid var(--gold-dark);padding:9px 20px;transition:background .25s,color .25s;}
         .modal-btn:hover,.modal-btn:focus-visible{background:var(--gold-dark);color:var(--parchment);}
         .modal-eyebrow{display:block;font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:4px;text-transform:uppercase;color:rgba(138,107,42,0.8);margin-bottom:12px;}
@@ -410,8 +437,13 @@ z-index:4;
         <article class="modal-box">
             <div class="modal-bar">
                 <button type="button" class="modal-btn" id="modalClose">✕ Закрити</button>
-                <button type="button" class="modal-btn" id="modalShare">🔗 Посилання</button>
+                <div class="modal-bar-right">
+                    <button type="button" class="modal-btn" id="modalPdf" title="Зберегти статтю як PDF або надрукувати">📄 PDF</button>
+                    <button type="button" class="modal-btn" id="modalShare">🔗 Посилання</button>
+                </div>
             </div>
+            <p class="modal-hint" id="modalHint" hidden>Якщо вікно друку не відкрилося: меню браузера (⋮) → «Друк» або «Поділитися» → «Друк», потім «Зберегти як PDF».</p>
+            <div class="print-only print-head" translate="no">Found Tribes of Israel · Аркадій Бойчук</div>
             <span class="modal-eyebrow">📚 Авторський реєстр</span>
             <h2 class="modal-title" id="modalTitle"></h2>
             <time class="modal-date" id="modalDate"></time>
@@ -422,6 +454,7 @@ z-index:4;
                 <button type="button" class="modal-nav-btn next" id="modalNext"></button>
             </nav>
             <div class="modal-flowers" aria-hidden="true">✿ ❀ ❁ ❀ ✿</div>
+            <div class="print-only print-foot">Джерело: <a id="printLink" href="https://foundtribesofisrael.com/"></a></div>
         </article>
         <div class="scroll-roller"></div>
     </div>
@@ -1299,6 +1332,19 @@ function googleTranslateElementInit(){
         const body = byId('modalContent');
         body.textContent = '';
         body.appendChild(renderContent(a.html));
+        // Посилання на статтю внизу PDF / друкованої сторінки
+        const printLink = byId('printLink');
+        printLink.href = articleUrl(a);
+        printLink.textContent = SITE_URL + '?article=' + a.slug;
+        byId('modalHint').hidden = true;
+    }
+    function printCurrent() {
+        if (!current) return;
+        const hint = byId('modalHint');
+        hint.hidden = false;
+        clearTimeout(hint._timer);
+        hint._timer = setTimeout(() => { hint.hidden = true; }, 15000);
+        try { window.print(); } catch (_) { /* деякі вбудовані браузери не вміють друкувати — тоді допоможе підказка */ }
     }
     function openArticle(a, opts) {
         if (!a) return;
@@ -1317,6 +1363,7 @@ function googleTranslateElementInit(){
         if (!wasOpen) {
             lastFocus = document.activeElement;
             modal.classList.add('open');
+            document.documentElement.classList.add('article-open');
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
         }
@@ -1327,6 +1374,7 @@ function googleTranslateElementInit(){
         const modal = byId('articleModal');
         if (!modal.classList.contains('open')) return;
         modal.classList.remove('open');
+        document.documentElement.classList.remove('article-open');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         current = null;
@@ -1440,6 +1488,7 @@ function googleTranslateElementInit(){
         byId('modalX').addEventListener('click', () => closeArticle());
         byId('modalClose').addEventListener('click', () => closeArticle());
         byId('modalShare').addEventListener('click', shareCurrent);
+        byId('modalPdf').addEventListener('click', printCurrent);
         byId('modalPrev').addEventListener('click', () => { const p = neighbours()[0]; if (p) openArticle(p, { history: 'replace' }); });
         byId('modalNext').addEventListener('click', () => { const n = neighbours()[1]; if (n) openArticle(n, { history: 'replace' }); });
         // Посилання з однієї статті на іншу відкриваються одразу у вікні
