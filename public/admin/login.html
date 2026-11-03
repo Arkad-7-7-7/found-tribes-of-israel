@@ -3,34 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Адмін - Found Tribes</title>
+<meta name="robots" content="noindex, nofollow">
+<title>Вхід для автора · Found Tribes of Israel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:wght@400;500&family=Noto+Sans+Hebrew:wght@400&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body{background:linear-gradient(135deg,#1a1a2e,#16213e);min-height:100vh;display:flex;align-items:center;justify-content:center;}
-.box{background:white;padding:40px;border-radius:16px;width:320px;}
-h2{text-align:center;color:#2c3e50;margin-bottom:24px;}
-input{width:100%;padding:12px;border:2px solid #dee2e6;border-radius:8px;font-size:1em;margin-bottom:16px;}
-button{width:100%;padding:12px;background:#2c3e50;color:white;border:none;border-radius:8px;font-size:1em;cursor:pointer;}
-#error{color:red;text-align:center;margin-top:12px;}
+:root{--gold:#c9a84c;--gold-dark:#8a6b2a;--ink:#1a1208;--parchment:#fdf5e6;--red:#a01818;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:#000008;}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;background:linear-gradient(180deg,#000008,#050020 50%,#000008);font-family:'EB Garamond',Georgia,serif;color:var(--ink);}
+.box{width:100%;max-width:390px;background:linear-gradient(180deg,#fdf5e6,#faf0dc);border-left:10px solid #c09050;border-right:10px solid #c09050;box-shadow:0 30px 70px rgba(0,0,0,0.8);padding:32px 26px 28px;}
+.heb{font-family:'Noto Sans Hebrew',serif;color:var(--gold-dark);text-align:center;font-size:1.6rem;letter-spacing:4px;}
+h1{font-family:'Cinzel',serif;font-size:1.05rem;letter-spacing:3px;text-align:center;text-transform:uppercase;margin:6px 0 24px;}
+label{display:block;font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;}
+input{width:100%;padding:11px 12px;margin-bottom:16px;border:1px solid rgba(138,107,42,0.45);background:rgba(255,255,255,0.75);font-family:inherit;font-size:1.05rem;color:var(--ink);outline:none;border-radius:2px;}
+input:focus{border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(201,168,76,0.28);}
+button{width:100%;padding:12px;border:1px solid var(--gold-dark);background:var(--gold-dark);color:var(--parchment);font-family:'Cinzel',serif;font-size:0.78rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;}
+button:disabled{opacity:0.6;cursor:wait;}
+.msg{min-height:1.4em;margin-top:14px;text-align:center;font-size:1rem;line-height:1.4;}
+.msg.error{color:var(--red);}
+.back{display:block;text-align:center;margin-top:14px;color:var(--gold-dark);font-size:0.95rem;}
 </style>
 </head>
 <body>
-<div class="box">
-<h2>🔍 Адмін панель</h2>
-<input type="password" id="password" placeholder="Введіть пароль">
-<button onclick="login()">Увійти</button>
-<div id="error"></div>
-</div>
+<form class="box" id="loginForm" novalidate>
+    <div class="heb" lang="he" translate="no">שְׁבָטִים</div>
+    <h1>Вхід для автора</h1>
+    <label for="email">Електронна пошта</label>
+    <input type="email" id="email" autocomplete="username" required>
+    <label for="password">Пароль</label>
+    <input type="password" id="password" autocomplete="current-password" required>
+    <button type="submit" id="loginBtn">Увійти</button>
+    <p class="msg" id="msg" role="status"></p>
+    <a class="back" href="../">← На сайт</a>
+</form>
+
 <script>
-function login(){
-  const p = document.getElementById("password").value;
-  if(p === "Israel"){
-    localStorage.setItem("admin","yes");
-    window.location.href="/admin/editor.html";
-  } else {
-    document.getElementById("error").textContent="Невірний пароль";
-  }
+// Якщо бібліотеку входу не вдалося завантажити (немає інтернету тощо) — кажемо про це
+setTimeout(function () {
+    if (!window.__adminReady) {
+        var m = document.getElementById('msg');
+        m.textContent = 'Не вдалося завантажити сторінку входу. Перевірте інтернет і оновіть сторінку.';
+        m.className = 'msg error';
+    }
+}, 10000);
+</script>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
+
+// Та сама база, що й на сайті (public/index.html). Ключ «anon» публічний:
+// без входу автора він дозволяє лише читати статті — так налаштовано правила доступу в базі.
+const SUPABASE_URL = 'https://jztxnznkjevzngvrlpzh.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dHhuem5ramV2em5ndnJscHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTQ0NTgsImV4cCI6MjA4NzYzMDQ1OH0.X9gS4qAfLJ8CO2mF0OXaGgierBtxdszUJZn_r7224oE';
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+window.__adminReady = true;
+
+const form = document.getElementById('loginForm');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const button = document.getElementById('loginBtn');
+const msg = document.getElementById('msg');
+
+function show(text, isError) {
+    msg.textContent = text;
+    msg.className = 'msg' + (isError ? ' error' : '');
 }
+
+// Уже увійшли — одразу до редактора
+const { data: { session } } = await supabase.auth.getSession();
+if (session) location.replace('editor.html');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) { show('Введіть пошту і пароль.', true); return; }
+    button.disabled = true;
+    show('Перевіряю…');
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    button.disabled = false;
+    if (error) {
+        const wrong = error.status === 400 || /invalid/i.test(error.message || '');
+        show(wrong ? 'Неправильна пошта або пароль.' : 'Не вдалося увійти: ' + error.message, true);
+        passwordInput.value = '';
+        passwordInput.focus();
+        return;
+    }
+    location.replace('editor.html');
+});
 </script>
 </body>
 </html>
