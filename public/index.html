@@ -1229,8 +1229,10 @@ function googleTranslateElementInit(){
         };
         const flushList = () => {
             if (!list) return;
-            out.push('<' + list.tag + (list.tag === 'ol' && list.start !== 1 ? ' start="' + list.start + '"' : '') + mdDir(list.items.join(' ')) + '>' +
-                list.items.map(t => '<li>' + mdInline(t) + '</li>').join('') + '</' + list.tag + '>');
+            // У нумерованих пунктах стоять саме ті номери, які написав автор
+            out.push('<' + list.tag + mdDir(list.items.map(it => it.text).join(' ')) + '>' +
+                list.items.map(it => '<li' + (it.n != null ? ' value="' + it.n + '"' : '') + '>' + mdInline(it.text) + '</li>').join('') +
+                '</' + list.tag + '>');
             list = null;
         };
         const flushAll = () => { flushPara(); flushQuote(); flushList(); };
@@ -1249,13 +1251,13 @@ function googleTranslateElementInit(){
             if ((m = line.match(/^[ \t]{0,3}[-*+•][ \t]+(.+)$/))) {
                 flushPara(); flushQuote();
                 if (!list || list.tag !== 'ul') { flushList(); list = { tag: 'ul', items: [] }; }
-                list.items.push(m[1]);
+                list.items.push({ text: m[1] });
                 return;
             }
             if ((m = line.match(/^[ \t]{0,3}(\d{1,3})[.)][ \t]+(.+)$/))) {
                 flushPara(); flushQuote();
-                if (!list || list.tag !== 'ol') { flushList(); list = { tag: 'ol', items: [], start: Number(m[1]) }; }
-                list.items.push(m[2]);
+                if (!list || list.tag !== 'ol') { flushList(); list = { tag: 'ol', items: [] }; }
+                list.items.push({ n: Number(m[1]), text: m[2] });
                 return;
             }
             flushQuote(); flushList();
