@@ -16,7 +16,7 @@
     <meta property="og:locale" content="uk_UA">
     <meta name="twitter:card" content="summary">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2303010a'/%3E%3Ctext x='32' y='47' font-size='44' text-anchor='middle' fill='%23c9a84c' font-family='serif'%3E%D7%A9%3C/text%3E%3C/svg%3E">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Found Tribes of Israel","url":"https://foundtribesofisrael.com/","inLanguage":"uk","description":"Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами.","author":{"@type":"Person","name":"Аркадій Бойчук","alternateName":"Arkadii Boichuk","jobTitle":"Independent Researcher","sameAs":["https://arkadiiboichuk.academia.edu/research","https://t.me/Ancient_Hebrew_1n_ukrainian_lang","https://youtube.com/@Nes-il4ip"]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Found Tribes of Israel","url":"https://foundtribesofisrael.com/","inLanguage":"uk","description":"Авторський реєстр мовних відповідностей між давньоєврейською, українською та ірландською мовами.","author":{"@type":"Person","name":"Аркадій Бойчук","alternateName":"Arkadii Boichuk","jobTitle":"Independent Researcher","sameAs":["https://arkadiiboichuk.academia.edu/research","https://www.threads.com/@arkadiyboichuk","https://t.me/Ancient_Hebrew_1n_ukrainian_lang","https://youtube.com/@Nes-il4ip"]}}</script>
     <link rel="preconnect" href="https://jztxnznkjevzngvrlpzh.supabase.co" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,14 @@
         .modal-bar-right{display:flex;gap:10px;flex-wrap:wrap;}
         .modal-hint{margin:-16px 0 22px;font-size:0.98rem;font-style:italic;line-height:1.5;color:#5a4424;}
         .print-only{display:none;}
+        .modal-threads{margin-top:28px;padding:14px 16px;border:1px dashed rgba(138,107,42,0.45);font-size:1.02rem;line-height:1.5;color:#4a3618;text-align:center;}
+        .modal-threads a{color:#8a4b12;font-weight:500;}
+        /* ══ КЛЮЧОВА ПУБЛІКАЦІЯ ══ */
+        .featured{margin:34px auto 0;border:1px solid rgba(201,168,76,0.55);background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.03));padding:28px 24px;text-align:center;}
+        .featured-eyebrow{display:block;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+        .featured-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.15rem,2.6vw,1.6rem);color:var(--parchment);line-height:1.3;margin-bottom:10px;}
+        .featured-text{max-width:640px;margin:0 auto 18px;color:rgba(245,237,214,0.7);font-size:1.08rem;line-height:1.7;}
+        .featured-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
         /* ══ ДРУК / PDF: лише відкрита стаття, на білому тлі ══ */
         @media print{
             @page{margin:16mm 14mm;}
@@ -45,7 +53,7 @@
             html.article-open #articleModal{position:static!important;display:block!important;overflow:visible!important;padding:0!important;background:none!important;animation:none!important;}
             html.article-open .modal-scroll{box-shadow:none!important;margin:0!important;max-width:none!important;animation:none!important;}
             html.article-open .modal-box{background:#fff!important;border:0!important;padding:0!important;}
-            html.article-open .modal-x,html.article-open .modal-bar,html.article-open .modal-hint,html.article-open .modal-nav,html.article-open .modal-flowers,html.article-open .scroll-roller,html.article-open .modal-eyebrow{display:none!important;}
+            html.article-open .modal-x,html.article-open .modal-bar,html.article-open .modal-hint,html.article-open .modal-threads,html.article-open .modal-nav,html.article-open .modal-flowers,html.article-open .scroll-roller,html.article-open .modal-eyebrow{display:none!important;}
             html.article-open .print-only{display:block!important;}
             .print-head{font-family:'Cinzel',serif;font-size:9pt;letter-spacing:2px;text-transform:uppercase;color:#555;border-bottom:1px solid #999;padding-bottom:6pt;margin-bottom:14pt;}
             .print-foot{margin-top:18pt;padding-top:6pt;border-top:1px solid #999;font-size:9pt;color:#555;}
@@ -440,6 +448,7 @@ z-index:4;
                 <div class="modal-bar-right">
                     <button type="button" class="modal-btn" id="modalPdf" title="Зберегти статтю як PDF або надрукувати">📄 PDF</button>
                     <button type="button" class="modal-btn" id="modalShare">🔗 Посилання</button>
+                    <button type="button" class="modal-btn" id="modalThreads" title="Поділитися статтею в Threads">@ Threads</button>
                 </div>
             </div>
             <p class="modal-hint" id="modalHint" hidden>Якщо вікно друку не відкрилося: меню браузера (⋮) → «Друк» або «Поділитися» → «Друк», потім «Зберегти як PDF».</p>
@@ -449,6 +458,7 @@ z-index:4;
             <time class="modal-date" id="modalDate"></time>
             <div class="modal-rule" aria-hidden="true"><span></span><i></i><span></span></div>
             <div class="article-body" id="modalContent"></div>
+            <p class="modal-threads">Обговорення дослідження — у Threads: <a href="https://www.threads.com/@arkadiyboichuk" target="_blank" rel="noopener">@arkadiyboichuk</a></p>
             <nav class="modal-nav" id="modalNav" aria-label="Інші статті реєстру">
                 <button type="button" class="modal-nav-btn prev" id="modalPrev"></button>
                 <button type="button" class="modal-nav-btn next" id="modalNext"></button>
@@ -681,6 +691,15 @@ z-index:4;
             <p>Р↔Л, Л↔В, Р↔Б, аїн→Я/А, хет зникає, шин→С/Ш, епентетичні приголосні, метатеза, протеза. Два шари: давній (всі слов'янські мови) і хозарський (унікально українська).</p>
         </div>
     </div>
+    <div class="featured reveal">
+        <span class="featured-eyebrow">📌 Ключова публікація</span>
+        <h3 class="featured-title">Слов'янський інфінітив — з давньоєврейської мови</h3>
+        <p class="featured-text">Одне з головних відкриттів дослідження. Читайте статтю на сайті та публікацію в Threads.</p>
+        <div class="featured-actions">
+            <a class="social-btn" href="?article=інфінітив-ти" data-article="інфінітив-ти">📜 Читати на сайті</a>
+            <a class="social-btn" href="https://www.threads.com/share/BAU6aWkk6F" target="_blank" rel="noopener">@ Читати в Threads →</a>
+        </div>
+    </div>
 </section>
 
 <section id="stats">
@@ -750,6 +769,7 @@ z-index:4;
             <a href="https://t.me/Ancient_Hebrew_1n_ukrainian_lang" class="social-btn" target="_blank" rel="noopener">✈ Telegram</a>
             <a href="https://youtube.com/@Nes-il4ip" class="social-btn" target="_blank" rel="noopener">▶ YouTube</a>
             <a href="https://arkadiiboichuk.academia.edu/research" class="social-btn" target="_blank" rel="noopener me">🎓 Academia</a>
+            <a href="https://www.threads.com/@arkadiyboichuk" class="social-btn" target="_blank" rel="noopener me">@ Threads</a>
         </div>
     </div>
 </section>
@@ -1407,6 +1427,12 @@ function googleTranslateElementInit(){
         navButton(byId('modalNext'), next, 'Наступна →');
         byId('modalNav').hidden = !prev && !next;
     }
+    // Поділитися в Threads: відкривається Threads з готовим текстом — назва і посилання на статтю
+    function shareThreads() {
+        if (!current) return;
+        const text = current.title + '\n\n' + articleUrl(current);
+        window.open('https://www.threads.net/intent/post?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    }
     async function shareCurrent() {
         if (!current) return;
         const url = articleUrl(current), btn = byId('modalShare');
@@ -1490,6 +1516,12 @@ function googleTranslateElementInit(){
         byId('modalClose').addEventListener('click', () => closeArticle());
         byId('modalShare').addEventListener('click', shareCurrent);
         byId('modalPdf').addEventListener('click', printCurrent);
+        byId('modalThreads').addEventListener('click', shareThreads);
+        // Посилання на статті поза реєстром (наприклад, «Ключова публікація») відкриваються одразу у вікні
+        document.querySelectorAll('a[data-article]').forEach(link => link.addEventListener('click', (e) => {
+            const a = findBySlug(link.dataset.article);
+            if (a) { e.preventDefault(); openArticle(a, { history: 'push' }); }
+        }));
         byId('modalPrev').addEventListener('click', () => { const p = neighbours()[0]; if (p) openArticle(p, { history: 'replace' }); });
         byId('modalNext').addEventListener('click', () => { const n = neighbours()[1]; if (n) openArticle(n, { history: 'replace' }); });
         // Посилання з однієї статті на іншу відкриваються одразу у вікні
