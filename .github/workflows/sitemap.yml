@@ -12,10 +12,6 @@ permissions:
   contents: write   # щоб зберегти оновлений sitemap.xml
   actions: write    # щоб щоденний розклад не вимикався
 
-concurrency:
-  group: sitemap
-  cancel-in-progress: false
-
 jobs:
   sitemap:
     runs-on: ubuntu-latest
