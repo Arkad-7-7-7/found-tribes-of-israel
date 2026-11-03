@@ -9,7 +9,7 @@
 //   3) зберігає переклади в службовій таблиці article_translations (Supabase);
 //   4) якщо на сайті щось застаріло (нова стаття, зміна чи новий переклад),
 //      просить Render оновити сайт — і окремі сторінки збираються заново.
-//  Приклади слів (іврит, латинка, Р↔Л, -ти тощо) не перекладаються —
+//  Частини тексту з позначкою translate="no" Google лишає без змін —
 //  див. protectForTranslation у lib/article-render.mjs.
 //
 //  Налаштування: Netlify → Site configuration → Environment variables

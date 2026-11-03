@@ -33,13 +33,13 @@ const log = (...a) => console.log('[build-pages]', ...a);
 
 // Підписи англійською — поки Google ще не переклав їх на мову сторінки
 const UI_EN = {
-    note: 'This is an automatic translation of an article written in Ukrainian. Word examples are given as in the original.',
+    note: 'This is an automatic translation of an article written in Ukrainian.',
     original: 'Original in Ukrainian',
     allArticles: 'All articles',
     otherLangs: 'This article in other languages',
     openOnSite: 'Open on the main page',
     archive: 'Article archive',
-    intro: 'An author’s register of linguistic correspondences between Ancient Hebrew, Ukrainian and Irish.',
+    intro: R.UI.intro,   // авторський текст — лише так, як написав автор
     home: 'Home',
     author: 'Author',
     languages: 'Languages',
