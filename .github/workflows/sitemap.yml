@@ -1,37 +1,102 @@
 name: Generate Sitemap
+
+# Щодня оновлює public/sitemap.xml (карту сайту для Google) за статтями з бази Supabase.
+# Щоденний запит до бази також не дає безкоштовному проєкту Supabase
+# «заснути» (призупинитися) через неактивність.
 on:
   schedule:
     - cron: '0 2 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write   # щоб зберегти оновлений sitemap.xml
+  actions: write    # щоб щоденний розклад не вимикався
+
+concurrency:
+  group: sitemap
+  cancel-in-progress: false
 
 jobs:
   sitemap:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Generate sitemap
-        run: |
-          ARTICLES=$(curl -s \
-            -H "apikey: $SUPABASE_KEY" \
-            -H "Authorization: Bearer $SUPABASE_KEY" \
-            "https://jztxnznkjevzngvrlp.supabase.co/rest/v1/articles?select=title,created_at&order=created_at.desc")
-          node -e "
-          const articles = JSON.parse(process.env.ARTICLES);
-          const urls = articles.map(a => {
-            const slug = encodeURIComponent(a.title.toLowerCase().replace(/\s+/g,'-'));
-            return '<url><loc>https://foundtribesofisrael.com/?article='+slug+'</loc><lastmod>'+a.created_at.split('T')[0]+'</lastmod></url>';
-          }).join('');
-          const xml = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>https://foundtribesofisrael.com/</loc></url>'+urls+'</urlset>';
-          require('fs').writeFileSync('public/sitemap.xml', xml);
-          console.log('Done: '+articles.length+' articles');
-          "
         env:
+          # Необов'язково. Якщо секрети не задано, адреса бази й публічний
+          # ключ беруться з public/index.html — там, де їх використовує сайт.
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-          ARTICLES: $(echo $ARTICLES)
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          const SITE = 'https://foundtribesofisrael.com/';
+          const page = fs.readFileSync('public/index.html', 'utf8');
+          const pick = name => (page.match(new RegExp(name + "\\s*=\\s*['\"]([^'\"]+)['\"]")) || [])[1];
+          const url = (process.env.SUPABASE_URL || pick('SUPABASE_URL') || '').replace(/\/+$/, '');
+          const key = process.env.SUPABASE_KEY || pick('SUPABASE_KEY');
+
+          (async () => {
+            if (!url || !key) throw new Error('Не знайдено SUPABASE_URL або SUPABASE_KEY');
+            const headers = { apikey: key };
+            if (key.startsWith('eyJ')) headers.Authorization = 'Bearer ' + key;
+            const res = await fetch(url + '/rest/v1/articles?select=title,created_at&order=id.desc', { headers });
+            const body = await res.text();
+            if (!res.ok) throw new Error('Supabase відповів HTTP ' + res.status + ': ' + body.slice(0, 300));
+            const articles = JSON.parse(body);
+            if (!Array.isArray(articles)) throw new Error('Неочікувана відповідь бази: ' + body.slice(0, 300));
+
+            const day = d => (d ? String(d).slice(0, 10) : '');
+            const seen = new Set();
+            const urls = [];
+            for (const a of articles) {
+              if (!a || !a.title) continue;
+              // Та сама адреса статті, що й на сайті: ?article=назва-статті
+              const slug = encodeURIComponent(String(a.title).toLowerCase().replace(/\s+/g, '-'));
+              if (seen.has(slug)) continue;
+              seen.add(slug);
+              const lastmod = day(a.created_at);
+              urls.push('  <url><loc>' + SITE + '?article=' + slug + '</loc>' + (lastmod ? '<lastmod>' + lastmod + '</lastmod>' : '') + '</url>');
+            }
+            const newest = articles.map(a => day(a && a.created_at)).filter(Boolean).sort().pop();
+            const xml = [
+              '<?xml version="1.0" encoding="UTF-8"?>',
+              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+              '  <url><loc>' + SITE + '</loc>' + (newest ? '<lastmod>' + newest + '</lastmod>' : '') + '</url>',
+              ...urls,
+              '</urlset>',
+              ''
+            ].join('\n');
+            fs.writeFileSync('public/sitemap.xml', xml);
+            console.log('Готово. Статей у sitemap.xml: ' + urls.length);
+          })().catch(err => {
+            console.error('Помилка: ' + (err && err.message ? err.message : err));
+            process.exit(1);
+          });
+          EOF
+
       - name: Commit sitemap
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/sitemap.xml
-          git diff --staged --quiet || git commit -m "Update sitemap"
-          git push
+          if git diff --staged --quiet; then
+            echo "sitemap.xml без змін"
+          else
+            git commit -m "Update sitemap"
+            git push
+          fi
+
+      # GitHub вимикає щоденний розклад, якщо в репозиторії 60 днів немає змін.
+      # Цей крок щоразу підтверджує, що розклад має працювати далі.
+      - name: Keep the daily schedule enabled
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/sitemap.yml/enable"
