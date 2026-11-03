@@ -448,7 +448,7 @@ z-index:4;
                 <div class="modal-bar-right">
                     <button type="button" class="modal-btn" id="modalPdf" title="Зберегти статтю як PDF або надрукувати">📄 PDF</button>
                     <button type="button" class="modal-btn" id="modalShare">🔗 Посилання</button>
-                    <button type="button" class="modal-btn" id="modalThreads" title="Поділитися статтею в Threads">@ Threads</button>
+                    <a class="modal-btn" href="https://www.threads.com/@arkadiyboichuk" target="_blank" rel="noopener" title="Профіль автора в Threads">@ Threads</a>
                 </div>
             </div>
             <p class="modal-hint" id="modalHint" hidden>Якщо вікно друку не відкрилося: меню браузера (⋮) → «Друк» або «Поділитися» → «Друк», потім «Зберегти як PDF».</p>
@@ -696,8 +696,8 @@ z-index:4;
         <h3 class="featured-title">Слов'янський інфінітив — з давньоєврейської мови</h3>
         <p class="featured-text">Одне з головних відкриттів дослідження. Читайте статтю на сайті та публікацію в Threads.</p>
         <div class="featured-actions">
-            <a class="social-btn" href="?article=інфінітив-ти" data-article="інфінітив-ти">📜 Читати на сайті</a>
-            <a class="social-btn" href="https://www.threads.com/share/BAU6aWkk6F" target="_blank" rel="noopener">@ Читати в Threads →</a>
+            <a class="social-btn" href="?article=%23-%F0%9F%93%9C-%D0%B2%D1%96%D0%B4-%D1%94%D0%B2%D1%80%D0%B5%D0%B9%D1%81%D1%8C%D0%BA%D0%BE%D0%B3%D0%BE--%D7%AA%D6%B4%D6%BC%D7%99-%D0%B4%D0%BE-%D1%83%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%81%D1%8C%D0%BA%D0%BE%D0%B3%D0%BE--%D1%82%D0%B8%3A-1000-%D1%80%D0%BE%D0%BA%D1%96%D0%B2-%D0%B5%D0%B2%D0%BE%D0%BB%D1%8E%D1%86%D1%96%D1%97" data-article="#-📜-від-єврейського--תִּי-до-українського--ти:-1000-років-еволюції">📜 Читати на сайті</a>
+            <a class="social-btn" href="https://www.threads.com/share/BAO-1lrw6b" target="_blank" rel="noopener">@ Читати в Threads →</a>
         </div>
     </div>
 </section>
@@ -918,8 +918,11 @@ function googleTranslateElementInit(){
     }
     // Підсвічування збігів; у давньоєврейських словах огласовки не заважають
     function queryRegex(q) {
-        const words = String(q).trim().split(/\s+/).filter(Boolean);
+        let words = String(q).trim().split(/\s+/).filter(Boolean);
         if (!words.length) return null;
+        // Короткі шматочки (наприклад «ти») не підсвічуємо в кожному слові, якщо в запиті є довші слова
+        const longer = words.filter(w => Array.from(w).length >= 3);
+        if (longer.length) words = longer;
         const NIQQUD = '[\\u0591-\\u05C7]*';
         const parts = words.map(w => Array.from(w).map(ch => ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + (HEB_CHAR.test(ch) ? NIQQUD : '')).join(''));
         parts.sort((a, b) => b.length - a.length);
@@ -1427,12 +1430,6 @@ function googleTranslateElementInit(){
         navButton(byId('modalNext'), next, 'Наступна →');
         byId('modalNav').hidden = !prev && !next;
     }
-    // Поділитися в Threads: відкривається Threads з готовим текстом — назва і посилання на статтю
-    function shareThreads() {
-        if (!current) return;
-        const text = current.title + '\n\n' + articleUrl(current);
-        window.open('https://www.threads.net/intent/post?text=' + encodeURIComponent(text), '_blank', 'noopener');
-    }
     async function shareCurrent() {
         if (!current) return;
         const url = articleUrl(current), btn = byId('modalShare');
@@ -1516,7 +1513,6 @@ function googleTranslateElementInit(){
         byId('modalClose').addEventListener('click', () => closeArticle());
         byId('modalShare').addEventListener('click', shareCurrent);
         byId('modalPdf').addEventListener('click', printCurrent);
-        byId('modalThreads').addEventListener('click', shareThreads);
         // Посилання на статті поза реєстром (наприклад, «Ключова публікація») відкриваються одразу у вікні
         document.querySelectorAll('a[data-article]').forEach(link => link.addEventListener('click', (e) => {
             const a = findBySlug(link.dataset.article);
