@@ -6,6 +6,10 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Автоматичний переклад статей щогодини (див. netlify/functions/translate-articles.mjs)
+[functions."translate-articles"]
+  node_bundler = "esbuild"
+
 [[redirects]]
   from = "https://www.foundtribesofisrael.com/*"
   to = "https://foundtribesofisrael.com/:splat"
