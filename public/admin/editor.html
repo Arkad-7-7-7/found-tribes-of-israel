@@ -92,6 +92,7 @@ button:disabled{opacity:0.6;cursor:wait;}
             <button type="button" id="exportJson">⬇ Резервна копія (.json)</button>
         </div>
         <p class="hint">Файл .md відкривається будь-яким текстовим редактором і зручний для читання. Файл .json — точна копія бази, з неї можна відновити статті. Зберігайте копію щомісяця.</p>
+        <p class="hint" id="autoBackups">🗄 Автоматичні копії: перевіряю…</p>
         <input type="search" id="filter" placeholder="Пошук за назвою…" autocomplete="off">
         <ul class="list" id="list"><li class="muted">Завантаження…</li></ul>
     </section>
@@ -148,6 +149,22 @@ const plural = (n, one, few, many) => {
     const d = n % 10, h = n % 100;
     return d === 1 && h !== 11 ? one : d >= 2 && d <= 4 && (h < 12 || h > 14) ? few : many;
 };
+
+// ── Автоматичні копії: сайт зберігає копію всіх статей щонеділі (netlify/functions/backup-articles.mjs) ──
+const BACKUPS_URL = 'https://leafy-lebkuchen-aca5c6.netlify.app/.netlify/functions/backups';
+async function loadBackups() {
+    const box = $('autoBackups');
+    try {
+        const res = await fetch(BACKUPS_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const files = (await res.json()).files || [];
+        if (!files.length) { box.textContent = '🗄 Автоматичні копії: сайт зберігає копію всіх статей щонеділі. Перша з’явиться найближчої неділі.'; return; }
+        box.innerHTML = '🗄 Автоматичні копії (щонеділі, усього ' + files.length + '): ' +
+            files.slice(0, 6).map(f => '<a href="' + BACKUPS_URL + '?file=' + encodeURIComponent(f) + '">⬇ ' + esc(f.slice(9, 19)) + '</a>').join(' · ');
+    } catch (_) {
+        box.textContent = '🗄 Автоматичні копії зараз недоступні. Ручна копія кнопкою вище працює завжди.';
+    }
+}
 
 // ── Завантаження всіх статей у файл (резервна копія) ──
 function download(name, text, type) {
@@ -305,6 +322,7 @@ if (!session) {
     $('content').addEventListener('input', () => { dirty = true; saveDraftSoon(); });
     $('exportMd').addEventListener('click', () => exportArticles('md'));
     $('exportJson').addEventListener('click', () => exportArticles('json'));
+    loadBackups();
     $('msg').addEventListener('click', (e) => {
         if (e.target.closest('#discardDraft')) { resetForm(); show('Чернетку відкинуто.'); }
     });
