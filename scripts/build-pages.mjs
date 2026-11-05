@@ -101,6 +101,11 @@ async function loadData() {
 
 // ── Допоміжне ─────────────────────────────────────────────────
 const abs = p => SITE + p;
+// Картинка-прев'ю для соцмереж (public/assets/og-image.jpg)
+const OG_IMAGE = abs('assets/og-image.jpg');
+const OG_IMAGE_TAGS = '<meta property="og:image" content="' + OG_IMAGE + '">\n<meta property="og:image:width" content="1200">\n' +
+    '<meta property="og:image:height" content="630">\n<meta property="og:image:alt" content="' + R.SITE_NAME + '">\n' +
+    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="' + OG_IMAGE + '">\n';
 const xmlEsc = s => R.esc(s).replace(/&#39;/g, '&apos;');
 const jsonLd = obj => '<script type="application/ld+json">' + JSON.stringify(obj).replace(/</g, '\\u003c') + '</script>';
 function fmtDate(date, lang) {
@@ -166,7 +171,7 @@ function articleJsonLd({ lang, a, title, desc, url, versions, isTranslation }) {
     const data = {
         '@context': 'https://schema.org', '@type': 'ScholarlyArticle',
         headline: title.slice(0, 110), name: title, description: desc, inLanguage: lang,
-        url, mainEntityOfPage: url, author,
+        url, mainEntityOfPage: url, author, image: OG_IMAGE,
         publisher: { '@type': 'Organization', name: R.SITE_NAME, url: SITE },
         isPartOf: { '@type': 'WebSite', name: R.SITE_NAME, url: SITE }
     };
@@ -191,7 +196,7 @@ function articlePage({ lang, a, title, html, text, pagePath, versions, ui, isTra
         '<meta property="og:title" content="' + R.esc(title) + '">\n<meta property="og:description" content="' + R.esc(desc) + '">\n' +
         '<meta property="og:url" content="' + R.esc(url) + '">\n<meta property="og:locale" content="' + R.esc(R.ogLocale(lang)) + '">\n' +
         (pubDate ? '<meta property="article:published_time" content="' + pubDate + '">\n' : '') +
-        '<meta property="article:author" content="' + R.esc(authorName) + '">\n<meta name="twitter:card" content="summary">\n' +
+        '<meta property="article:author" content="' + R.esc(authorName) + '">\n' + OG_IMAGE_TAGS +
         '<meta name="author" content="' + R.esc(authorName) + '">\n' +
         '<meta name="citation_title" content="' + R.esc(title) + '">\n<meta name="citation_author" content="Boichuk, Arkadii">\n' +
         (a.date ? '<meta name="citation_publication_date" content="' + a.date.toISOString().slice(0, 10).replace(/-/g, '/') + '">\n' : '') +
@@ -234,7 +239,7 @@ function listPage({ lang, items, ui, listPath, listVersions, total }) {
         '<ul class="list">' + lis + '</ul>' + langsBlock(ui, lang, listVersions) + '</main>';
     const head = '<meta property="og:type" content="website">\n<meta property="og:title" content="' + R.esc(title) + '">\n' +
         '<meta property="og:description" content="' + R.esc(ui.intro) + '">\n<meta property="og:url" content="' + R.esc(abs(listPath)) + '">\n' +
-        '<meta property="og:locale" content="' + R.esc(R.ogLocale(lang)) + '">\n<meta name="twitter:card" content="summary">\n';
+        '<meta property="og:locale" content="' + R.esc(R.ogLocale(lang)) + '">\n' + OG_IMAGE_TAGS;
     return shell({
         lang, title, desc: ui.intro, canonical: abs(listPath), alternates: listVersions, head, ui, body,
         feed: lang === R.SOURCE_LANG ? 'feed.xml' : R.langDir(lang) + '/feed.xml'
