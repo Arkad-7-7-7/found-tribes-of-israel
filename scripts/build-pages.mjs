@@ -124,6 +124,9 @@ async function write(rel, content) {
 
 const FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +
     '<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+Hebrew:wght@400;500&display=swap" rel="stylesheet">';
+// Картинка, яку соцмережі показують поруч із посиланням на сторінку
+const OG_IMAGE = '<meta property="og:image" content="' + SITE + 'assets/og.png">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n' +
+    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="' + SITE + 'assets/og.png">\n';
 const ICON = '<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%2307051c%27/%3E%3Ctext x=%2732%27 y=%2744%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27%23e8c97a%27%3E%E2%9C%BF%3C/text%3E%3C/svg%3E">';
 
 function shell({ lang, title, desc, canonical, alternates, head = '', ui, body, feed }) {
@@ -191,7 +194,7 @@ function articlePage({ lang, a, title, html, text, pagePath, versions, ui, isTra
         '<meta property="og:title" content="' + R.esc(title) + '">\n<meta property="og:description" content="' + R.esc(desc) + '">\n' +
         '<meta property="og:url" content="' + R.esc(url) + '">\n<meta property="og:locale" content="' + R.esc(R.ogLocale(lang)) + '">\n' +
         (pubDate ? '<meta property="article:published_time" content="' + pubDate + '">\n' : '') +
-        '<meta property="article:author" content="' + R.esc(authorName) + '">\n<meta name="twitter:card" content="summary">\n' +
+        '<meta property="article:author" content="' + R.esc(authorName) + '">\n' + OG_IMAGE +
         '<meta name="author" content="' + R.esc(authorName) + '">\n' +
         '<meta name="citation_title" content="' + R.esc(title) + '">\n<meta name="citation_author" content="Boichuk, Arkadii">\n' +
         (a.date ? '<meta name="citation_publication_date" content="' + a.date.toISOString().slice(0, 10).replace(/-/g, '/') + '">\n' : '') +
@@ -234,7 +237,7 @@ function listPage({ lang, items, ui, listPath, listVersions, total }) {
         '<ul class="list">' + lis + '</ul>' + langsBlock(ui, lang, listVersions) + '</main>';
     const head = '<meta property="og:type" content="website">\n<meta property="og:title" content="' + R.esc(title) + '">\n' +
         '<meta property="og:description" content="' + R.esc(ui.intro) + '">\n<meta property="og:url" content="' + R.esc(abs(listPath)) + '">\n' +
-        '<meta property="og:locale" content="' + R.esc(R.ogLocale(lang)) + '">\n<meta name="twitter:card" content="summary">\n';
+        '<meta property="og:locale" content="' + R.esc(R.ogLocale(lang)) + '">\n' + OG_IMAGE;
     return shell({
         lang, title, desc: ui.intro, canonical: abs(listPath), alternates: listVersions, head, ui, body,
         feed: lang === R.SOURCE_LANG ? 'feed.xml' : R.langDir(lang) + '/feed.xml'

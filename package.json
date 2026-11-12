@@ -7,9 +7,5 @@
   },
   "scripts": {
     "build": "node scripts/build-pages.mjs"
-  },
-  "dependencies": {
-    "@netlify/blobs": "^7.0.0",
-    "jsonwebtoken": "^9.0.0"
   }
 }

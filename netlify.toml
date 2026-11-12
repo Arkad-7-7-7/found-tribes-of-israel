@@ -4,7 +4,7 @@
   functions = "netlify/functions"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
 
 # Автоматичний переклад статей щогодини (див. netlify/functions/translate-articles.mjs)
 [functions."translate-articles"]
