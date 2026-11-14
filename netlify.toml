@@ -10,6 +10,13 @@
 [functions."translate-articles"]
   node_bundler = "esbuild"
 
+# Резервна копія статей щонеділі і завантаження копій у редакторі
+[functions."backup-articles"]
+  node_bundler = "esbuild"
+
+[functions."backups"]
+  node_bundler = "esbuild"
+
 [[redirects]]
   from = "https://www.foundtribesofisrael.com/*"
   to = "https://foundtribesofisrael.com/:splat"
