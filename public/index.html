@@ -714,6 +714,8 @@ function googleTranslateElementInit(){
 }
 </script>
 <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- Статистика відвідувань (див. assets/visits.js) -->
+<script async src="/assets/visits.js" data-manual></script>
 
 <script>
 (function () {
@@ -750,8 +752,15 @@ function googleTranslateElementInit(){
         pendingSlug: new URLSearchParams(location.search).get('article')
     };
     let current = null;       // стаття, відкрита у вікні
+    let visitCounted = false; // чи записано вхід на сайт для статистики
     let modalPushed = false;  // чи додано запис в історію браузера
     let lastFocus = null;
+
+    // ── Статистика: кожен перегляд головної сторінки чи статті (див. /assets/visits.js) ──
+    function countVisit() {
+        visitCounted = true;
+        (window.ftoiVisitQueue = window.ftoiVisitQueue || []).push({});
+    }
 
     // ── Текст ──────────────────────────────────────────────────
     function esc(s) {
@@ -1345,6 +1354,7 @@ function googleTranslateElementInit(){
         document.title = a.title + ' — Found Tribes of Israel';
         if (metaDesc) metaDesc.content = a.text ? excerpt(a.text, null).slice(0, 160) : baseDesc;
         setCanonical(articleUrl(a));
+        countVisit();
         if (!wasOpen) {
             lastFocus = document.activeElement;
             modal.classList.add('open');
@@ -1563,6 +1573,9 @@ function googleTranslateElementInit(){
     initRegistry();
     initReveal();
     if (!registry.pendingSlug) setCanonical(SITE_URL);
+    // Вхід на головну рахуємо одразу; вхід за посиланням на статтю — коли стаття відкриється
+    if (!registry.pendingSlug) countVisit();
+    else setTimeout(() => { if (!visitCounted) countVisit(); }, 15000);
     loadManifest();
     bootRegistry();
 })();

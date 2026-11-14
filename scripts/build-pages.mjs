@@ -137,7 +137,8 @@ function shell({ lang, title, desc, canonical, alternates, head = '', ui, body, 
         '<link rel="canonical" href="' + R.esc(canonical) + '">\n' +
         alt + (xDefault ? '<link rel="alternate" hreflang="x-default" href="' + R.esc(abs(xDefault.path)) + '">' : '') + '\n' +
         (feed ? '<link rel="alternate" type="application/rss+xml" title="' + R.esc(R.SITE_NAME) + '" href="' + R.esc(abs(feed)) + '">\n' : '') +
-        head + ICON + '\n' + FONTS + '\n<link rel="stylesheet" href="/assets/article.css">\n</head>\n<body>\n' +
+        head + ICON + '\n' + FONTS + '\n<link rel="stylesheet" href="/assets/article.css">\n' +
+        '<script async src="/assets/visits.js"></script>\n</head>\n<body>\n' +
         '<header class="top"><a class="brand notranslate" translate="no" href="/"><span class="he" lang="he">שְׁבָטִים</span>' + R.esc(R.SITE_NAME) + '</a>' +
         '<nav><a href="/">' + R.esc(ui.home) + '</a><a href="/' + (lang === R.SOURCE_LANG ? 'articles/' : R.langDir(lang) + '/') + '">' + R.esc(ui.allArticles) + '</a></nav></header>\n' +
         body + '\n' +
