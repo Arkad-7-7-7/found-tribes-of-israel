@@ -52,6 +52,60 @@ button:disabled{opacity:0.6;cursor:wait;}
 .list .error{color:var(--red);}
 .export{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
 .msg .inline{border:0;padding:0;background:none;color:inherit;text-decoration:underline;font-family:'EB Garamond',Georgia,serif;font-size:1rem;letter-spacing:0;text-transform:none;cursor:pointer;}
+/* ── Статистика відвідувань ── */
+.stats-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px 16px;flex-wrap:wrap;margin-bottom:16px;}
+.stats-head h2{margin-bottom:0;}
+.periods{display:flex;gap:6px;flex-wrap:wrap;}
+.periods button{padding:6px 10px;font-size:0.6rem;letter-spacing:1px;}
+.periods button[aria-pressed="true"]{background:var(--gold-dark);color:var(--parchment);}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px;}
+.tile{border:1px solid rgba(138,107,42,0.3);background:rgba(255,255,255,0.5);padding:12px 14px;}
+.t-label{display:block;font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);}
+.t-value{display:block;font-size:2.1rem;font-weight:500;line-height:1.15;margin-top:4px;font-variant-numeric:lining-nums;}
+.t-sub{display:block;font-size:0.92rem;color:#5a4424;}
+.stats-body h3{font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:8px;font-weight:600;}
+.stats-body.busy{opacity:0.55;transition:opacity .2s;}
+.readout{min-height:1.5em;font-size:1rem;margin-bottom:8px;}
+.plot{display:grid;grid-template-columns:auto 1fr;gap:0 8px;}
+.y-axis{position:relative;width:2.2em;height:150px;font-size:0.78rem;color:rgba(90,68,36,0.8);font-variant-numeric:tabular-nums;}
+.y-axis span{position:absolute;right:0;transform:translateY(-50%);}
+.chart{position:relative;height:150px;display:flex;align-items:stretch;gap:2px;border-bottom:1px solid rgba(90,68,36,0.45);}
+.gridline{position:absolute;left:0;right:0;border-top:1px solid rgba(138,107,42,0.16);pointer-events:none;}
+.col{position:relative;flex:1 1 0;min-width:0;display:flex;align-items:flex-end;justify-content:center;outline:none;cursor:default;}
+.col i{display:block;width:100%;max-width:24px;background:#946c1a;border-radius:4px 4px 0 0;}
+.col:hover i,.col:focus-visible i,.col.on i{background:#6e4f10;}
+.col:focus-visible{box-shadow:inset 0 0 0 2px rgba(201,168,76,0.7);}
+.x-axis{display:flex;justify-content:space-between;gap:8px;font-size:0.8rem;color:rgba(90,68,36,0.8);margin:4px 0 0 calc(2.2em + 8px);}
+.map-wrap{margin-top:26px;}
+.world-map{position:relative;width:100%;min-height:160px;background:rgba(255,255,255,0.35);border:1px solid rgba(138,107,42,0.2);}
+.world-map svg{display:block;width:100%;height:auto;}
+.world-map path{stroke:#fdf5e6;stroke-width:0.5;transition:fill .15s;}
+.world-map path.on{stroke:#1a1208;stroke-width:1.1;}
+.world-map .muted{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.map-legend{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;font-size:0.88rem;color:#5a4424;}
+.map-legend i{display:inline-block;width:22px;height:10px;border-radius:2px;}
+.map-credit{font-size:0.78rem;color:rgba(90,68,36,0.7);margin-top:4px;}
+.ranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px 28px;margin-top:26px;}
+.rank.wide{grid-column:1/-1;}
+.rank ol{list-style:none;}
+.rank li{padding:4px 0 5px;}
+.r-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;line-height:1.3;}
+.r-name{overflow-wrap:anywhere;}
+.r-name a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(138,107,42,0.35);}
+.r-name a:hover{border-bottom-color:var(--gold-dark);}
+.r-val{font-variant-numeric:tabular-nums;color:#5a4424;white-space:nowrap;font-size:0.95rem;}
+.r-bar{height:6px;background:rgba(138,107,42,0.13);border-radius:3px;margin-top:4px;}
+.r-bar i{display:block;height:100%;background:#946c1a;border-radius:3px;}
+.r-more{font-size:0.92rem;color:rgba(90,68,36,0.8);font-style:italic;padding-top:4px;}
+.recent{margin-top:26px;}
+.recent ul{list-style:none;}
+.recent li{padding:8px 0;border-bottom:1px dashed rgba(138,107,42,0.3);line-height:1.45;}
+.recent li:last-child{border-bottom:0;}
+.rc-meta{display:block;font-size:0.92rem;color:#5a4424;}
+.rc-page a{color:var(--ink);}
+.recent summary{cursor:pointer;color:var(--gold-dark);padding:10px 0 4px;font-size:1rem;}
+.check{display:flex;gap:8px;align-items:center;margin-top:22px;font-family:'EB Garamond',Georgia,serif;font-size:1rem;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer;}
+.check input{width:auto;margin:0;accent-color:var(--gold-dark);}
 </style>
 </head>
 <body>
@@ -65,6 +119,7 @@ button:disabled{opacity:0.6;cursor:wait;}
         </div>
         <div class="who">
             <span id="who"></span>
+            <a href="#stats">📊 Статистика</a>
             <a href="../" target="_blank" rel="noopener">Сайт ↗</a>
             <button type="button" class="link" id="logoutBtn">Вийти</button>
         </div>
@@ -94,6 +149,23 @@ button:disabled{opacity:0.6;cursor:wait;}
         <p class="hint">Файл .md відкривається будь-яким текстовим редактором і зручний для читання. Файл .json — точна копія бази, з неї можна відновити статті. Зберігайте копію щомісяця.</p>
         <input type="search" id="filter" placeholder="Пошук за назвою…" autocomplete="off">
         <ul class="list" id="list"><li class="muted">Завантаження…</li></ul>
+    </section>
+
+    <section class="card" id="stats">
+        <div class="stats-head">
+            <h2>📊 Хто приходить на сайт</h2>
+            <div class="periods" role="group" aria-label="Період">
+                <button type="button" data-days="1" aria-pressed="false">Сьогодні</button>
+                <button type="button" data-days="7" aria-pressed="false">7 днів</button>
+                <button type="button" data-days="30" aria-pressed="true">30 днів</button>
+                <button type="button" data-days="90" aria-pressed="false">90 днів</button>
+                <button type="button" data-days="365" aria-pressed="false">Рік</button>
+                <button type="button" id="statsRefresh" title="Оновити" aria-label="Оновити">⟳</button>
+            </div>
+        </div>
+        <div class="stats-body" id="statsBody"><p class="muted">Завантаження…</p></div>
+        <label class="check"><input type="checkbox" id="ignoreMe"> Не рахувати мої відвідування з цього пристрою</label>
+        <p class="hint" style="margin-top:8px">Відвідувач — один браузер на одному пристрої. «Прямий вхід» — без посилання: із закладок, деяких месенджерів чи введеної адреси. Країна визначається за даними сервера або за часовим поясом пристрою. Час — київський. IP-адреси та особисті дані не зберігаються.</p>
     </section>
 </div>
 
@@ -282,6 +354,287 @@ async function remove(a) {
     loadList();
 }
 
+// ══ Статистика відвідувань (дані збирає /assets/visits.js, зведення — функція visit_stats у базі) ══
+const KYIV = (() => { try { new Intl.DateTimeFormat('uk-UA', { timeZone: 'Europe/Kyiv' }); return 'Europe/Kyiv'; } catch (_) { return 'Europe/Kiev'; } })();
+const fmt = n => Number(n || 0).toLocaleString('uk-UA');
+const visitorsWord = n => plural(n, 'відвідувач', 'відвідувачі', 'відвідувачів');
+const viewsWord = n => plural(n, 'перегляд', 'перегляди', 'переглядів');
+const capital = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+let statsDays = 30;
+let statsSeq = 0;
+
+// Країна за часовим поясом пристрою — коли сервер бази не повідомив країну
+const TZ_COUNTRY = {};
+'AD:Europe/Andorra|AE:Asia/Dubai|AF:Asia/Kabul|AG:America/Antigua|AI:America/Anguilla|AL:Europe/Tirane|AM:Asia/Yerevan|AO:Africa/Luanda|AQ:Antarctica/Casey Antarctica/Davis Antarctica/DumontDUrville Antarctica/Mawson Antarctica/McMurdo Antarctica/Palmer Antarctica/Rothera Antarctica/South_Pole Antarctica/Syowa Antarctica/Troll Antarctica/Vostok|AR:America/Argentina/Buenos_Aires America/Argentina/Catamarca America/Argentina/ComodRivadavia America/Argentina/Cordoba America/Argentina/Jujuy America/Argentina/La_Rioja America/Argentina/Mendoza America/Argentina/Rio_Gallegos America/Argentina/Salta America/Argentina/San_Juan America/Argentina/San_Luis America/Argentina/Tucuman America/Argentina/Ushuaia America/Buenos_Aires America/Catamarca America/Cordoba America/Jujuy America/Mendoza America/Rosario|AS:Pacific/Pago_Pago Pacific/Samoa US/Samoa|AT:Europe/Vienna|AU:Antarctica/Macquarie Australia/ACT Australia/Adelaide Australia/Brisbane Australia/Broken_Hill Australia/Canberra Australia/Currie Australia/Darwin Australia/Eucla Australia/Hobart Australia/LHI Australia/Lindeman Australia/Lord_Howe Australia/Melbourne Australia/NSW Australia/North Australia/Perth Australia/Queensland Australia/South Australia/Sydney Australia/Tasmania Australia/Victoria Australia/West Australia/Yancowinna|AW:America/Aruba|AX:Europe/Mariehamn|AZ:Asia/Baku|BA:Europe/Sarajevo|BB:America/Barbados|BD:Asia/Dacca Asia/Dhaka|BE:Europe/Brussels|BF:Africa/Ouagadougou|BG:Europe/Sofia|BH:Asia/Bahrain|BI:Africa/Bujumbura|BJ:Africa/Porto-Novo|BL:America/St_Barthelemy|BM:Atlantic/Bermuda|BN:Asia/Brunei|BO:America/La_Paz|BQ:America/Kralendijk|BR:America/Araguaina America/Bahia America/Belem America/Boa_Vista America/Campo_Grande America/Cuiaba America/Eirunepe America/Fortaleza America/Maceio America/Manaus America/Noronha America/Porto_Acre America/Porto_Velho America/Recife America/Rio_Branco America/Santarem America/Sao_Paulo Brazil/Acre Brazil/DeNoronha Brazil/East Brazil/West|BS:America/Nassau|BT:Asia/Thimbu Asia/Thimphu|BW:Africa/Gaborone|BY:Europe/Minsk|BZ:America/Belize|CA:America/Atikokan America/Blanc-Sablon America/Cambridge_Bay America/Coral_Harbour America/Creston America/Dawson America/Dawson_Creek America/Edmonton America/Fort_Nelson America/Glace_Bay America/Goose_Bay America/Halifax America/Inuvik America/Iqaluit America/Moncton America/Montreal America/Nipigon America/Pangnirtung America/Rainy_River America/Rankin_Inlet America/Regina America/Resolute America/St_Johns America/Swift_Current America/Thunder_Bay America/Toronto America/Vancouver America/Whitehorse America/Winnipeg America/Yellowknife Canada/Atlantic Canada/Central Canada/Eastern Canada/Mountain Canada/Newfoundland Canada/Pacific Canada/Saskatchewan Canada/Yukon|CC:Indian/Cocos|CD:Africa/Kinshasa Africa/Lubumbashi|CF:Africa/Bangui|CG:Africa/Brazzaville|CH:Europe/Zurich|CI:Africa/Abidjan|CK:Pacific/Rarotonga|CL:America/Coyhaique America/Punta_Arenas America/Santiago Chile/Continental Chile/EasterIsland Pacific/Easter|CM:Africa/Douala|CN:Asia/Chongqing Asia/Chungking Asia/Harbin Asia/Kashgar Asia/Shanghai Asia/Urumqi PRC|CO:America/Bogota|CR:America/Costa_Rica|CU:America/Havana Cuba|CV:Atlantic/Cape_Verde|CW:America/Curacao|CX:Indian/Christmas|CY:Asia/Famagusta Asia/Nicosia Europe/Nicosia|CZ:Europe/Prague|DE:Europe/Berlin Europe/Busingen|DJ:Africa/Djibouti|DK:Europe/Copenhagen|DM:America/Dominica|DO:America/Santo_Domingo|DZ:Africa/Algiers|EC:America/Guayaquil Pacific/Galapagos|EE:Europe/Tallinn|EG:Africa/Cairo Egypt|EH:Africa/El_Aaiun|ER:Africa/Asmara Africa/Asmera|ES:Africa/Ceuta Atlantic/Canary Europe/Madrid|ET:Africa/Addis_Ababa|FI:Europe/Helsinki|FJ:Pacific/Fiji|FK:Atlantic/Stanley|FM:Pacific/Chuuk Pacific/Kosrae Pacific/Pohnpei Pacific/Ponape Pacific/Truk Pacific/Yap|FO:Atlantic/Faeroe Atlantic/Faroe|FR:Europe/Paris|GA:Africa/Libreville|GB:Europe/Belfast Europe/London GB GB-Eire|GD:America/Grenada|GE:Asia/Tbilisi|GF:America/Cayenne|GG:Europe/Guernsey|GH:Africa/Accra|GI:Europe/Gibraltar|GL:America/Danmarkshavn America/Godthab America/Nuuk America/Scoresbysund America/Thule|GM:Africa/Banjul|GN:Africa/Conakry|GP:America/Guadeloupe|GQ:Africa/Malabo|GR:Europe/Athens|GS:Atlantic/South_Georgia|GT:America/Guatemala|GU:Pacific/Guam|GW:Africa/Bissau|GY:America/Guyana|HK:Asia/Hong_Kong Hongkong|HN:America/Tegucigalpa|HR:Europe/Zagreb|HT:America/Port-au-Prince|HU:Europe/Budapest|ID:Asia/Jakarta Asia/Jayapura Asia/Makassar Asia/Pontianak Asia/Ujung_Pandang|IE:Eire Europe/Dublin|IL:Asia/Jerusalem Asia/Tel_Aviv Israel|IM:Europe/Isle_of_Man|IN:Asia/Calcutta Asia/Kolkata|IO:Indian/Chagos|IQ:Asia/Baghdad|IR:Asia/Tehran Iran|IS:Atlantic/Reykjavik Iceland|IT:Europe/Rome|JE:Europe/Jersey|JM:America/Jamaica Jamaica|JO:Asia/Amman|JP:Asia/Tokyo Japan|KE:Africa/Nairobi|KG:Asia/Bishkek|KH:Asia/Phnom_Penh|KI:Pacific/Enderbury Pacific/Kanton Pacific/Kiritimati Pacific/Tarawa|KM:Indian/Comoro|KN:America/St_Kitts|KP:Asia/Pyongyang|KR:Asia/Seoul ROK|KW:Asia/Kuwait|KY:America/Cayman|KZ:Asia/Almaty Asia/Aqtau Asia/Aqtobe Asia/Atyrau Asia/Oral Asia/Qostanay Asia/Qyzylorda|LA:Asia/Vientiane|LB:Asia/Beirut|LC:America/St_Lucia|LI:Europe/Vaduz|LK:Asia/Colombo|LR:Africa/Monrovia|LS:Africa/Maseru|LT:Europe/Vilnius|LU:Europe/Luxembourg|LV:Europe/Riga|LY:Africa/Tripoli Libya|MA:Africa/Casablanca|MC:Europe/Monaco|MD:Europe/Chisinau Europe/Tiraspol|ME:Europe/Podgorica|MF:America/Marigot|MG:Indian/Antananarivo|MH:Kwajalein Pacific/Kwajalein Pacific/Majuro|MK:Europe/Skopje|ML:Africa/Bamako Africa/Timbuktu|MM:Asia/Rangoon Asia/Yangon|MN:Asia/Choibalsan Asia/Hovd Asia/Ulaanbaatar Asia/Ulan_Bator|MO:Asia/Macao Asia/Macau|MP:Pacific/Saipan|MQ:America/Martinique|MR:Africa/Nouakchott|MS:America/Montserrat|MT:Europe/Malta|MU:Indian/Mauritius|MV:Indian/Maldives|MW:Africa/Blantyre|MX:America/Bahia_Banderas America/Cancun America/Chihuahua America/Ciudad_Juarez America/Ensenada America/Hermosillo America/Matamoros America/Mazatlan America/Merida America/Mexico_City America/Monterrey America/Ojinaga America/Santa_Isabel America/Tijuana Mexico/BajaNorte Mexico/BajaSur Mexico/General|MY:Asia/Kuala_Lumpur Asia/Kuching|MZ:Africa/Maputo|NA:Africa/Windhoek|NC:Pacific/Noumea|NE:Africa/Niamey|NF:Pacific/Norfolk|NG:Africa/Lagos|NI:America/Managua|NL:Europe/Amsterdam|NO:Atlantic/Jan_Mayen Europe/Oslo|NP:Asia/Kathmandu Asia/Katmandu|NR:Pacific/Nauru|NU:Pacific/Niue|NZ:NZ NZ-CHAT Pacific/Auckland Pacific/Chatham|OM:Asia/Muscat|PA:America/Panama|PE:America/Lima|PF:Pacific/Gambier Pacific/Marquesas Pacific/Tahiti|PG:Pacific/Bougainville Pacific/Port_Moresby|PH:Asia/Manila|PK:Asia/Karachi|PL:Europe/Warsaw Poland|PM:America/Miquelon|PN:Pacific/Pitcairn|PR:America/Puerto_Rico|PS:Asia/Gaza Asia/Hebron|PT:Atlantic/Azores Atlantic/Madeira Europe/Lisbon Portugal|PW:Pacific/Palau|PY:America/Asuncion|QA:Asia/Qatar|RE:Indian/Reunion|RO:Europe/Bucharest|RS:Europe/Belgrade|RU:Asia/Anadyr Asia/Barnaul Asia/Chita Asia/Irkutsk Asia/Kamchatka Asia/Khandyga Asia/Krasnoyarsk Asia/Magadan Asia/Novokuznetsk Asia/Novosibirsk Asia/Omsk Asia/Sakhalin Asia/Srednekolymsk Asia/Tomsk Asia/Ust-Nera Asia/Vladivostok Asia/Yakutsk Asia/Yekaterinburg Europe/Astrakhan Europe/Kaliningrad Europe/Kirov Europe/Moscow Europe/Samara Europe/Saratov Europe/Ulyanovsk Europe/Volgograd W-SU|RW:Africa/Kigali|SA:Asia/Riyadh|SB:Pacific/Guadalcanal|SC:Indian/Mahe|SD:Africa/Khartoum|SE:Europe/Stockholm|SG:Asia/Singapore Singapore|SH:Atlantic/St_Helena|SI:Europe/Ljubljana|SJ:Arctic/Longyearbyen|SK:Europe/Bratislava|SL:Africa/Freetown|SM:Europe/San_Marino|SN:Africa/Dakar|SO:Africa/Mogadishu|SR:America/Paramaribo|SS:Africa/Juba|ST:Africa/Sao_Tome|SV:America/El_Salvador|SX:America/Lower_Princes|SY:Asia/Damascus|SZ:Africa/Mbabane|TC:America/Grand_Turk|TD:Africa/Ndjamena|TF:Indian/Kerguelen|TG:Africa/Lome|TH:Asia/Bangkok|TJ:Asia/Dushanbe|TK:Pacific/Fakaofo|TL:Asia/Dili|TM:Asia/Ashgabat Asia/Ashkhabad|TN:Africa/Tunis|TO:Pacific/Tongatapu|TR:Asia/Istanbul Europe/Istanbul Turkey|TT:America/Port_of_Spain|TV:Pacific/Funafuti|TW:Asia/Taipei ROC|TZ:Africa/Dar_es_Salaam|UA:Europe/Kiev Europe/Kyiv Europe/Simferopol Europe/Uzhgorod Europe/Zaporozhye|UG:Africa/Kampala|UM:Pacific/Midway Pacific/Wake|US:America/Adak America/Anchorage America/Atka America/Boise America/Chicago America/Denver America/Detroit America/Fort_Wayne America/Indiana/Indianapolis America/Indiana/Knox America/Indiana/Marengo America/Indiana/Petersburg America/Indiana/Tell_City America/Indiana/Vevay America/Indiana/Vincennes America/Indiana/Winamac America/Indianapolis America/Juneau America/Kentucky/Louisville America/Kentucky/Monticello America/Knox_IN America/Los_Angeles America/Louisville America/Menominee America/Metlakatla America/New_York America/Nome America/North_Dakota/Beulah America/North_Dakota/Center America/North_Dakota/New_Salem America/Phoenix America/Shiprock America/Sitka America/Yakutat Navajo Pacific/Honolulu Pacific/Johnston US/Alaska US/Aleutian US/Arizona US/Central US/East-Indiana US/Eastern US/Hawaii US/Indiana-Starke US/Michigan US/Mountain US/Pacific|UY:America/Montevideo|UZ:Asia/Samarkand Asia/Tashkent|VA:Europe/Vatican|VC:America/St_Vincent|VE:America/Caracas|VG:America/Tortola|VI:America/St_Thomas America/Virgin|VN:Asia/Ho_Chi_Minh Asia/Saigon|VU:Pacific/Efate|WF:Pacific/Wallis|WS:Pacific/Apia|YE:Asia/Aden|YT:Indian/Mayotte|ZA:Africa/Johannesburg|ZM:Africa/Lusaka|ZW:Africa/Harare'.split('|').forEach(part => {
+    const [cc, zones] = part.split(':');
+    zones.split(' ').forEach(z => { TZ_COUNTRY[z] = cc; });
+});
+const regionName = (() => {
+    try {
+        const dn = new Intl.DisplayNames(['uk'], { type: 'region' });
+        return c => { try { return dn.of(c) || c; } catch (_) { return c; } };
+    } catch (_) { return c => c; }
+})();
+const langName = (() => {
+    try {
+        const dn = new Intl.DisplayNames(['uk'], { type: 'language' });
+        return c => { try { return capital(dn.of(c) || c); } catch (_) { return c; } };
+    } catch (_) { return c => c; }
+})();
+const flag = cc => /^[A-Z]{2}$/.test(cc) ? String.fromCodePoint(...[...cc].map(ch => 0x1F1A5 + ch.charCodeAt(0))) : '🌍';
+const countryOf = (country, tz) => country || TZ_COUNTRY[tz] || '';
+const countryLabel = cc => cc ? flag(cc) + ' ' + regionName(cc) : '🌍 Невідомо';
+const tzCity = tz => tz && tz.includes('/') ? tz.split('/').pop().replace(/_/g, ' ') : '';
+
+const SOURCES = [
+    [/^com\.google\.android\.gm$|^mail\.google\./, 'Gmail'],
+    [/(^|\.)google\.|^com\.google\.|^google ads$|^googlequicksearchbox/, 'Google'],
+    [/^t\.me$|telegram/, 'Telegram'],
+    [/threads\.(net|com)$/, 'Threads'],
+    [/facebook|^fb\.(com|me)$/, 'Facebook'],
+    [/instagram/, 'Instagram'],
+    [/youtube|youtu\.be/, 'YouTube'],
+    [/academia\.edu$/, 'Academia.edu'],
+    [/(^|\.)bing\.com$/, 'Bing'],
+    [/duckduckgo/, 'DuckDuckGo'],
+    [/(^|\.)yahoo\./, 'Yahoo'],
+    [/^x\.com$|^t\.co$|twitter/, 'X (Twitter)'],
+    [/viber/, 'Viber'],
+    [/whatsapp/, 'WhatsApp'],
+    [/chatgpt\.com$|openai/, 'ChatGPT'],
+    [/perplexity/, 'Perplexity'],
+    [/reddit/, 'Reddit'],
+    [/linkedin|^lnkd\.in$/, 'LinkedIn']
+];
+const sourceName = ref => {
+    if (!ref) return 'Прямий вхід (без посилання)';
+    for (const [re, name] of SOURCES) if (re.test(ref)) return name;
+    return ref;
+};
+const DEVICES = { mobile: '📱 Телефон', tablet: '📱 Планшет', desktop: '💻 Комп’ютер' };
+const pageTitle = (title, path) => path === '/' ? 'Головна сторінка'
+    : String(title || '').replace(/\s*[—|·]\s*Found Tribes of Israel.*$/i, '').trim() || path;
+const pageHref = path => path.startsWith('/?article=') ? '/?article=' + encodeURIComponent(path.slice(10)) : encodeURI(path);
+
+// Підсумок за кількома рядками з однаковою назвою (напр. google.com і google.com.ua → Google)
+function group(rows, keyOf, valueOf) {
+    const map = new Map();
+    rows.forEach(r => { const k = keyOf(r); map.set(k, (map.get(k) || 0) + Number(valueOf(r) || 0)); });
+    return [...map.entries()].map(([k, n]) => ({ k, n })).sort((a, b) => b.n - a.n);
+}
+function rankList(title, items, label, unit, limit, wide) {
+    if (!items.length) return '<div class="rank' + (wide ? ' wide' : '') + '"><h3>' + title + '</h3><p class="muted">Ще немає даних</p></div>';
+    const max = items[0].n || 1;
+    const shown = items.slice(0, limit);
+    const rest = items.length - shown.length;
+    return '<div class="rank' + (wide ? ' wide' : '') + '"><h3>' + title + '</h3><ol>' + shown.map(it =>
+        '<li><div class="r-top"><span class="r-name">' + label(it) + '</span><span class="r-val">' + fmt(it.n) + (unit ? ' ' + unit(it.n) : '') + '</span></div>' +
+        '<div class="r-bar"><i style="width:' + Math.max(1, Math.round(it.n / max * 100)) + '%"></i></div></li>'
+    ).join('') + '</ol>' + (rest > 0 ? '<p class="r-more">і ще ' + rest + '</p>' : '') + '</div>';
+}
+
+function bucketLabel(t, unit) {
+    const [date, time] = t.split('T');
+    const [y, m, d] = date.split('-').map(Number);
+    const day = new Date(Date.UTC(y, m - 1, d));
+    if (unit === 'hour') return time.slice(0, 2) + ':00';
+    if (unit === 'month') return capital(day.toLocaleDateString('uk-UA', { timeZone: 'UTC', month: 'long', year: 'numeric' }));
+    return day.toLocaleDateString('uk-UA', { timeZone: 'UTC', day: 'numeric', month: 'long' });
+}
+function niceMax(v) {
+    if (v <= 4) return Math.max(2, Math.ceil(v / 2) * 2);
+    const p = Math.pow(10, Math.floor(Math.log10(v)));
+    for (const k of [1, 2, 2.5, 5, 10]) if (k * p >= v) return k * p;
+    return 10 * p;
+}
+function chartHtml(series, unit) {
+    if (!series.length) return '';
+    const top = niceMax(Math.max(...series.map(s => s.visitors)));
+    const cols = series.map((s, i) => {
+        const h = s.visitors ? Math.max(1.5, s.visitors / top * 100) : 0;
+        const text = bucketLabel(s.t, unit) + ': ' + fmt(s.visitors) + ' ' + visitorsWord(s.visitors) + ', ' + fmt(s.views) + ' ' + viewsWord(s.views);
+        return '<div class="col" tabindex="0" data-i="' + i + '" role="img" aria-label="' + esc(text) + '"><i style="height:' + h + '%"></i></div>';
+    }).join('');
+    const title = unit === 'hour' ? 'Відвідувачі сьогодні за годинами' : unit === 'month' ? 'Відвідувачі за місяцями' : 'Відвідувачі за днями';
+    const mid = series[Math.floor((series.length - 1) / 2)];
+    return '<h3>' + title + '</h3><p class="readout" id="readout"></p>' +
+        '<div class="plot"><div class="y-axis" aria-hidden="true"><span style="top:0">' + fmt(top) + '</span><span style="top:50%">' + fmt(top / 2) + '</span><span style="top:100%">0</span></div>' +
+        '<div class="chart" id="chart"><div class="gridline" style="top:0"></div><div class="gridline" style="top:50%"></div>' + cols + '</div></div>' +
+        '<div class="x-axis" aria-hidden="true"><span>' + esc(bucketLabel(series[0].t, unit)) + '</span>' +
+        (series.length > 2 ? '<span>' + esc(bucketLabel(mid.t, unit)) + '</span>' : '') +
+        '<span>' + esc(bucketLabel(series[series.length - 1].t, unit)) + '</span></div>';
+}
+function setReadout(series, unit, i) {
+    const box = $('readout');
+    if (!box || !series.length) return;
+    const s = series[i == null ? series.length - 1 : i];
+    box.innerHTML = '<b>' + esc(bucketLabel(s.t, unit)) + '</b> — ' + fmt(s.visitors) + ' ' + visitorsWord(s.visitors) + ' · ' + fmt(s.views) + ' ' + viewsWord(s.views);
+    document.querySelectorAll('#chart .col').forEach(c => c.classList.toggle('on', i != null && Number(c.dataset.i) === i));
+}
+function whenText(iso) {
+    const d = new Date(iso);
+    const opts = { timeZone: KYIV };
+    const sameDay = d.toLocaleDateString('uk-UA', opts) === new Date().toLocaleDateString('uk-UA', opts);
+    const time = d.toLocaleTimeString('uk-UA', { timeZone: KYIV, hour: '2-digit', minute: '2-digit' });
+    return (sameDay ? 'сьогодні' : d.toLocaleDateString('uk-UA', { timeZone: KYIV, day: 'numeric', month: 'short' })) + ', ' + time;
+}
+
+function renderStats(st) {
+    const unit = st.unit || 'day';
+    const series = st.series || [];
+    const visitors = Number(st.visitors || 0), views = Number(st.views || 0), fresh = Number(st.new_visitors || 0);
+    const tiles =
+        '<div class="tiles">' +
+        '<div class="tile"><span class="t-label">Відвідувачі</span><span class="t-value">' + fmt(visitors) + '</span><span class="t-sub">нових — ' + fmt(fresh) + ', повернулися — ' + fmt(Math.max(0, visitors - fresh)) + '</span></div>' +
+        '<div class="tile"><span class="t-label">Перегляди сторінок</span><span class="t-value">' + fmt(views) + '</span><span class="t-sub">' + (visitors ? (views / visitors).toLocaleString('uk-UA', { maximumFractionDigits: 1 }) + ' на відвідувача' : '—') + '</span></div>' +
+        '<div class="tile"><span class="t-label">Зараз на сайті</span><span class="t-value">' + fmt(st.online) + '</span><span class="t-sub">за останні 5 хвилин</span></div>' +
+        '</div>';
+
+    const countries = group(st.places || [], r => countryOf(r.country, r.tz), r => r.visitors);
+    const sources = group(st.sources || [], r => sourceName(r.ref), r => r.entries);
+    const langs = group(st.langs || [], r => r.lang, r => r.visitors);
+    const devices = group(st.devices || [], r => r.device, r => r.visitors);
+    const systems = group(st.systems || [], r => r.os, r => r.visitors);
+    const pages = (st.pages || []).map(p => ({ k: p.path, title: p.title, n: Number(p.visitors || 0), views: Number(p.views || 0) }));
+
+    const ranks = '<div class="ranks">' +
+        rankList('Країни', countries, it => esc(countryLabel(it.k)), null, 12) +
+        rankList('Звідки приходять', sources, it => esc(it.k), n => plural(n, 'вхід', 'входи', 'входів'), 12) +
+        rankList('Що читають', pages, it => '<a href="' + esc(pageHref(it.k)) + '" target="_blank" rel="noopener">' + esc(pageTitle(it.title, it.k)) + '</a>', null, 15, true) +
+        rankList('Мова браузера', langs, it => esc(it.k ? langName(it.k) : 'Невідомо'), null, 10) +
+        rankList('Пристрої', devices, it => esc(DEVICES[it.k] || 'Невідомо'), null, 5) +
+        rankList('Системи', systems, it => esc(it.k === 'Other' || !it.k ? 'Інші' : it.k), null, 8) +
+        '</div>';
+
+    const recent = (st.recent || []);
+    const recentItem = r => {
+        const cc = countryOf(r.country, r.tz);
+        const city = tzCity(r.tz);
+        const from = r.entry ? (r.ref ? 'прийшов з: ' + sourceName(r.ref) : 'прямий вхід') : 'перехід на сайті';
+        return '<li><span class="rc-page"><a href="' + esc(pageHref(r.path)) + '" target="_blank" rel="noopener">' + esc(pageTitle(r.title, r.path)) + '</a></span>' +
+            '<span class="rc-meta">' + esc(whenText(r.created_at)) + ' · ' + esc(countryLabel(cc)) + (city ? ' (' + esc(city) + ')' : '') +
+            ' · ' + esc(DEVICES[r.device] || '') + (r.os && r.os !== 'Other' ? ' ' + esc(r.os) : '') +
+            ' · ' + esc(from) + ' · відвідувач #' + esc(String(r.visitor || '').slice(-4)) + '</span></li>';
+    };
+    const more = recent.slice(15);
+    const recentHtml = '<div class="recent"><h3>Останні відвідування</h3>' + (recent.length
+        ? '<ul>' + recent.slice(0, 15).map(recentItem).join('') + '</ul>' +
+          (more.length ? '<details><summary>Показати ще ' + more.length + '</summary><ul>' + more.map(recentItem).join('') + '</ul></details>' : '')
+        : '<p class="muted">Ще ніхто не заходив</p>') + '</div>';
+
+    const body = $('statsBody');
+    const mapHtml = '<div class="map-wrap"><h3>Карта читачів</h3><p class="readout" id="mapReadout"></p>' +
+        '<div class="world-map" id="worldMap"><p class="muted">Завантаження карти…</p></div>' +
+        '<div class="map-legend" id="mapLegend"></div><p class="map-credit">Обриси країн: @svg-maps/world (CC BY 4.0)</p></div>';
+    body.innerHTML = tiles + (visitors ? chartHtml(series, unit) : '<p class="muted">За цей період відвідувань ще немає.</p>') + mapHtml + ranks + recentHtml;
+    drawMap(countries);
+    body.classList.remove('busy');
+    setReadout(series, unit, null);
+    const chart = $('chart');
+    if (chart) {
+        const pick = e => { const c = e.target.closest('.col'); if (c) setReadout(series, unit, Number(c.dataset.i)); };
+        chart.addEventListener('pointerover', pick);
+        chart.addEventListener('click', pick);
+        chart.addEventListener('focusin', pick);
+        chart.addEventListener('pointerleave', () => setReadout(series, unit, null));
+        chart.addEventListener('focusout', () => setReadout(series, unit, null));
+    }
+}
+
+// ── Карта читачів: країни зафарбовано за кількістю відвідувачів ──
+// Обриси країн — пакет @svg-maps/world (CC BY 4.0); Крим на ній — частина України.
+const MAP_URL = 'https://cdn.jsdelivr.net/npm/@svg-maps/world@2.0.0/index.js';
+const MAP_EMPTY = '#e8e2d6';
+const MAP_STEPS = ['#f0d98e', '#dcb55a', '#bf8f2e', '#946c1a', '#5f430b'];
+let mapData = null;
+function loadMap() {
+    if (!mapData) mapData = import(MAP_URL).then(m => m.default || m).catch(e => { mapData = null; throw e; });
+    return mapData;
+}
+function mapStep(n, max) {
+    if (!n) return -1;
+    if (max <= 1) return MAP_STEPS.length - 1;
+    return Math.min(MAP_STEPS.length - 1, Math.max(0, Math.ceil(Math.log(n + 1) / Math.log(max + 1) * MAP_STEPS.length) - 1));
+}
+async function drawMap(countries) {
+    const box = $('worldMap');
+    if (!box) return;
+    const counts = new Map(countries.filter(c => /^[A-Z]{2}$/.test(c.k)).map(c => [c.k.toLowerCase(), c.n]));
+    let world;
+    try { world = await loadMap(); } catch (_) {
+        box.innerHTML = '<p class="muted">Не вдалося завантажити карту. Перевірте інтернет і натисніть ⟳.</p>';
+        return;
+    }
+    if (!document.body.contains(box)) return;
+    const max = Math.max(0, ...counts.values());
+    const top = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5)
+        .map(([cc, n]) => regionName(cc.toUpperCase()) + ' — ' + n).join(', ');
+    box.innerHTML = '<svg viewBox="' + esc(world.viewBox) + '" role="img" aria-label="' + esc('Карта читачів. ' + (top ? 'Найбільше: ' + top : 'Ще немає даних')) + '">' +
+        world.locations.map(l => {
+            const n = counts.get(l.id) || 0;
+            const step = mapStep(n, max);
+            return '<path d="' + esc(l.path) + '" data-cc="' + esc(l.id) + '" fill="' + (step < 0 ? MAP_EMPTY : MAP_STEPS[step]) + '"></path>';
+        }).join('') + '</svg>';
+    const svg = box.querySelector('svg');
+    try {   // обрізаємо порожнє місце довкола материків
+        const b = svg.getBBox();
+        if (b.width > 0) svg.setAttribute('viewBox', [b.x - 4, b.y - 4, b.width + 8, b.height + 8].map(v => v.toFixed(1)).join(' '));
+    } catch (_) { /* лишаємо як є */ }
+    const readout = $('mapReadout');
+    const idle = 'Наведіть на країну або торкніться її, щоб побачити число.';
+    readout.textContent = idle;
+    const pick = e => {
+        const path = e.target.closest('path[data-cc]');
+        svg.querySelectorAll('path.on').forEach(x => x.classList.remove('on'));
+        if (!path) { readout.textContent = idle; return; }
+        path.classList.add('on');
+        path.parentNode.appendChild(path);   // обведення поверх сусідів
+        const cc = path.dataset.cc.toUpperCase(), n = counts.get(path.dataset.cc) || 0;
+        readout.innerHTML = '<b>' + esc(countryLabel(cc)) + '</b> — ' + (n ? fmt(n) + ' ' + visitorsWord(n) : 'ще не заходили');
+    };
+    svg.addEventListener('pointerover', pick);
+    svg.addEventListener('click', pick);
+    svg.addEventListener('pointerleave', () => { svg.querySelectorAll('path.on').forEach(x => x.classList.remove('on')); readout.textContent = idle; });
+    const legend = $('mapLegend');
+    legend.innerHTML = '<span>немає</span><i style="background:' + MAP_EMPTY + '"></i><span style="margin-left:10px">менше</span>' +
+        MAP_STEPS.map(c => '<i style="background:' + c + '"></i>').join('') + '<span>більше' + (max ? ' (до ' + fmt(max) + ')' : '') + '</span>';
+}
+
+async function loadStats(days) {
+    if (days) statsDays = days;
+    const seq = ++statsSeq;
+    document.querySelectorAll('.periods [data-days]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.days) === statsDays)));
+    const body = $('statsBody');
+    body.classList.add('busy');
+    const { data, error } = await supabase.rpc('visit_stats', { days: statsDays });
+    if (seq !== statsSeq) return;
+    if (error) {
+        body.classList.remove('busy');
+        const text = String(error.message || '') + ' ' + String(error.code || '');
+        body.innerHTML = /PGRST202|Could not find the function|does not exist|site_visits/i.test(text)
+            ? '<p class="msg error">Статистика ще не ввімкнена в базі. Один раз виконайте файл <code>supabase/site_visits.sql</code>: Supabase → SQL Editor → New query → вставити весь текст → Run. Після цього сайт почне рахувати відвідувачів.</p>'
+            : '<p class="msg error">Не вдалося завантажити статистику. ' + explain(error) + '</p>';
+        return;
+    }
+    renderStats(data || {});
+}
+
+// Свої відвідування автор не рахує: позначка зберігається в цьому браузері
+const IGNORE_KEY = 'ftoi-no-stats';
+function ignoreGet() { try { return localStorage.getItem(IGNORE_KEY); } catch (_) { return null; } }
+function ignoreSet(on) { try { localStorage.setItem(IGNORE_KEY, on ? '1' : '0'); } catch (_) { /* сховище браузера недоступне */ } }
+function initStats() {
+    if (ignoreGet() === null) ignoreSet(true);
+    $('ignoreMe').checked = ignoreGet() === '1';
+    $('ignoreMe').addEventListener('change', e => ignoreSet(e.target.checked));
+    document.querySelector('.periods').addEventListener('click', e => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        loadStats(b.dataset.days ? Number(b.dataset.days) : null);
+    });
+    loadStats();
+}
+
 // ── Запуск: лише для того, хто увійшов ──
 const { data: { session } } = await supabase.auth.getSession();
 if (!session) {
@@ -335,6 +688,7 @@ if (!session) {
     }
 
     loadList();
+    initStats();
 }
 </script>
 </body>

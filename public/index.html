@@ -40,6 +40,19 @@
         .modal-langs a{color:#8a4b12;}
         .modal-threads{margin-top:28px;padding:14px 16px;border:1px dashed rgba(138,107,42,0.45);font-size:1.02rem;line-height:1.5;color:#4a3618;text-align:center;}
         .modal-threads a{color:#8a4b12;font-weight:500;}
+        /* Час читання, лічильник прочитань, схожі статті, вимова івриту */
+        .modal-meta{margin:8px 0 0;font-size:0.98rem;color:#5a4424;display:flex;flex-wrap:wrap;gap:4px 16px;}
+        .he-hint{margin:10px 0 0;font-size:0.95rem;font-style:italic;color:#5a4424;}
+        .related{margin-top:28px;}
+        .related h3{font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px;text-align:center;}
+        .related ul{list-style:none;padding:0;margin:0;border-top:1px dashed rgba(138,107,42,0.4);}
+        .related li{border-bottom:1px dashed rgba(138,107,42,0.4);}
+        .related a{display:block;padding:12px 4px;color:var(--ink);text-decoration:none;font-size:1.08rem;line-height:1.4;}
+        .related a::before{content:'✿ ';color:var(--red);}
+        .related a:hover,.related a:focus-visible{color:#8a4b12;background:rgba(201,168,76,0.1);}
+        .row-stats{display:inline-flex;gap:12px;align-items:baseline;flex-wrap:wrap;}
+        .row-views{font-size:0.92rem;color:rgba(90,68,36,0.85);white-space:nowrap;}
+        .row-hot{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:#8a2a10;border:1px solid rgba(160,24,24,0.4);padding:2px 7px;white-space:nowrap;}
         /* ══ КЛЮЧОВА ПУБЛІКАЦІЯ ══ */
         .featured{margin:34px auto 0;border:1px solid rgba(201,168,76,0.55);background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.03));padding:28px 24px;text-align:center;}
         .featured-eyebrow{display:block;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
@@ -62,6 +75,7 @@
             .print-foot a{color:#555!important;word-break:break-all;}
             .modal-title{font-size:20pt!important;color:#000!important;}
             .modal-date{color:#555!important;}
+            .modal-meta,.he-hint,.related{display:none!important;}
             .modal-rule{margin:10pt 0 14pt!important;}
             .article-body{font-size:12pt!important;line-height:1.55!important;color:#000!important;}
             .article-body .heb,.modal-title .heb{color:#3d2a08!important;}
@@ -440,9 +454,12 @@ nav.main-nav::before{
             <span class="modal-eyebrow">📚 Авторський реєстр</span>
             <h2 class="modal-title" id="modalTitle"></h2>
             <time class="modal-date" id="modalDate"></time>
+            <p class="modal-meta" id="modalMeta"><span id="modalRead"></span><span id="modalViews" hidden></span></p>
+            <p class="he-hint" data-he-hint hidden>🔊 Натисніть на слово івритом, щоб почути, як воно звучить</p>
             <p class="modal-langs" id="modalLangs" hidden></p>
             <div class="modal-rule" aria-hidden="true"><span></span><i></i><span></span></div>
             <div class="article-body" id="modalContent"></div>
+            <nav class="related" id="modalRelated" aria-label="Схожі статті" hidden><h3>Схожі статті</h3><ul id="modalRelatedList"></ul></nav>
             <p class="modal-threads">Обговорення дослідження — у Threads: <a href="https://www.threads.com/@arkadiyboichuk" target="_blank" rel="noopener">@arkadiyboichuk</a></p>
             <nav class="modal-nav" id="modalNav" aria-label="Інші статті реєстру">
                 <button type="button" class="modal-nav-btn prev" id="modalPrev"></button>
@@ -573,7 +590,7 @@ nav.main-nav::before{
     <svg class="hero-column left" viewBox="0 0 194 1136" aria-hidden="true" focusable="false"><use href="#ftoiColumn" width="194" height="1136"/></svg>
     <svg class="hero-column right" viewBox="0 0 194 1136" aria-hidden="true" focusable="false"><use href="#ftoiColumn" width="194" height="1136"/></svg>
     <div class="hero-top-ornament notranslate" translate="no" style="font-family:'Noto Sans Hebrew',serif;font-size:1.4rem;color:var(--gold-dark);letter-spacing:8px;margin-bottom:6px;"><span lang="he">מָצָאנוּ</span> — знайшли — found</div>
-    <div class="hero-hebrew notranslate" lang="he" translate="no">אֶת־הַשְּׁבָטִים</div>
+    <div class="hero-hebrew notranslate" lang="he" translate="no" data-speak title="Натисніть, щоб почути">אֶת־הַשְּׁבָטִים</div>
     <div class="gold-rule">
         <div class="gold-rule-line"></div>
         <div class="gold-rule-diamond"></div>
@@ -663,6 +680,7 @@ nav.main-nav::before{
                             <option value="new">Спочатку нові</option>
                             <option value="old">Спочатку давні</option>
                             <option value="az">За абеткою</option>
+                            <option value="pop">Найпопулярніші</option>
                         </select>
                     </div>
                 </div>
@@ -714,6 +732,10 @@ function googleTranslateElementInit(){
 }
 </script>
 <script async src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- Статистика відвідувань (див. assets/visits.js) -->
+<script async src="/assets/visits.js" data-manual></script>
+<!-- Вимова слів івритом (див. assets/hebrew-voice.js) -->
+<script async src="/assets/hebrew-voice.js"></script>
 
 <script>
 (function () {
@@ -750,8 +772,65 @@ function googleTranslateElementInit(){
         pendingSlug: new URLSearchParams(location.search).get('article')
     };
     let current = null;       // стаття, відкрита у вікні
+    let visitCounted = false; // чи записано вхід на сайт для статистики
+    const views = new Map();  // скільки разів прочитали статті (таблиця article_view_counts)
     let modalPushed = false;  // чи додано запис в історію браузера
     let lastFocus = null;
+
+    // ── Статистика: кожен перегляд головної сторінки чи статті (див. /assets/visits.js) ──
+    function countVisit() {
+        visitCounted = true;
+        (window.ftoiVisitQueue = window.ftoiVisitQueue || []).push({});
+    }
+    function notCounted() {
+        try { return localStorage.getItem('ftoi-no-stats') === '1'; } catch (_) { return false; }
+    }
+    // Прочитання статті: на головній сторінці (за назвою) і на окремих сторінках та в перекладах (за номером)
+    function viewsOf(a) {
+        return (views.get('s:' + String(a.slug).toLowerCase()) || 0) + (a.id != null ? views.get('i:' + a.id) || 0 : 0);
+    }
+    let popular = new Set();
+    function updatePopular() {
+        popular = new Set(registry.all.filter(a => viewsOf(a) >= 5)
+            .sort((x, y) => viewsOf(y) - viewsOf(x)).slice(0, 3).map(a => a.key));
+    }
+    function loadViews() {
+        if (!window.fetch) return;
+        const headers = { apikey: SUPABASE_KEY };
+        if (/^eyJ/.test(SUPABASE_KEY)) headers.Authorization = 'Bearer ' + SUPABASE_KEY;
+        fetch(SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/article_view_counts?select=k,n', { headers })
+            .then(r => (r.ok ? r.json() : null))
+            .then(rows => {
+                if (!Array.isArray(rows)) return;
+                rows.forEach(r => { if (r && r.k) views.set(String(r.k).toLowerCase(), Number(r.n) || 0); });
+                refreshViews();
+            })
+            .catch(() => { /* лічильник ще не ввімкнено — сайт працює як завжди */ });
+    }
+    function refreshViews() {
+        if (registry.ready) {
+            if (registry.sort === 'pop') applyView();
+            renderList();
+        }
+        if (current) fillMeta(current);
+    }
+    const timesWord = n => { const d = n % 10, h = n % 100; return d >= 2 && d <= 4 && (h < 12 || h > 14) ? 'рази' : 'разів'; };
+    function fillMeta(a) {
+        const words = a.text ? a.text.split(/\s+/).filter(Boolean).length : 0;
+        byId('modalRead').textContent = '⏱ ' + Math.max(1, Math.round(words / 180)) + ' хв читання';
+        const n = viewsOf(a), box = byId('modalViews');
+        box.hidden = !n;
+        box.textContent = n ? '👁 Прочитали ' + n.toLocaleString('uk-UA') + ' ' + timesWord(n) : '';
+    }
+    // «Схожі статті» — їх підбирає scripts/build-pages.mjs за спільними словами й коренями
+    function fillRelated(a) {
+        const e = staticEntry(a), box = byId('modalRelated');
+        const list = (e && Array.isArray(e.r) ? e.r : [])
+            .map(id => registry.all.find(x => String(x.id) === String(id))).filter(x => x && x !== a).slice(0, 3);
+        box.hidden = !list.length;
+        byId('modalRelatedList').innerHTML = list.map(x =>
+            '<li><a href="?article=' + esc(encodeURIComponent(x.slug)) + '" data-key="' + x.key + '">' + hebWrap(esc(x.title)) + '</a></li>').join('');
+    }
 
     // ── Текст ──────────────────────────────────────────────────
     function esc(s) {
@@ -840,6 +919,7 @@ function googleTranslateElementInit(){
         const t = a => (a.date ? a.date.getTime() : -Infinity);
         const byIdDesc = (a, b) => (Number(b.id) || 0) - (Number(a.id) || 0);
         if (mode === 'az') arr.sort((a, b) => collator.compare(a.title, b.title));
+        else if (mode === 'pop') arr.sort((a, b) => (viewsOf(b) - viewsOf(a)) || (t(b) - t(a)) || byIdDesc(a, b));
         else if (mode === 'old') arr.sort((a, b) => (t(a) - t(b)) || byIdDesc(b, a));
         else arr.sort((a, b) => (t(b) - t(a)) || byIdDesc(a, b));
         return arr;
@@ -891,7 +971,10 @@ function googleTranslateElementInit(){
             '<h3 class="article-title">' + markText(a.title, re) + '</h3></div>' +
             (a.text ? '<p class="article-preview">' + markText(excerpt(a.text, re), re) + '</p>' : '') +
             '<div class="article-footer">' +
-            (a.date ? '<time class="article-date" datetime="' + a.date.toISOString() + '">' + esc(fmtDate(a.date)) + '</time>' : '<span></span>') +
+            '<span class="row-stats">' +
+            (a.date ? '<time class="article-date" datetime="' + a.date.toISOString() + '">' + esc(fmtDate(a.date)) + '</time>' : '') +
+            (viewsOf(a) ? '<span class="row-views" title="Скільки разів прочитали">👁 ' + viewsOf(a).toLocaleString('uk-UA') + '</span>' : '') +
+            (popular.has(a.key) ? '<span class="row-hot">🔥 Популярне</span>' : '') + '</span>' +
             '<span class="read-more-btn">ЧИТАТИ ПОВНІСТЮ →</span></div></a>';
     }
     function stateHtml(kind, err) {
@@ -934,6 +1017,7 @@ function googleTranslateElementInit(){
     function renderList(append) {
         const list = byId('articlesList'), more = byId('registryMore');
         updateCount();
+        if (!append) updatePopular();
         const view = registry.view;
         if (!view.length) {
             list.innerHTML = stateHtml(registry.all.length ? 'nothing' : 'empty');
@@ -1296,6 +1380,8 @@ function googleTranslateElementInit(){
         printLink.textContent = staticEntry(a) ? articleUrl(a) : SITE_URL + '?article=' + a.slug;
         byId('modalHint').hidden = true;
         fillLangs(a);
+        fillMeta(a);
+        fillRelated(a);
     }
     // «Ця стаття іншими мовами» — посилання на готові переклади
     function fillLangs(a) {
@@ -1317,6 +1403,7 @@ function googleTranslateElementInit(){
                 manifest = m;
                 if (current) {
                     fillLangs(current);
+                    fillRelated(current);
                     setCanonical(articleUrl(current));
                     byId('printLink').href = byId('printLink').textContent = articleUrl(current);
                 }
@@ -1345,6 +1432,12 @@ function googleTranslateElementInit(){
         document.title = a.title + ' — Found Tribes of Israel';
         if (metaDesc) metaDesc.content = a.text ? excerpt(a.text, null).slice(0, 160) : baseDesc;
         setCanonical(articleUrl(a));
+        countVisit();
+        if (!notCounted()) {
+            const k = 's:' + String(a.slug).toLowerCase();
+            views.set(k, (views.get(k) || 0) + 1);
+            fillMeta(a);
+        }
         if (!wasOpen) {
             lastFocus = document.activeElement;
             modal.classList.add('open');
@@ -1490,6 +1583,12 @@ function googleTranslateElementInit(){
             const a = slug && findBySlug(slug);
             if (a) { e.preventDefault(); openArticle(a, { history: 'replace' }); }
         });
+        byId('modalRelated').addEventListener('click', e => {
+            const link = e.target.closest('a[data-key]');
+            if (!link || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            const a = registry.all[Number(link.dataset.key)];
+            if (a) { e.preventDefault(); openArticle(a, { history: 'replace' }); }
+        });
         document.addEventListener('keydown', onModalKey);
         window.addEventListener('popstate', onPopState);
     }
@@ -1563,7 +1662,11 @@ function googleTranslateElementInit(){
     initRegistry();
     initReveal();
     if (!registry.pendingSlug) setCanonical(SITE_URL);
+    // Вхід на головну рахуємо одразу; вхід за посиланням на статтю — коли стаття відкриється
+    if (!registry.pendingSlug) countVisit();
+    else setTimeout(() => { if (!visitCounted) countVisit(); }, 15000);
     loadManifest();
+    loadViews();
     bootRegistry();
 })();
 
