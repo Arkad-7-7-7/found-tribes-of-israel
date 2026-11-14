@@ -1,9 +1,11 @@
--- Статистика відвідувань сайту: хто приходить, звідки, що читає.
+-- Статистика відвідувань сайту: хто приходить, звідки, що читає,
+-- і лічильник прочитань кожної статті («👁 Прочитали 128 разів»).
 -- Сторінки сайту записують відвідування через функцію track_visit (див. public/assets/visits.js),
 -- а автор бачить зведення в редакторі (public/admin/editor.html → «Хто приходить на сайт»).
 -- Що зберігається: сторінка, сайт-джерело, мова браузера, часовий пояс, країна, тип пристрою
 -- і випадковий анонімний номер браузера. IP-адреси й особисті дані не зберігаються.
 -- Як запустити (один раз): Supabase → SQL Editor → New query → вставити все → Run.
+-- Повторний запуск безпечний: дані не губляться, лічильники перераховуються.
 -- Статті (таблиця articles) не змінюються.
 
 create table if not exists public.site_visits (
@@ -28,6 +30,28 @@ alter table public.site_visits enable row level security;
 drop policy if exists visits_author on public.site_visits;
 create policy visits_author on public.site_visits for select to authenticated using (public.is_site_author());
 
+-- Лічильник прочитань статей. Його бачать усі відвідувачі сайту — лише числа, без жодних даних про людей.
+-- Ключ: 's:<назва-статті>' — стаття на головній сторінці (?article=…),
+--       'i:<номер статті>' — окрема сторінка статті або її переклад (/articles/12-…/, /en/articles/12-…/)
+create table if not exists public.article_view_counts (
+  k text primary key,
+  n bigint not null default 0
+);
+alter table public.article_view_counts enable row level security;
+drop policy if exists views_read on public.article_view_counts;
+create policy views_read on public.article_view_counts for select using (true);
+
+create or replace function public.visit_article_key(p text)
+returns text
+language sql
+immutable
+as $$
+  select case
+    when p like '/?article=%' then 's:' || lower(substr(p, 11))
+    when p ~ '^/([A-Za-z-]+/)?articles/[0-9]+-' then 'i:' || substring(p from '/articles/([0-9]+)-')
+  end
+$$;
+
 -- Запис одного відвідування (викликають сторінки сайту з публічним ключем)
 create or replace function public.track_visit(v jsonb)
 returns void
@@ -37,6 +61,8 @@ set search_path = public
 as $$
 declare
   vid text := coalesce(v->>'visitor', '');
+  p text := left(coalesce(nullif(v->>'path', ''), '/'), 300);
+  akey text;
   headers json;
   cc text;
 begin
@@ -56,7 +82,7 @@ begin
   insert into public.site_visits (visitor, path, title, ref, entry, lang, tz, country, device, os)
   values (
     vid,
-    left(coalesce(nullif(v->>'path', ''), '/'), 300),
+    p,
     left(coalesce(v->>'title', ''), 300),
     nullif(left(lower(coalesce(v->>'ref', '')), 120), ''),
     coalesce(v->>'entry', 'true') = 'true',
@@ -66,10 +92,23 @@ begin
     nullif(left(coalesce(v->>'device', ''), 10), ''),
     nullif(left(coalesce(v->>'os', ''), 20), '')
   );
+  akey := public.visit_article_key(p);
+  if akey is not null then
+    insert into public.article_view_counts as c (k, n) values (akey, 1)
+    on conflict on constraint article_view_counts_pkey do update set n = c.n + 1;
+  end if;
 end;
 $$;
 revoke all on function public.track_visit(jsonb) from public;
 grant execute on function public.track_visit(jsonb) to anon, authenticated;
+
+-- Перерахунок лічильників прочитань з усіх записаних відвідувань
+insert into public.article_view_counts (k, n)
+select public.visit_article_key(path), count(*)
+from public.site_visits
+where public.visit_article_key(path) is not null
+group by 1
+on conflict (k) do update set n = excluded.n;
 
 -- Зведення для автора за останні days днів (час київський)
 create or replace function public.visit_stats(days integer default 30)

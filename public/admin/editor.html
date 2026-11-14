@@ -76,6 +76,15 @@ button:disabled{opacity:0.6;cursor:wait;}
 .col:hover i,.col:focus-visible i,.col.on i{background:#6e4f10;}
 .col:focus-visible{box-shadow:inset 0 0 0 2px rgba(201,168,76,0.7);}
 .x-axis{display:flex;justify-content:space-between;gap:8px;font-size:0.8rem;color:rgba(90,68,36,0.8);margin:4px 0 0 calc(2.2em + 8px);}
+.map-wrap{margin-top:26px;}
+.world-map{position:relative;width:100%;min-height:160px;background:rgba(255,255,255,0.35);border:1px solid rgba(138,107,42,0.2);}
+.world-map svg{display:block;width:100%;height:auto;}
+.world-map path{stroke:#fdf5e6;stroke-width:0.5;transition:fill .15s;}
+.world-map path.on{stroke:#1a1208;stroke-width:1.1;}
+.world-map .muted{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.map-legend{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;font-size:0.88rem;color:#5a4424;}
+.map-legend i{display:inline-block;width:22px;height:10px;border-radius:2px;}
+.map-credit{font-size:0.78rem;color:rgba(90,68,36,0.7);margin-top:4px;}
 .ranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px 28px;margin-top:26px;}
 .rank.wide{grid-column:1/-1;}
 .rank ol{list-style:none;}
@@ -514,7 +523,11 @@ function renderStats(st) {
         : '<p class="muted">Ще ніхто не заходив</p>') + '</div>';
 
     const body = $('statsBody');
-    body.innerHTML = tiles + (visitors ? chartHtml(series, unit) : '<p class="muted">За цей період відвідувань ще немає.</p>') + ranks + recentHtml;
+    const mapHtml = '<div class="map-wrap"><h3>Карта читачів</h3><p class="readout" id="mapReadout"></p>' +
+        '<div class="world-map" id="worldMap"><p class="muted">Завантаження карти…</p></div>' +
+        '<div class="map-legend" id="mapLegend"></div><p class="map-credit">Обриси країн: @svg-maps/world (CC BY 4.0)</p></div>';
+    body.innerHTML = tiles + (visitors ? chartHtml(series, unit) : '<p class="muted">За цей період відвідувань ще немає.</p>') + mapHtml + ranks + recentHtml;
+    drawMap(countries);
     body.classList.remove('busy');
     setReadout(series, unit, null);
     const chart = $('chart');
@@ -526,6 +539,65 @@ function renderStats(st) {
         chart.addEventListener('pointerleave', () => setReadout(series, unit, null));
         chart.addEventListener('focusout', () => setReadout(series, unit, null));
     }
+}
+
+// ── Карта читачів: країни зафарбовано за кількістю відвідувачів ──
+// Обриси країн — пакет @svg-maps/world (CC BY 4.0); Крим на ній — частина України.
+const MAP_URL = 'https://cdn.jsdelivr.net/npm/@svg-maps/world@2.0.0/index.js';
+const MAP_EMPTY = '#e8e2d6';
+const MAP_STEPS = ['#f0d98e', '#dcb55a', '#bf8f2e', '#946c1a', '#5f430b'];
+let mapData = null;
+function loadMap() {
+    if (!mapData) mapData = import(MAP_URL).then(m => m.default || m).catch(e => { mapData = null; throw e; });
+    return mapData;
+}
+function mapStep(n, max) {
+    if (!n) return -1;
+    if (max <= 1) return MAP_STEPS.length - 1;
+    return Math.min(MAP_STEPS.length - 1, Math.max(0, Math.ceil(Math.log(n + 1) / Math.log(max + 1) * MAP_STEPS.length) - 1));
+}
+async function drawMap(countries) {
+    const box = $('worldMap');
+    if (!box) return;
+    const counts = new Map(countries.filter(c => /^[A-Z]{2}$/.test(c.k)).map(c => [c.k.toLowerCase(), c.n]));
+    let world;
+    try { world = await loadMap(); } catch (_) {
+        box.innerHTML = '<p class="muted">Не вдалося завантажити карту. Перевірте інтернет і натисніть ⟳.</p>';
+        return;
+    }
+    if (!document.body.contains(box)) return;
+    const max = Math.max(0, ...counts.values());
+    const top = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5)
+        .map(([cc, n]) => regionName(cc.toUpperCase()) + ' — ' + n).join(', ');
+    box.innerHTML = '<svg viewBox="' + esc(world.viewBox) + '" role="img" aria-label="' + esc('Карта читачів. ' + (top ? 'Найбільше: ' + top : 'Ще немає даних')) + '">' +
+        world.locations.map(l => {
+            const n = counts.get(l.id) || 0;
+            const step = mapStep(n, max);
+            return '<path d="' + esc(l.path) + '" data-cc="' + esc(l.id) + '" fill="' + (step < 0 ? MAP_EMPTY : MAP_STEPS[step]) + '"></path>';
+        }).join('') + '</svg>';
+    const svg = box.querySelector('svg');
+    try {   // обрізаємо порожнє місце довкола материків
+        const b = svg.getBBox();
+        if (b.width > 0) svg.setAttribute('viewBox', [b.x - 4, b.y - 4, b.width + 8, b.height + 8].map(v => v.toFixed(1)).join(' '));
+    } catch (_) { /* лишаємо як є */ }
+    const readout = $('mapReadout');
+    const idle = 'Наведіть на країну або торкніться її, щоб побачити число.';
+    readout.textContent = idle;
+    const pick = e => {
+        const path = e.target.closest('path[data-cc]');
+        svg.querySelectorAll('path.on').forEach(x => x.classList.remove('on'));
+        if (!path) { readout.textContent = idle; return; }
+        path.classList.add('on');
+        path.parentNode.appendChild(path);   // обведення поверх сусідів
+        const cc = path.dataset.cc.toUpperCase(), n = counts.get(path.dataset.cc) || 0;
+        readout.innerHTML = '<b>' + esc(countryLabel(cc)) + '</b> — ' + (n ? fmt(n) + ' ' + visitorsWord(n) : 'ще не заходили');
+    };
+    svg.addEventListener('pointerover', pick);
+    svg.addEventListener('click', pick);
+    svg.addEventListener('pointerleave', () => { svg.querySelectorAll('path.on').forEach(x => x.classList.remove('on')); readout.textContent = idle; });
+    const legend = $('mapLegend');
+    legend.innerHTML = '<span>немає</span><i style="background:' + MAP_EMPTY + '"></i><span style="margin-left:10px">менше</span>' +
+        MAP_STEPS.map(c => '<i style="background:' + c + '"></i>').join('') + '<span>більше' + (max ? ' (до ' + fmt(max) + ')' : '') + '</span>';
 }
 
 async function loadStats(days) {

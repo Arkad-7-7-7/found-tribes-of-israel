@@ -43,7 +43,11 @@ const UI_EN = {
     home: 'Home',
     author: 'Author',
     languages: 'Languages',
-    discuss: 'Discussion of the research — on Threads'
+    discuss: 'Discussion of the research — on Threads',
+    readTime: 'min read',
+    views: 'Views',
+    related: 'Related articles',
+    listen: 'Tap a Hebrew word to hear how it sounds'
 };
 
 // ── Дані ──────────────────────────────────────────────────────
@@ -138,7 +142,7 @@ function shell({ lang, title, desc, canonical, alternates, head = '', ui, body, 
         alt + (xDefault ? '<link rel="alternate" hreflang="x-default" href="' + R.esc(abs(xDefault.path)) + '">' : '') + '\n' +
         (feed ? '<link rel="alternate" type="application/rss+xml" title="' + R.esc(R.SITE_NAME) + '" href="' + R.esc(abs(feed)) + '">\n' : '') +
         head + ICON + '\n' + FONTS + '\n<link rel="stylesheet" href="/assets/article.css">\n' +
-        '<script async src="/assets/visits.js"></script>\n</head>\n<body>\n' +
+        '<script async src="/assets/visits.js"></script>\n<script async src="/assets/hebrew-voice.js"></script>\n</head>\n<body>\n' +
         '<header class="top"><a class="brand notranslate" translate="no" href="/"><span class="he" lang="he">שְׁבָטִים</span>' + R.esc(R.SITE_NAME) + '</a>' +
         '<nav><a href="/">' + R.esc(ui.home) + '</a><a href="/' + (lang === R.SOURCE_LANG ? 'articles/' : R.langDir(lang) + '/') + '">' + R.esc(ui.allArticles) + '</a></nav></header>\n' +
         body + '\n' +
@@ -182,7 +186,15 @@ function articleJsonLd({ lang, a, title, desc, url, versions, isTranslation }) {
     return jsonLd(data);
 }
 
-function articlePage({ lang, a, title, html, text, pagePath, versions, ui, isTranslation }) {
+// «Схожі статті» внизу сторінки — тією самою мовою, якщо є переклад
+function relatedBlock(ui, items) {
+    if (!items || !items.length) return '';
+    return '<nav class="related" aria-label="' + R.esc(ui.related) + '"><h2>' + R.esc(ui.related) + '</h2><ul>' +
+        items.map(it => '<li><a href="/' + R.esc(it.path) + '" hreflang="' + R.esc(it.lang) + '">' + R.wrapHebrewHtml(R.esc(it.title)) + '</a></li>').join('') +
+        '</ul></nav>';
+}
+
+function articlePage({ lang, a, title, html, text, pagePath, versions, ui, isTranslation, related }) {
     const url = abs(pagePath);
     const desc = R.excerpt(text, 160) || title;
     const authorName = lang === R.SOURCE_LANG ? R.AUTHOR.uk : R.AUTHOR.latin;
@@ -207,11 +219,15 @@ function articlePage({ lang, a, title, html, text, pagePath, versions, ui, isTra
         '<div class="eyebrow">📚 ' + R.esc(isTranslation ? ui.archive : 'Авторський реєстр') + '</div>' +
         '<h1>' + R.wrapHebrewHtml(R.esc(title)) + '</h1>' +
         '<p class="meta">' + (a.date ? '<time datetime="' + pubDate + '">' + R.esc(fmtDate(a.date, lang)) + '</time> · ' : '') +
-        '<span class="notranslate" translate="no">' + R.esc(authorName) + '</span></p>' +
+        '<span class="notranslate" translate="no">' + R.esc(authorName) + '</span>' +
+        ' · <span>⏱ ' + R.readMinutes(text) + ' ' + R.esc(ui.readTime) + '</span>' +
+        '<span class="views" data-views-id="' + R.esc(a.id) + '" data-views-slug="' + R.esc(a.slug) + '" data-views-label="' + R.esc(ui.views) + '" hidden></span></p>' +
+        '<p class="he-hint" data-he-hint hidden>🔊 ' + R.esc(ui.listen) + '</p>' +
         '<div class="rule" aria-hidden="true"><span></span><i></i><span></span></div>' +
         '<article class="content">' + (html || '') + '</article>' +
         '<p class="discuss">' + R.esc(ui.discuss) + ': <a href="' + R.PROFILES.threads + '" target="_blank" rel="noopener">@arkadiyboichuk</a> · ' +
         '<a href="' + R.esc(SITE + '?article=' + encodeURIComponent(a.slug)) + '" hreflang="uk">' + R.esc(ui.openOnSite) + '</a></p>' +
+        relatedBlock(ui, related) +
         langsBlock(ui, lang, versions) +
         '</main>';
     return shell({
@@ -322,17 +338,23 @@ async function main() {
     // Сторінки статей
     let pages = 0;
     const sitemap = [{ loc: SITE, lastmod: null }];
+    const similar = R.relatedArticles(articles);
+    // Схожа стаття тією ж мовою, що й сторінка (або оригінал, якщо перекладу ще немає)
+    const relatedFor = (a, lang) => (similar.get(a.id) || []).map(id => byId.get(String(id))).filter(Boolean).map(o => {
+        const t = lang !== R.SOURCE_LANG && tr.get(o.id) && tr.get(o.id).get(lang);
+        return t ? { lang, title: t.title, path: t.path } : { lang: R.SOURCE_LANG, title: o.title, path: o.path };
+    });
     const manifest = { v: 1, built: new Date().toISOString(), langs: langs.map(c => ({ code: c, name: R.langName(c), path: R.langDir(c) + '/', rtl: R.isRtl(c) })), articles: {} };
     for (const a of articles) {
         const tmap = tr.get(a.id) || new Map();
         const versions = [{ lang: R.SOURCE_LANG, path: a.path }, ...langOrder(tmap.keys()).map(c => ({ lang: c, path: tmap.get(c).path }))];
-        await write(a.path + 'index.html', articlePage({ lang: R.SOURCE_LANG, a, title: a.title, html: a.html, text: a.text, pagePath: a.path, versions, ui: uiFor(R.SOURCE_LANG), isTranslation: false }));
+        await write(a.path + 'index.html', articlePage({ lang: R.SOURCE_LANG, a, title: a.title, html: a.html, text: a.text, pagePath: a.path, versions, ui: uiFor(R.SOURCE_LANG), isTranslation: false, related: relatedFor(a, R.SOURCE_LANG) }));
         pages++;
         sitemap.push({ loc: abs(a.path), lastmod: a.date });
-        const entry = { p: a.path, h: a.hash, t: {} };
+        const entry = { p: a.path, h: a.hash, t: {}, r: similar.get(a.id) || [] };
         for (const c of langOrder(tmap.keys())) {
             const t = tmap.get(c);
-            await write(t.path + 'index.html', articlePage({ lang: c, a, title: t.title, html: t.html, text: t.text, pagePath: t.path, versions, ui: uiFor(c), isTranslation: true }));
+            await write(t.path + 'index.html', articlePage({ lang: c, a, title: t.title, html: t.html, text: t.text, pagePath: t.path, versions, ui: uiFor(c), isTranslation: true, related: relatedFor(a, c) }));
             pages++;
             sitemap.push({ loc: abs(t.path), lastmod: a.date });
             entry.t[c] = { p: t.path, h: t.sourceHash };

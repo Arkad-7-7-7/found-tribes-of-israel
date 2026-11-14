@@ -12,6 +12,8 @@
 //      (window.ftoiVisitQueue = window.ftoiVisitQueue || []).push({});
 //  Відвідування автора не рахуються: їх вимикає редактор
 //  (admin/editor.html → «Не рахувати мої відвідування з цього пристрою»).
+//  На окремих сторінках статей файл також показує «👁 Переглядів: N»
+//  (елемент з атрибутом data-views-id, таблиця article_view_counts).
 // ══════════════════════════════════════════════════════════════
 (function () {
     'use strict';
@@ -85,6 +87,35 @@
         return path + (article ? '?article=' + article : '');
     }
 
+    function authHeaders(extra) {
+        var h = { apikey: SUPABASE_KEY };
+        if (/^eyJ/.test(SUPABASE_KEY)) h.Authorization = 'Bearer ' + SUPABASE_KEY;
+        for (var k in extra || {}) h[k] = extra[k];
+        return h;
+    }
+
+    // «👁 Переглядів: N» — прочитання цієї статті на всіх її сторінках і мовах
+    function showViews(done) {
+        var el = document.querySelector('[data-views-id]');
+        if (!el || typeof fetch !== 'function') { done(); return; }
+        var keys = ['i:' + el.getAttribute('data-views-id')];
+        var slug = el.getAttribute('data-views-slug');
+        if (slug) keys.push('s:' + slug.toLowerCase());
+        var list = keys.map(function (k) { return '"' + k.replace(/["\\]/g, '') + '"'; }).join(',');
+        fetch(SUPABASE_URL + '/rest/v1/article_view_counts?select=n&k=in.(' + encodeURIComponent(list) + ')', { headers: authHeaders() })
+            .then(function (r) { return r.ok ? r.json() : []; })
+            .then(function (rows) {
+                var n = off ? 0 : 1;   // разом із цим переглядом
+                (rows || []).forEach(function (r) { n += Number(r && r.n) || 0; });
+                if (n > 0) {
+                    el.textContent = ' · 👁 ' + (el.getAttribute('data-views-label') || 'Views') + ': ' + n.toLocaleString(document.documentElement.lang || undefined);
+                    el.hidden = false;
+                }
+            })
+            .catch(function () { /* лічильник ще не ввімкнено */ })
+            .then(done, done);
+    }
+
     function send(options) {
         if (off) return;
         var o = options || {};
@@ -100,8 +131,7 @@
             os: os
         };
         first = false;
-        var headers = { 'Content-Type': 'application/json', apikey: SUPABASE_KEY };
-        if (/^eyJ/.test(SUPABASE_KEY)) headers.Authorization = 'Bearer ' + SUPABASE_KEY;
+        var headers = authHeaders({ 'Content-Type': 'application/json' });
         try {
             fetch(SUPABASE_URL + '/rest/v1/rpc/track_visit', {
                 method: 'POST',
@@ -115,5 +145,11 @@
     // Головна сторінка повідомляє про перегляди сама, інші сторінки рахуються одразу
     window.ftoiVisitQueue = { push: send };
     if (queue && queue.length) for (var i = 0; i < queue.length; i++) send(queue[i]);
-    else if (!script || !script.hasAttribute('data-manual')) send();
+    else if (!script || !script.hasAttribute('data-manual')) {
+        // Спершу число переглядів, потім запис цього перегляду — щоб не порахувати його двічі
+        var sent = false;
+        var sendOnce = function () { if (!sent) { sent = true; send(); } };
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { showViews(sendOnce); });
+        else showViews(sendOnce);
+    }
 })();

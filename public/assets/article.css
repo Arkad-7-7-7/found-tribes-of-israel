@@ -59,3 +59,13 @@ h1{font-family:'Cinzel',serif;font-size:clamp(1.38rem,3.6vw,2.05rem);line-height
     .top,.langs,.discuss,.foot{display:none!important;}
     .sheet{box-shadow:none;border:0;max-width:none;margin:0;padding:0;background:#fff;}
 }
+/* Підказка про вимову івриту і «Схожі статті» */
+.he-hint{margin:-12px 0 22px;font-size:0.95rem;font-style:italic;color:#5a4424;}
+.related{margin-top:30px;}
+.related h2{font-family:'Cinzel',serif;font-size:0.78rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);margin:0 0 10px;}
+.related ul{list-style:none;padding:0;margin:0;border-top:1px dashed rgba(138,107,42,0.4);}
+.related li{border-bottom:1px dashed rgba(138,107,42,0.4);}
+.related a{display:block;padding:11px 4px;text-decoration:none;color:#2a1c08;line-height:1.4;}
+.related a::before{content:'✿ ';color:#a01818;}
+.related a:hover,.related a:focus-visible{background:rgba(201,168,76,0.12);}
+@media print{.he-hint,.related{display:none;}}
